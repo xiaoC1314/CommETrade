@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.cust.CustInfoMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.cust.CustInfo" >
+				<result column="id" property="id"/>
+				<result column="phone" property="phone"/>
+				<result column="name" property="name"/>
+				<result column="password" property="password"/>
+				<result column="face_url" property="faceurl"/>
+				<result column="nick_name" property="nickname"/>
+				<result column="id_card" property="idcard"/>
+				<result column="id_card_type" property="idcardtype"/>
+				<result column="email" property="email"/>
+				<result column="address" property="address"/>
+				<result column="qq_no" property="qqno"/>
+				<result column="wechat_no" property="wechatno"/>
+				<result column="update_time" property="updatetime"/>
+				<result column="is_delete" property="isdelete"/>
+				<result column="lasted_login_time" property="lastedlogintime"/>
+			</resultMap>
+
+	<!-- c_cust_info table all fields -->
+	<sql id="Base_Column_List" >
+		id,phone,name,password,face_url,nick_name,id_card,id_card_type,email,address,qq_no,wechat_no,update_time,is_delete,lasted_login_time
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="phone != null and phone != ''" >
+				and phone =  #{phone}
+			</if>
+												<if test="name != null and name != ''" >
+				and name =  #{name}
+			</if>
+												<if test="password != null and password != ''" >
+				and password =  #{password}
+			</if>
+												<if test="faceurl != null and faceurl != ''" >
+				and face_url =  #{faceurl}
+			</if>
+												<if test="nickname != null and nickname != ''" >
+				and nick_name =  #{nickname}
+			</if>
+												<if test="idcard != null and idcard != ''" >
+				and id_card =  #{idcard}
+			</if>
+												<if test="idcardtype != null and idcardtype != ''" >
+				and id_card_type =  #{idcardtype}
+			</if>
+												<if test="email != null and email != ''" >
+				and email =  #{email}
+			</if>
+												<if test="address != null and address != ''" >
+				and address =  #{address}
+			</if>
+												<if test="qqno != null and qqno != ''" >
+				and qq_no =  #{qqno}
+			</if>
+												<if test="wechatno != null and wechatno != ''" >
+				and wechat_no =  #{wechatno}
+			</if>
+												<if test="updatetime != null and updatetime != ''" >
+				and update_time =  #{updatetime}
+			</if>
+												<if test="isdelete != null and isdelete != ''" >
+				and is_delete =  #{isdelete}
+			</if>
+												<if test="lastedlogintime != null and lastedlogintime != ''" >
+				and lasted_login_time =  #{lastedlogintime}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.cust.CustInfo" >
+		insert into c_cust_info(id,phone,name,password,face_url,nick_name,id_card,id_card_type,email,address,qq_no,wechat_no,update_time,is_delete,lasted_login_time)
+ values(#{id,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{faceurl,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},#{idcard,jdbcType=VARCHAR},#{idcardtype,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{qqno,jdbcType=VARCHAR},#{wechatno,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR},#{isdelete,jdbcType=VARCHAR},#{lastedlogintime,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.cust.CustInfo" >
+		update c_cust_info set phone=#{phone,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},face_url=#{faceurl,jdbcType=VARCHAR},nick_name=#{nickname,jdbcType=VARCHAR},id_card=#{idcard,jdbcType=VARCHAR},id_card_type=#{idcardtype,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},qq_no=#{qqno,jdbcType=VARCHAR},wechat_no=#{wechatno,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR},is_delete=#{isdelete,jdbcType=VARCHAR},lasted_login_time=#{lastedlogintime,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.cust.CustInfo" >
+		update c_cust_info set 
+	<trim  suffixOverrides="," >
+	<if test="phone != null  and phone != '' ">
+		phone=#{phone},
+	</if>
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="password != null  and password != '' ">
+		password=#{password},
+	</if>
+	<if test="faceurl != null  and faceurl != '' ">
+		face_url=#{faceurl},
+	</if>
+	<if test="nickname != null  and nickname != '' ">
+		nick_name=#{nickname},
+	</if>
+	<if test="idcard != null  and idcard != '' ">
+		id_card=#{idcard},
+	</if>
+	<if test="idcardtype != null  and idcardtype != '' ">
+		id_card_type=#{idcardtype},
+	</if>
+	<if test="email != null  and email != '' ">
+		email=#{email},
+	</if>
+	<if test="address != null  and address != '' ">
+		address=#{address},
+	</if>
+	<if test="qqno != null  and qqno != '' ">
+		qq_no=#{qqno},
+	</if>
+	<if test="wechatno != null  and wechatno != '' ">
+		wechat_no=#{wechatno},
+	</if>
+	<if test="updatetime != null  and updatetime != '' ">
+		update_time=#{updatetime},
+	</if>
+	<if test="isdelete != null  and isdelete != '' ">
+		is_delete=#{isdelete},
+	</if>
+	<if test="lastedlogintime != null  and lastedlogintime != '' ">
+		lasted_login_time=#{lastedlogintime},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.cust.CustInfo">
+		delete 	 from c_cust_info where id = #{id}
+	</update>
+
+	<!-- 客户基本信息表列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from c_cust_info where id = #{id}
+	</select>
+
+	<!-- 客户基本信息表 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.cust.CustInfoModel">
+		select count(1) from c_cust_info
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询客户基本信息表 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.cust.CustInfoModel">
+		select
+		<include refid="Base_Column_List"/>
+		from c_cust_info
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 客户基本信息表 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from c_cust_info
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询客户基本信息表 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from c_cust_info
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

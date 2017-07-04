@@ -1,0 +1,27 @@
+BODY {margin: 0px;
+      background:#0b489a url(../images/bg-login.jpg) repeat-x center top;
+      background-attachment:fixed;
+¡¡¡¡¡¡}
+td{font-size:14px; color:#3f3f3f; height:33px;}
+
+.padT{padding-top:305px;}
+.smallText{font-size:12px; color:#7b7b7b; height:32px;}
+.lightText{font-size:12px; color:#547cb7; height:32px; text-align:center; padding-top:50px;}
+/*±íµ¥±³¾°Í¼*/
+.bg-form{background:url(../images/bg-form.gif) no-repeat center top;  width:606px; height:539px;}
+
+.but-login{
+    background: url(../images/but-login.gif) no-repeat;
+    width:100px;
+    height: 60px;
+    border: none;
+    cursor:hand;
+}
+
+.but-login-over{
+    background: url(../images/but-login-over.gif) no-repeat;
+    width:100px;
+    height: 60px;
+    border: none;
+    cursor:hand;
+}

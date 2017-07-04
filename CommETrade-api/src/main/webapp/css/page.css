@@ -1,0 +1,225 @@
+.main_left{ width:202px; float:left; margin-top:-2px; margin-right:23px; _margin-right:21px;}
+
+.main_right{ width:100%; float:left; padding-bottom:50px;}
+.title{ font:bold 16px/16px "Microsoft YaHei"; margin:25px 0 10px 0;}
+.date{ margin-top:10px; overflow:hidden;}
+.date input{ width:70px; height:24px; line-height:24px; text-indent:0.2em; border:1px solid #eceaea;}
+.date span{ text-align:center; padding:5px 10px; margin:0 3px; cursor:pointer;}
+.date span.on{ color:#ffffff; background:#8b0304;}
+.date span.on1{ color:#ffffff; background:#8b0304;}
+.t_list{ width:100%; background:#e5e5e5; text-align:center; margin-top:10px;}
+/*table.t_list tr{ height:40px; line-height:40px;}*/
+.t_list tr td{ padding:5px 5px; line-height:30px; vertical-align:middle;}
+.p1 tr td{ padding:5px 1px;}
+.t01{ background:#ebebeb;}
+.t02{ background:#ffffff;}
+.t03{ background:#fafafa;}
+.t04{ background:#ebebeb; text-align:right; padding-right:20px;}
+.t05{ background:#ffffff; text-align:left; padding-left:25px; text-indent:1.5em;}
+.prompt{ width:735px; border:1px solid #ebebeb; border-top:4px solid #ebebeb; margin-top:45px; padding:15px;}
+.prompt ul li{ line-height:20px; margin-bottom:10px;}
+.pages{ width:767px; margin:15px 0 0 0; overflow:hidden;}
+.pages li{ float:left; margin-right:10px;}
+
+.t_list .btn{ width:42px; height:23px; line-height:23px; color:#c40f0f; cursor:pointer; background:url(../images/btn_back.png) no-repeat; border:none;}
+.t_list input:hover{ background-position:0 -23px;}
+
+.text{ margin-top:10px; overflow:hidden;}
+.btn_apply{ width:600px; margin:25px auto 15px; text-align:center;}
+.btn_apply .btn{ width:80px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#ffffff; cursor:pointer; background:url(../images/btn_done.png) no-repeat; border:none;}
+.btn_apply .btn_01{ width:80px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel.png) no-repeat; border:none;}
+.btn_apply input:hover{ background-position:0 -32px;}
+
+.prompt_01{ width:735px; border:1px solid #ebebeb; border-top:4px solid #ebebeb; margin-top:15px; padding:15px; text-align:center;}
+.prompt_01 .txt{ margin:15px auto; font-size:14px; text-align:left;}
+
+.title_s{ font:bold 14px/16px "Microsoft YaHei"; margin:25px 0 10px 0; text-indent:0.5em;}
+
+.prompt_02{ width:735px; border:1px solid #ebebeb; border-top:4px solid #ebebeb; margin-top:10px; padding:15px;}
+.prompt_02 ul li{ line-height:20px; margin-bottom:10px;}
+
+.btn_apply .btn_02{ width:140px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#ffffff; cursor:pointer; background:url(../images/btn_done_01.png) no-repeat; border:none;}
+.btn_apply .btn_03{ width:140px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel_01.png) no-repeat; border:none;}
+
+.t_list .lineh30{ line-height:26px;}
+.t_list .info{ width:320px; height:24px; line-height:24px; text-indent:0.5em; border:1px solid #eceaea;}
+.t_list .info_01{ width:110px; height:24px; line-height:24px; text-indent:0.5em; border:1px solid #eceaea;}
+.t_list .t_right{ text-align:right; padding-right:8px;}
+
+.title_s .right{ margin-top:-5px;}
+.btn_04{ width:100px; height:23px; line-height:23px; color:#ffffff; cursor:pointer; background:url(../images/btn_done_02.png) no-repeat; border:none;}
+.btn_05{ width:100px; height:23px; line-height:23px; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel_02.png) no-repeat; border:none;}
+.title_s input:hover{ background-position:0 -23px;}
+input.bt:hover{ background-position:0 -23px;}
+
+.t_list .btn_06{ width:42px; height:23px; line-height:23px; color:#ffffff; cursor:pointer; background:url(../images/btn_done_03.png) no-repeat; border:none;}
+.t_list .btn_07{ width:61px; height:23px; line-height:23px; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel_03.png) no-repeat; border:none;}
+.t_list .btn_12{ width:42px; height:23px; line-height:23px; color:#999999; cursor:pointer; background:url(../images/btn_back.png) no-repeat; border:none;}
+.t_list .btn_13{ width:62px; height:23px; line-height:23px; color:#ffffff; cursor:pointer; background:url(../images/btn_done_06.png) no-repeat; border:none;}
+
+
+.t_list .rd{ margin:0; padding:0; vertical-align:middle; *margin-top:-5px; _margin-top:-4px;}
+.t_list .rd1{ margin:0; padding:0; vertical-align:middle; *margin-top:-5px; _margin-top:-4px;}
+.title_s01{  margin:25px 0 10px 0;}
+.title_s02{  margin:10px 0;}
+
+.w_text{ height:24px; line-height:24px; border:1px solid #e5e5e5; background:#fafafa; margin:5px 5px 5px 18px; padding:0 10px; vertical-align:middle; text-indent:0; display:inline-block;}
+.w_text img{ margin-top:-2px; _margin-top:3px;}
+.w_text01{ width:76px; height:26px; line-height:26px; background:url(../images/t_bg01.jpg) no-repeat;  margin:5px 0 5px 18px; padding:0 3px; vertical-align:middle; text-indent:0; display:inline-block;}
+.w_text02{ width:76px; height:26px; line-height:26px; background:url(../images/t_bg02.jpg) no-repeat; color:#1571d8; cursor:pointer;  margin:5px 0 5px 18px; padding:0 3px; vertical-align:middle; text-indent:0; display:inline-block;}
+.w_text03{ width:109px; height:26px; line-height:26px; background:url(../images/t_bg03.jpg) no-repeat;  margin:5px 0 5px 18px; padding:0 3px; vertical-align:middle; text-indent:0; display:inline-block;}
+
+
+.prompt_03{ width:735px; border:1px solid #ebebeb; margin-top:10px; margin-bottom:20px; padding:15px 15px 30px; overflow:hidden;}
+.prompt_03 ul{ margin-top:10px;}
+.prompt_03 .left{ text-indent:8.2em;}
+.title .right{ font:normal 12px sans-serif;}
+
+.position_r{ position:relative; }
+
+.man_pic{ position:relative; text-indent:7em;}
+.man_pic img{ position:absolute; left:20px; _left:-92px; top:-3px;}
+
+.prompt_03 .btn{ width:80px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#ffffff; cursor:pointer; background:url(../images/btn_done.png) no-repeat; border:none;}
+.prompt_03 .btn_01{ width:80px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel.png) no-repeat; border:none;}
+.prompt_03 input:hover{ background-position:0 -32px;}
+.bgfa{ background:#fafafa; padding:20px 15px; line-height:40px;}
+.bgfa01{ background:#fafafa; padding:20px 15px 20px; line-height:30px;}
+.bgff01{ padding:5px 15px; line-height:40px;}
+
+.info_box{ width:950px; margin:20px auto 50px; border:1px solid #ebebeb; padding:20px 20px 50px 20px;}
+.info_box .t_list{ width:850px; background:#ffffff; margin:0 0 20px 80px;}
+.info_box .t_list .t04{ background:#ffffff;}
+.info_box .t_list01{ width:900px; background:#eaeaea; margin:20px auto; padding:0;}
+.line01{ width:1px; height:300px; position:absolute; background:#eaeaea; top:-20px; left:110px;}
+.line02{ width:765px; height:1px; overflow:hidden; position:absolute; background:#eaeaea; top:46px; left:0px;}
+
+.right_ol{ float:right; font:bold 12px "Microsoft YaHei";}
+.right_ol a{ color:#8b0304;}
+.right_ol img{ margin-top:-4px;}
+
+.t_list .info_02{ width:200px; height:24px; line-height:24px; text-indent:0.5em; border:1px solid #eceaea;}
+.t_list .info_03{ width:170px; height:24px; line-height:24px; text-indent:0.5em; border:1px solid #eceaea;}
+.title_s05{ width:950px; font:bold 14px "Microsoft YaHei"; border-bottom:1px solid #dddddd; padding-bottom:5px;}
+.title_s005{ width:767px; font:bold 14px "Microsoft YaHei"; border-bottom:1px solid #dddddd; padding-bottom:5px;}
+
+/*�����п�*/
+.banks{ width:950px; margin:15px auto 30px; overflow:hidden;}
+.bank_list{ float:left; margin-right:5px;}
+.bank_list .b_logo{ min-width:164px; padding:5px 10px; cursor:pointer;}
+.bank_list .bgf0{ background:#ffffff;}
+.bank_list .b_logo input{ margin-top:-32px; _margin-top:-22px; vertical-align:middle;}
+.bank_list .b_logo span{ width:134px; height:40px; border:1px solid #cccccc; display:inline-block;  background:url(../images/bank_icon.gif) no-repeat; background-color:#ffffff;}
+.bank_list .b_logo .logo_01{ background-position:-124px -108px;}
+.bank_list .b_logo .logo_02{ background-position:-284px -55px;}
+.bank_list .b_logo .logo_03{ background-position:-284px 0;}
+.bank_list .b_logo .logo_04{ background-position:4px 0;}
+.bank_list .b_logo .logo_05{ background-position:4px -108px;}
+.bank_list .b_logo .logo_06{ background-position:-284px -105px;}
+.bank_list .b_logo .logo_07{ background-position:4px -243px;}
+.bank_list .b_logo .logo_23{ background-position:-282px -355px;}
+.bank_list .b_logo .logo_24{ background-position:-433px -397px;}
+.bank_list .b_logo .logo_08{ background-position:-128px -3px;}
+.bank_list .b_logo .logo_09{ background-position:-128px -55px;}
+.bank_list .b_logo .logo_10{ background-position:4px -55px;;}
+.bank_list .b_logo .logo_11{ background-position:-124px -146px;}
+.bank_list .b_logo .logo_12{ background-position:4px -148px;}
+.bank_list .b_logo .logo_13{ background-position:-438px -195px;}
+.bank_list .b_logo .logo_14{ background-position:-437px -2px;}
+.bank_list .b_logo .logo_15{ background-position:-139px -354px;}
+.bank_list .b_logo .logo_16{ background-position:-437px -55px;}
+.bank_list .b_logo .logo_17{ background-position:-134px -398px;}
+.bank_list .b_logo .logo_18{ background-position:4px -298px;}
+.bank_list .b_logo .logo_19{ background-position:-135px -625px;}
+.bank_list .b_logo .logo_20{ background-position:4px -627px;}
+.bank_list .b_logo .logo_21{ background-position:2px -352px;}
+.bank_list .b_logo .logo_22{ background-position:-282px -625px;}
+.bank_list .b_logo .logo_25{ background-position:-437px -149px;}
+.bank_list .b_logo .logo_26{ background-position:-433px -443px;;}
+.bank_list .b_logo .logo_27{ background-position:4px -195px;}
+.bank_list .b_logo .logo_28{ background-position:-127px -195px;}
+.bank_list .b_logo .logo_29{ background-position:4px -443px;}
+.bank_list .b_logo .logo_30{ background-position:-128px -245px;}
+.bank_list .b_logo .logo_31{ background-position:-282px -485px;}
+.bank_list .b_logo .logo_32{ background-position:-136px -485px;}
+.bank_list .b_logo .logo_33{ background-position:-430px -486px;}
+.bank_list .b_logo .logo_34{ background-position:-135px -532px;}
+.bank_list .b_logo .logo_35{ background-position:-279px -532px;}
+.bank_list .b_logo .logo_36{ background-position:-432px -532px;}
+.bank_list .b_logo .logo_37{ background-position:-134px -576px;}
+.bank_list .b_logo .logo_38{ background-position:-278px -576px;}
+.bank_list .b_txt{ width:238px; padding:5px 10px; _padding-right:0; background:#ffffff; border:1px solid #cccccc; border-top:none; display:none; position:absolute;}
+.bank_list .b_txt table tr td{ line-height:20px; padding:2px 5px;}
+.bank_list .b_txt .bg_ar{ margin:-17px 0 0 -11px;}
+
+span.logo_c{ width:134px; height:40px; line-height:40px; display:inline-block; vertical-align:middle;  background:url(../images/bank_icon.gif) no-repeat; background-color:#ffffff; background-position:-124px -3px;}
+
+.btn_apply .btn_08{ width:260px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#ffffff; cursor:pointer; background:url(../images/btn_done_04.png) no-repeat; border:none;}
+.btn_apply .btn_09{ width:100px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#c40f0f; cursor:pointer; background:url(../images/btn_cancel_04.png) no-repeat; border:none;}
+.btn_apply .btn_10{ width:100px; height:32px; font:bold 14px/30px "Microsoft YaHei"; color:#ffffff; cursor:pointer; background:url(../images/btn_done_05.png) no-repeat; border:none;}
+
+.pop_box{ width:480px; margin:20px auto; border:1px solid #eceaea; padding:35px 15px;}
+.pop_box li{ text-indent:4em;}
+.pop_box li.w400{ width:400px; text-indent:0em;}
+.info_box .txt{ margin:65px auto; font-size:14px; text-align:left;}
+
+.info_list{ padding-left:10px;}
+.info_list .t_01{ font:bold 16px/30px "Microsoft YaHei";}
+.info_list .t_02{ font:bold 26px/30px "Arial"; color:#c40f0f;}
+.info_list .t_03{ font:bold 24px/30px "Microsoft YaHei"; color:#c40f0f;}
+.info_list .t_04{ font:bold 18px/30px "Arial";}
+.info_list .t_05{ line-height:20px; vertical-align:middle;}
+.info_list .btn_12{ width:42px; height:23px; line-height:23px; color:#c40f0f; cursor:pointer; background:url(../images/btn_back.png) no-repeat; border:none;}
+.info_list .btn_12:hover{ background-position:0 -23px;}
+
+.title_s02 .t_02{ font:bold 26px/30px "Arial"; color:#c40f0f;}
+.title_s02 .t_03{ font:bold 24px/30px "Microsoft YaHei"; color:#c40f0f;}
+
+
+.t_list01{ width:98%; text-align:center; margin-top:20px; border-bottom:1px dashed #eaeaea; padding-bottom:15px;}
+.t_list01 tr td{ padding:3px 5px; line-height:24px; vertical-align:middle;}
+.bord_b{ border-bottom:2px solid #ebebeb; padding-bottom:10px;}
+.t_num{ font:bold 100px/30px "Arial"; padding-left:0; text-indent:0; text-align:right; color:#c9c7c7;}
+
+.t_list02{ width:735px; background:#fafafa; text-align:left;}
+.t_list02 tr td{ padding:3px 5px; line-height:24px;}
+
+
+
+
+/*�ݶ�ת������*/
+.lot_left{ width:572px; float:left; margin-right:20px;}
+.title_step{ padding:2px 14px; font-size:14px; font-weight:bold; color:#c40f0f; background:#fbfbfb; border:1px solid #f0f0f0; display:inline-block; }
+.text_step{ margin:5px 0 30px 0;}
+.lot_left .title_01{ font:bold 18px "Microsoft YaHei"; color:#c40f0f;}
+
+.lot_right{ width:368px; border:1px solid #eceaea; float:left; padding:15px;}
+.lot_right .t_right{ width:368px; text-align:right;}
+
+.w992{ width:992px;}
+.w960{ width:960px;}
+
+/*�����*/
+.fund_list{ width:765px; border:1px solid #eceaea; border-top:none;}
+.fund_sort{ width:765px; height:41px;}
+.fund_sort li{ width:129px; height:41px; float:left; font:bold 14px/41px "Microsoft YaHei"; text-align:center; background:url(../images/fund_title_bg.jpg) repeat-x; border-right:1px solid #eceaea; cursor:pointer;}
+.fund_sort li.lt{ width:115px; border:none;}
+.fund_sort li.on{ background:url(../images/fund_title_bg_on.jpg) repeat-x; color:#a23536;}
+.w765{ width:765px; margin-top:0;}
+.h15{ padding:0 5px; line-height:16px;}
+
+.bgff{ width:767px; background:#ffffff; text-align:center; margin-top:30px;}
+.bgff .t04{ background:#ffffff;}
+.buy{ margin-top:0;}
+.buy1{ margin-top:0;}
+.t_list select{ _margin-left:7px;}
+
+.w767{ width:767px;}
+
+.prompt_04{ width:220px; padding:15px; border:1px solid #eceaea; position:absolute; top:60px; right:20px;}
+
+.txt01{ display:none;}
+.txt_show{ cursor:pointer; white-space:nowrap;}
+
+.step_box{ width:992px; height:31px; line-height:31px; color:#ffffff; background:#4d4d4d; margin:40px auto 0; overflow:hidden; text-align:left; text-indent:2em;}
+.step_box span.ar{ width:200px; white-space:nowrap; margin:0 50px; font-family:sans-serif;}

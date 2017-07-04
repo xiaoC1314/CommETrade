@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.order.ProdListMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.order.ProdList" >
+				<result column="id" property="id"/>
+				<result column="order_no" property="orderno"/>
+				<result column="cust_no" property="custno"/>
+				<result column="prod_no" property="prodno"/>
+				<result column="prod_name" property="prodname"/>
+				<result column="prod_price" property="prodprice"/>
+				<result column="prod_num" property="prodnum"/>
+			</resultMap>
+
+	<!-- o_product_list table all fields -->
+	<sql id="Base_Column_List" >
+		id,order_no,cust_no,prod_no,prod_name,prod_price,prod_num
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="orderno != null and orderno != ''" >
+				and order_no =  #{orderno}
+			</if>
+												<if test="custno != null and custno != ''" >
+				and cust_no =  #{custno}
+			</if>
+												<if test="prodno != null and prodno != ''" >
+				and prod_no =  #{prodno}
+			</if>
+												<if test="prodname != null and prodname != ''" >
+				and prod_name =  #{prodname}
+			</if>
+												<if test="prodprice != null and prodprice != ''" >
+				and prod_price =  #{prodprice}
+			</if>
+									<if test="prodnum != null" >
+				and prod_num =  #{prodnum}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.order.ProdList" >
+		insert into o_product_list(id,order_no,cust_no,prod_no,prod_name,prod_price,prod_num)
+ values(#{id,jdbcType=VARCHAR},#{orderno,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{prodname,jdbcType=VARCHAR},#{prodprice,jdbcType=VARCHAR},#{prodnum,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.order.ProdList" >
+		update o_product_list set order_no=#{orderno,jdbcType=VARCHAR},cust_no=#{custno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},prod_name=#{prodname,jdbcType=VARCHAR},prod_price=#{prodprice,jdbcType=VARCHAR},prod_num=#{prodnum,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.order.ProdList" >
+		update o_product_list set 
+	<trim  suffixOverrides="," >
+	<if test="orderno != null  and orderno != '' ">
+		order_no=#{orderno},
+	</if>
+	<if test="custno != null  and custno != '' ">
+		cust_no=#{custno},
+	</if>
+	<if test="prodno != null  and prodno != '' ">
+		prod_no=#{prodno},
+	</if>
+	<if test="prodname != null  and prodname != '' ">
+		prod_name=#{prodname},
+	</if>
+	<if test="prodprice != null  and prodprice != '' ">
+		prod_price=#{prodprice},
+	</if>
+	<if test="prodnum != null  ">
+		prod_num=#{prodnum},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.order.ProdList">
+		delete 	 from o_product_list where id = #{id}
+	</update>
+
+	<!-- 购物清单列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from o_product_list where id = #{id}
+	</select>
+
+	<!-- 购物清单 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.order.ProdListModel">
+		select count(1) from o_product_list
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询购物清单 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.order.ProdListModel">
+		select
+		<include refid="Base_Column_List"/>
+		from o_product_list
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 购物清单 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from o_product_list
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询购物清单 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from o_product_list
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

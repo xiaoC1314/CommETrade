@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.prod.ProdPlanDetailMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdPlanDetail" >
+				<result column="id" property="id"/>
+				<result column="plan_no" property="planno"/>
+				<result column="prod_no" property="prodno"/>
+				<result column="order" property="order"/>
+				<result column="create_time" property="createtime"/>
+			</resultMap>
+
+	<!-- p_product_plan_detail table all fields -->
+	<sql id="Base_Column_List" >
+		id,plan_no,prod_no,order,create_time
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="planno != null and planno != ''" >
+				and plan_no =  #{planno}
+			</if>
+												<if test="prodno != null and prodno != ''" >
+				and prod_no =  #{prodno}
+			</if>
+												<if test="order != null and order != ''" >
+				and order =  #{order}
+			</if>
+												<if test="createtime != null and createtime != ''" >
+				and create_time =  #{createtime}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
+		insert into p_product_plan_detail(id,plan_no,prod_no,order,create_time)
+ values(#{id,jdbcType=VARCHAR},#{planno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{order,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
+		update p_product_plan_detail set plan_no=#{planno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},order=#{order,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
+		update p_product_plan_detail set 
+	<trim  suffixOverrides="," >
+	<if test="planno != null  and planno != '' ">
+		plan_no=#{planno},
+	</if>
+	<if test="prodno != null  and prodno != '' ">
+		prod_no=#{prodno},
+	</if>
+	<if test="order != null  and order != '' ">
+		order=#{order},
+	</if>
+	<if test="createtime != null  and createtime != '' ">
+		create_time=#{createtime},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail">
+		delete 	 from p_product_plan_detail where id = #{id}
+	</update>
+
+	<!-- 营销活动明细列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from p_product_plan_detail where id = #{id}
+	</select>
+
+	<!-- 营销活动明细 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.ProdPlanDetailModel">
+		select count(1) from p_product_plan_detail
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询营销活动明细 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdPlanDetailModel">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_plan_detail
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 营销活动明细 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from p_product_plan_detail
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询营销活动明细 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_plan_detail
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

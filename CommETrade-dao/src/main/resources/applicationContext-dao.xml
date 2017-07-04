@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+		default-lazy-init="false">
+
+	<!-- 扫描classpath的包下的所有类，该包路径下的类可以不需要配置bean了 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.zhzx.dao" />
+
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="false" />
+		<property name="locations">
+			<list>
+				<value>
+					classpath:jdbc.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource_ppf" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<!--<property name="user" value="${jdbc.username}" />-->
+		<!--<property name="password" value="${jdbc.password}" />-->
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+		<property name="properties" ref="dataSourceProperties"/>
+		<!--  <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/> -->
+	</bean>
+
+	<bean id="dataSourceProperties" class="com.zhzx.dao.common.PropertiesEncryptFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="user">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource_ds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${ds.jdbc.driver}" />
+		<property name="url" value="${ds.jdbc.url}" />
+		<property name="username" value="${ds.jdbc.username}" />
+		<property name="password" value="${ds.jdbc.password}" />
+		<property name="maxActive" value="${ds.jdbc.maxActive}" />
+		<property name="maxIdle" value="${ds.jdbc.maxIdle}" />
+		<property name="maxWait" value="${ds.jdbc.maxWait}" />
+		<property name="defaultAutoCommit" value="${ds.jdbc.defaultAutoCommit}" />
+	</bean>
+
+	<bean id="dataSource_dc" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${dc.jdbc.driver}" />
+		<property name="url" value="${dc.jdbc.url}" />
+		<property name="username" value="${dc.jdbc.username}" />
+		<property name="password" value="${dc.jdbc.password}" />
+		<property name="maxActive" value="${dc.jdbc.maxActive}" />
+		<property name="maxIdle" value="${dc.jdbc.maxIdle}" />
+		<property name="maxWait" value="${dc.jdbc.maxWait}" />
+		<property name="defaultAutoCommit" value="${dc.jdbc.defaultAutoCommit}" />
+	</bean>
+
+	<bean id="multipleDataSource" class="com.zhzx.dao.MultipleDataSource">
+		<property name="defaultTargetDataSource" ref="dataSource_ds"/>
+		<property name="targetDataSources">
+			<map>
+				<entry key="defaultDataSource" value-ref="dataSource_ds"/>
+				<entry key="dataSource_dc" value-ref="dataSource_dc"/>
+				<entry key="dataSource_ppf" value-ref="dataSource_ppf"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="multipleDataSource"/>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.zhzx.dao.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<!-- <property name="annotationClass" value="org.springframework.stereotype.Repository" /> -->
+	</bean>
+
+	<!-- transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="multipleDataSource" />
+	</bean>
+
+</beans>

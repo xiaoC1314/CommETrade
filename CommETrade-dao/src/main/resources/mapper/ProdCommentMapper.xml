@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.prod.ProdCommentMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdComment" >
+				<result column="id" property="id"/>
+				<result column="prod_no" property="prodno"/>
+				<result column="cust_no" property="custno"/>
+				<result column="mark_1" property="mark1"/>
+				<result column="mark_2" property="mark2"/>
+				<result column="mark_3" property="mark3"/>
+				<result column="comm" property="comm"/>
+				<result column="create_time" property="createtime"/>
+			</resultMap>
+
+	<!-- p_product_comment table all fields -->
+	<sql id="Base_Column_List" >
+		id,prod_no,cust_no,mark_1,mark_2,mark_3,comm,create_time
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="prodno != null and prodno != ''" >
+				and prod_no =  #{prodno}
+			</if>
+												<if test="custno != null and custno != ''" >
+				and cust_no =  #{custno}
+			</if>
+												<if test="mark1 != null and mark1 != ''" >
+				and mark_1 =  #{mark1}
+			</if>
+												<if test="mark2 != null and mark2 != ''" >
+				and mark_2 =  #{mark2}
+			</if>
+												<if test="mark3 != null and mark3 != ''" >
+				and mark_3 =  #{mark3}
+			</if>
+												<if test="comm != null and comm != ''" >
+				and comm =  #{comm}
+			</if>
+												<if test="createtime != null and createtime != ''" >
+				and create_time =  #{createtime}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
+		insert into p_product_comment(id,prod_no,cust_no,mark_1,mark_2,mark_3,comm,create_time)
+ values(#{id,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{mark1,jdbcType=VARCHAR},#{mark2,jdbcType=VARCHAR},#{mark3,jdbcType=VARCHAR},#{comm,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
+		update p_product_comment set prod_no=#{prodno,jdbcType=VARCHAR},cust_no=#{custno,jdbcType=VARCHAR},mark_1=#{mark1,jdbcType=VARCHAR},mark_2=#{mark2,jdbcType=VARCHAR},mark_3=#{mark3,jdbcType=VARCHAR},comm=#{comm,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
+		update p_product_comment set 
+	<trim  suffixOverrides="," >
+	<if test="prodno != null  and prodno != '' ">
+		prod_no=#{prodno},
+	</if>
+	<if test="custno != null  and custno != '' ">
+		cust_no=#{custno},
+	</if>
+	<if test="mark1 != null  and mark1 != '' ">
+		mark_1=#{mark1},
+	</if>
+	<if test="mark2 != null  and mark2 != '' ">
+		mark_2=#{mark2},
+	</if>
+	<if test="mark3 != null  and mark3 != '' ">
+		mark_3=#{mark3},
+	</if>
+	<if test="comm != null  and comm != '' ">
+		comm=#{comm},
+	</if>
+	<if test="createtime != null  and createtime != '' ">
+		create_time=#{createtime},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.ProdComment">
+		delete 	 from p_product_comment where id = #{id}
+	</update>
+
+	<!-- 商品评分列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from p_product_comment where id = #{id}
+	</select>
+
+	<!-- 商品评分 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.ProdCommentModel">
+		select count(1) from p_product_comment
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询商品评分 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdCommentModel">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_comment
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 商品评分 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from p_product_comment
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询商品评分 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_comment
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

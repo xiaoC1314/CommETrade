@@ -1,0 +1,67 @@
+body {
+      margin:0px;
+}
+
+
+td{font-size:12px;}
+
+a:visited {  color: #474747; font-size:12px; text-decoration: none}
+a:link { color: #2C5519; font-size:12px; text-decoration: none}
+a:hover { color: #FF6600; font-size:12px; text-decoration: underline}
+
+.blue:visited {  color: #12549d; font-size:14px; text-decoration: none}
+.blue:link { color: #12549d; font-size:14px; text-decoration: none}
+.blue:hover { color: #12549d; font-size:14px; text-decoration: underline}
+
+/*顶图*/
+.topbg{background:url(../images/top-bg.gif) repeat-x top left; width:100%; height:83px; }
+.top{background:url(../images/top.jpg) no-repeat top right; width:555; height:83px; padding-left:20px; }
+/*功能栏*/
+.menu-top{ background:url(../images/menu-top.gif) repeat-x; height:34px; width:100%;}
+
+/*菜单按钮*/
+.menubut01 {background:url(../images/menu-top-but01.gif) no-repeat center bottom; width:97px; height:27px; border:0px; color: #1d1d1d; font-size:14px; padding-top:6px;}
+
+.menubut02 {background:url(../images/menu-top-but02.gif) no-repeat center bottom; width:97px; height:27px; border:0px; color: #0c56a2; font-size:14px; padding-top:6px;}
+
+.menubut01over {background:url(../images/menu-top-but01.gif) no-repeat center bottom; width:97px; height:27px; border:0px; color: #0c56a2; font-size:14px; padding-top:6px;}
+
+.menu-pad{padding-left:20px;}
+
+
+
+/*搜索表单外框*/
+.inputS{background:#c0cde0; border:none; width:160px; height:22px; font-size:14px; color:#5072a5; padding-left:6px; padding-right:6px;}
+
+/*表格的样式*/
+.table1{background:#fff; width:99%; border-top:#c0cde0 1px solid; border-left:#c0cde0 1px solid;}
+.table1 th{background:url(../images/bg-th.gif) repeat-x; height:29px; color:#32568d; font-size:14px; border-right:#c0cde0 1px solid; border-bottom:#c0cde0 1px solid; padding:5px; text-align:left;}
+
+.table1 td{border-right:#c0cde0 1px solid; border-bottom:#c0cde0 1px solid; padding-top:7px;  padding-bottom:7px; padding-left:8px; padding-right:8px; text-align:left;}
+
+.table2{background:#fff; width:99%;}
+
+.table2 td{background:url(../images/table2-tdline.gif) repeat-x bottom left;}
+.left{ text-align:left; padding-left:8px; width:80%;}
+.left-border{ text-align:left; padding-left:8px; width:80%;border-left:#e1e9f4 1px solid;}
+.right{ text-align:right; padding-left:4px; width:120px; border-right:#e1e9f4 1px solid;}
+
+.table3{background:#fff; width:99%;}
+
+/*确定取消按钮*/
+.but01 {background:url(../images/but-01.gif) no-repeat; width:78px; height:26px; border:0px; color: #fff; font-size:14px; padding-top:3px;}
+
+.but01over {background:url(../images/but-01-over.gif) no-repeat; width:78px; height:26px; border:0px; color: #fff; font-size:14px; padding-top:3px;}
+
+/*欢迎*/
+.welcome{background:url(../images/welcome.gif) no-repeat center bottom; width:710px; height:450px;}
+
+/*版权*/
+.copyright01{background:#008ad9 url(../images/bottom-left.gif) no-repeat bottom left; width:7px; height:12px;}
+.copyright02{background:#008ad9 url(../images/bottom-bg.gif) repeat-x  bottom center; font-size:12px; color:#fff; text-align:center; line-height:25px;}
+.copyright03{background:#008ad9 url(../images/bottom-right.gif) no-repeat bottom right; width:7px; height:12px;}
+
+
+/*纯文字界面*/
+
+.p-text{font-size:14px; text-align:left; padding-left:80px; line-height:30px;}

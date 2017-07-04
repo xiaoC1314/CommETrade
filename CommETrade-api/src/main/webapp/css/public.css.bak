@@ -1,0 +1,160 @@
+a:link {
+	color: #000000;
+}
+a:visited {
+	color: #000000;
+}
+a:hover {
+	color: #000000;
+}
+a:active {
+	color: #000000;
+}
+
+body {
+	margin:0;
+	font-size:12px;
+	font-family:arial,宋体,verdana,helvetica;
+	background-color : #FFFFFF;
+}
+.treeBody {
+	margin:0;
+	background-color : #f0f8fb;
+}
+.bodylogin {
+	background-color: #0FA0CD;
+}
+form{margin: 0}
+/*
+鼠标手形指针
+*/
+.pointer {
+cursor:pointer
+}
+.Off{
+padding:100px;
+}
+.up{
+background-color: #94DCEB; padding:100px;
+}
+/*
+表格样式定义
+*/
+td{
+font-size:12px;
+border-color:#CCCCCC;
+}
+tr{
+border-color:#CCCCCC;
+}
+th{
+background-color:#deecf5;
+text-align:center;
+color:#003366;
+font-weight:bold;
+border:1px solid #ccc;
+}
+.maintable{
+background-color:#FFFFFF;
+}
+.tablecontent{
+background-color:#EDF3FF;
+border:1px solid #000000;
+border-collapse: collapse;
+border-style: solid;
+border-width: 1px
+}
+.tablelistcontent{
+	border-style: solid;
+	border:1px solid #ccc;
+	line-height:25px;
+	font-size:12px;
+	border-width:1px;
+	border-collapse: collapse;
+}
+.tablelistcontent1{
+	border:0px;
+	line-height:25px;
+	font-size:12px;
+}
+div.topBar{
+    width:100%;
+    height:23px;
+    background: url(../../images/topBarBg.gif) repeat-x
+}
+table.footerBg{
+    background-image : url(../../images/footerBg.gif);
+    width:100%;
+    height:23px
+}
+td.footerMsg{
+    text-align:center;
+    font-size:9pt;
+    color:#004E73
+}
+td.hdMsg {font-size:9pt;
+    color:#ffffff
+}
+.dictionary{
+border-color:#CCCCCC;
+background-color:#FFCC00;
+}
+/*
+星号颜色
+*/
+.star {
+color: #FF0000
+}
+/*
+字体
+*/
+.font {
+color: #FFFFFF;
+}
+.searchfontlist{
+font-size:13px;
+font-weight: bold;
+}
+/*
+表单样式
+*/
+.inputsearch{
+	border-left: 1px solid #333;
+	border-top: 1px solid #333;
+	border-right: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
+}
+.inputcontent{
+border:1px solid #CCCCCC
+}
+.inputlogin
+{
+height:18px;
+border:1px solid #CCCCCC
+}
+.tabText {
+	font-size: 14px;color: #FFFFFF;
+}
+.tit { 
+	background:url(../images/report/cd.gif);
+	line-height:23px;
+	font-size:12px;
+}
+.td_bd{
+	border:1px solid #ccc;
+	border-bottom:none;
+}
+.tb_bd{
+	border:1px solid #ccc;
+}  
+.resizetd {     
+   WIDTH: 2px; CURSOR: default; BACKGROUND-COLOR: #dfe8f0;HEIGHT:100%  
+}
+.treeFrame {
+	border-right:1px solid #7DB2F9;
+}
+.mainFrame {
+	border-left:1px solid #7DB2F9;
+}
+#Menu TD.Select{ width:121px; padding-top:7px; height:18px;background:url(../images/Menu_Select.jpg) no-repeat; color:#00326b; font-size:12px; font-weight:bold; text-align:center; cursor:pointer} 
+#Menu TD.UnSelect{ width:121px;padding-top:7px; height:18px;background:url(../images/Menu_UnSelect.jpg) no-repeat; color:#666666; font-size:12px; font-weight:bold;  text-align:center; cursor:pointer}

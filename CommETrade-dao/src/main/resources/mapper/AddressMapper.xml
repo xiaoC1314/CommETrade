@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.cust.AddressMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.cust.Address" >
+				<result column="id" property="id"/>
+				<result column="cust_no" property="custno"/>
+				<result column="address" property="address"/>
+				<result column="detail_address" property="detailaddress"/>
+				<result column="receiver_name" property="receivername"/>
+				<result column="receiver_phone" property="receiverphone"/>
+				<result column="post_code" property="postcode"/>
+				<result column="is_default" property="isdefault"/>
+				<result column="create_time" property="createtime"/>
+				<result column="update_time" property="updatetime"/>
+				<result column="status" property="status"/>
+			</resultMap>
+
+	<!-- c_address table all fields -->
+	<sql id="Base_Column_List" >
+		id,cust_no,address,detail_address,receiver_name,receiver_phone,post_code,is_default,create_time,update_time,status
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="custno != null and custno != ''" >
+				and cust_no =  #{custno}
+			</if>
+												<if test="address != null and address != ''" >
+				and address =  #{address}
+			</if>
+												<if test="detailaddress != null and detailaddress != ''" >
+				and detail_address =  #{detailaddress}
+			</if>
+												<if test="receivername != null and receivername != ''" >
+				and receiver_name =  #{receivername}
+			</if>
+												<if test="receiverphone != null and receiverphone != ''" >
+				and receiver_phone =  #{receiverphone}
+			</if>
+												<if test="postcode != null and postcode != ''" >
+				and post_code =  #{postcode}
+			</if>
+												<if test="isdefault != null and isdefault != ''" >
+				and is_default =  #{isdefault}
+			</if>
+												<if test="createtime != null and createtime != ''" >
+				and create_time =  #{createtime}
+			</if>
+												<if test="updatetime != null and updatetime != ''" >
+				and update_time =  #{updatetime}
+			</if>
+												<if test="status != null and status != ''" >
+				and status =  #{status}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.cust.Address" >
+		insert into c_address(id,cust_no,address,detail_address,receiver_name,receiver_phone,post_code,is_default,create_time,update_time,status)
+ values(#{id,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{detailaddress,jdbcType=VARCHAR},#{receivername,jdbcType=VARCHAR},#{receiverphone,jdbcType=VARCHAR},#{postcode,jdbcType=VARCHAR},#{isdefault,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.cust.Address" >
+		update c_address set cust_no=#{custno,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},detail_address=#{detailaddress,jdbcType=VARCHAR},receiver_name=#{receivername,jdbcType=VARCHAR},receiver_phone=#{receiverphone,jdbcType=VARCHAR},post_code=#{postcode,jdbcType=VARCHAR},is_default=#{isdefault,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.cust.Address" >
+		update c_address set 
+	<trim  suffixOverrides="," >
+	<if test="custno != null  and custno != '' ">
+		cust_no=#{custno},
+	</if>
+	<if test="address != null  and address != '' ">
+		address=#{address},
+	</if>
+	<if test="detailaddress != null  and detailaddress != '' ">
+		detail_address=#{detailaddress},
+	</if>
+	<if test="receivername != null  and receivername != '' ">
+		receiver_name=#{receivername},
+	</if>
+	<if test="receiverphone != null  and receiverphone != '' ">
+		receiver_phone=#{receiverphone},
+	</if>
+	<if test="postcode != null  and postcode != '' ">
+		post_code=#{postcode},
+	</if>
+	<if test="isdefault != null  and isdefault != '' ">
+		is_default=#{isdefault},
+	</if>
+	<if test="createtime != null  and createtime != '' ">
+		create_time=#{createtime},
+	</if>
+	<if test="updatetime != null  and updatetime != '' ">
+		update_time=#{updatetime},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.cust.Address">
+		delete 	 from c_address where id = #{id}
+	</update>
+
+	<!-- 客户收货地址表列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from c_address where id = #{id}
+	</select>
+
+	<!-- 客户收货地址表 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.cust.AddressModel">
+		select count(1) from c_address
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询客户收货地址表 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.cust.AddressModel">
+		select
+		<include refid="Base_Column_List"/>
+		from c_address
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 客户收货地址表 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from c_address
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询客户收货地址表 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from c_address
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

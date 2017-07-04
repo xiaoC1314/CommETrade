@@ -1,0 +1,98 @@
+body {
+	color: #656565;
+	font-size: 14px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+}
+#wrapnav{
+	width: 200px;
+	background-color: #f1f1f1;
+	border: 1px solid #e5e5e5;
+	border-right: none;
+}
+#wrap1{
+	line-height: 40px;
+}
+#wrap1>div{
+	border-right: 1px solid #e5e5e5;
+	padding: 0px 20px;
+}
+#wrap1 .dan,#wrap1 .duo{
+	border-right: 1px solid #e5e5e5;
+	padding: 0px 10px; overflow:hidden;
+}
+#wrapnav>span{
+	border-right: 1px solid #e5e5e5;
+}
+
+#frist{
+	display: block;
+	height: 40px;
+}
+#last{
+	display: block;
+	height: 160px;
+}
+#wrapnav a{
+	display:block;
+	text-decoration: none;
+	color: #656565;
+}
+#hide{
+	display: none;
+	font-size: 13px;
+}
+#hide .dandu{
+	border-right: 1px solid #e5e5e5;
+	padding: 0px 0px 0px 33px;
+}
+#hide .dandu .suoji a{ font-family:"宋体"; font-weight:normal; overflow:hidden;}
+
+#wrapnav #hide .bianhua1{
+	background: url(../images/left.png) no-repeat 0 0px;
+	background-color: #FFFFFF;
+	border-right: none;
+	border-top:1px solid #e5e5e5;
+	border-bottom:1px solid #e5e5e5;
+}
+#wrapnav #hide .bianhua1 a{ color:#a21923;}
+#wrapnav .bianhua1 .suoji{
+		background: url(../images/right.png) no-repeat 150px 10px; overflow:hidden;
+}
+.fg{
+	height: 1px;
+	background-color: #e5e5e5; overflow:hidden;
+}
+.suoji{ _padding:9px 0;
+	padding-left: 15px;
+}
+#wrapnav .xiangshang .suoji{
+	background: url(../images/jbi.png) no-repeat 0px 15px;
+}
+#wrapnav .xiangxia .suoji{
+	background: url(../images/jkai.png) no-repeat 0px 15px; color:#a21923;
+}
+.red{ color:#a21923;}
+#wrap1 .bianhua{
+	background: url(../images/left.png) no-repeat 0 0px;
+	background-color: #FFFFFF;
+	border-right: none;
+	border-top:1px solid #e5e5e5;
+	border-bottom:1px solid #e5e5e5;
+}
+#wrap1 .bianhua .fg{
+	display: none;
+}
+#wrapnav .bianhua a{
+	color: #a21923;
+}
+#wrapnav .bianhua .suoji{
+		background: url(../images/right.png) no-repeat 150px 10px;
+}
+#wrapnav .zhancai {
+	display: block;
+}
+
+.duo .suoji{ cursor:pointer;}
+.dandu .suoji img{ margin-top:-3px;}
+

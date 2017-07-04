@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+       default-autowire="byName">
+	<description>Spring公共配置</description>
+	
+	<import resource="classpath*:applicationContext-dao.xml" />
+	<import resource="classpath*:applicationContext-common.xml" />
+    <import resource="classpath*:schedule-context.xml" />
+</beans>

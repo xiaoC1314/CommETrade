@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.prod.ProdInfoMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdInfo" >
+				<result column="id" property="id"/>
+				<result column="name" property="name"/>
+				<result column="display_name" property="displayname"/>
+				<result column="stock" property="stock"/>
+				<result column="status" property="status"/>
+				<result column="price" property="price"/>
+				<result column="url" property="url"/>
+				<result column="discribe" property="discribe"/>
+				<result column="create_time" property="createtime"/>
+				<result column="update_time" property="updatetime"/>
+			</resultMap>
+
+	<!-- p_product_info table all fields -->
+	<sql id="Base_Column_List" >
+		id,name,display_name,stock,status,price,url,discribe,create_time,update_time
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="name != null and name != ''" >
+				and name =  #{name}
+			</if>
+												<if test="displayname != null and displayname != ''" >
+				and display_name =  #{displayname}
+			</if>
+									<if test="stock != null" >
+				and stock =  #{stock}
+			</if>
+												<if test="status != null and status != ''" >
+				and status =  #{status}
+			</if>
+												<if test="price != null and price != ''" >
+				and price =  #{price}
+			</if>
+												<if test="url != null and url != ''" >
+				and url =  #{url}
+			</if>
+												<if test="discribe != null and discribe != ''" >
+				and discribe =  #{discribe}
+			</if>
+												<if test="createtime != null and createtime != ''" >
+				and create_time =  #{createtime}
+			</if>
+												<if test="updatetime != null and updatetime != ''" >
+				and update_time =  #{updatetime}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdInfo" >
+		insert into p_product_info(id,name,display_name,stock,status,price,url,discribe,create_time,update_time)
+ values(#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{displayname,jdbcType=VARCHAR},#{stock,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{price,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{discribe,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdInfo" >
+		update p_product_info set name=#{name,jdbcType=VARCHAR},display_name=#{displayname,jdbcType=VARCHAR},stock=#{stock,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},price=#{price,jdbcType=VARCHAR},url=#{url,jdbcType=VARCHAR},discribe=#{discribe,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdInfo" >
+		update p_product_info set 
+	<trim  suffixOverrides="," >
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="displayname != null  and displayname != '' ">
+		display_name=#{displayname},
+	</if>
+	<if test="stock != null  ">
+		stock=#{stock},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status},
+	</if>
+	<if test="price != null  and price != '' ">
+		price=#{price},
+	</if>
+	<if test="url != null  and url != '' ">
+		url=#{url},
+	</if>
+	<if test="discribe != null  and discribe != '' ">
+		discribe=#{discribe},
+	</if>
+	<if test="createtime != null  and createtime != '' ">
+		create_time=#{createtime},
+	</if>
+	<if test="updatetime != null  and updatetime != '' ">
+		update_time=#{updatetime},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.ProdInfo">
+		delete 	 from p_product_info where id = #{id}
+	</update>
+
+	<!-- 商品信息列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from p_product_info where id = #{id}
+	</select>
+
+	<!-- 商品信息 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.ProdInfoModel">
+		select count(1) from p_product_info
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询商品信息 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdInfoModel">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_info
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 商品信息 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from p_product_info
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询商品信息 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_info
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

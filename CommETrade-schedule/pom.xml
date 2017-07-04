@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zhzx</groupId>
+		<artifactId>CommETrade-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../CommETrade-parent</relativePath>
+	</parent>
+	<artifactId>CommETrade-schedule</artifactId>
+	<packaging>war</packaging>
+	<name>CommETrade-schedule</name>
+	<dependencies>
+		<!-- <dependency>
+			<groupId>com.zhzx</groupId>
+			<artifactId>CommETrade-service</artifactId>
+			<version>${project.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.zhzx</groupId>
+			<artifactId>CommETrade-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zhzx</groupId>
+			<artifactId>CommETrade-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+		</dependency>
+
+		<!-- testing begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>			
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>CommETrade-schedule</finalName>
+	</build>
+</project>

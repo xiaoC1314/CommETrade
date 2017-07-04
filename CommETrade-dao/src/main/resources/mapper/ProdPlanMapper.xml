@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.prod.ProdPlanMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdPlan" >
+				<result column="id" property="id"/>
+				<result column="plan_name" property="planname"/>
+				<result column="plan_desc" property="plandesc"/>
+				<result column="status" property="status"/>
+				<result column="start_time" property="starttime"/>
+				<result column="end_time" property="endtime"/>
+				<result column="create_time" property="createtime"/>
+			</resultMap>
+
+	<!-- p_product_plan table all fields -->
+	<sql id="Base_Column_List" >
+		id,plan_name,plan_desc,status,start_time,end_time,create_time
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="planname != null and planname != ''" >
+				and plan_name =  #{planname}
+			</if>
+												<if test="plandesc != null and plandesc != ''" >
+				and plan_desc =  #{plandesc}
+			</if>
+												<if test="status != null and status != ''" >
+				and status =  #{status}
+			</if>
+												<if test="starttime != null and starttime != ''" >
+				and start_time =  #{starttime}
+			</if>
+												<if test="endtime != null and endtime != ''" >
+				and end_time =  #{endtime}
+			</if>
+												<if test="createtime != null and createtime != ''" >
+				and create_time =  #{createtime}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
+		insert into p_product_plan(id,plan_name,plan_desc,status,start_time,end_time,create_time)
+ values(#{id,jdbcType=VARCHAR},#{planname,jdbcType=VARCHAR},#{plandesc,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{starttime,jdbcType=VARCHAR},#{endtime,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
+		update p_product_plan set plan_name=#{planname,jdbcType=VARCHAR},plan_desc=#{plandesc,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},start_time=#{starttime,jdbcType=VARCHAR},end_time=#{endtime,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
+		update p_product_plan set 
+	<trim  suffixOverrides="," >
+	<if test="planname != null  and planname != '' ">
+		plan_name=#{planname},
+	</if>
+	<if test="plandesc != null  and plandesc != '' ">
+		plan_desc=#{plandesc},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status},
+	</if>
+	<if test="starttime != null  and starttime != '' ">
+		start_time=#{starttime},
+	</if>
+	<if test="endtime != null  and endtime != '' ">
+		end_time=#{endtime},
+	</if>
+	<if test="createtime != null  and createtime != '' ">
+		create_time=#{createtime},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.ProdPlan">
+		delete 	 from p_product_plan where id = #{id}
+	</update>
+
+	<!-- 营销活动列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from p_product_plan where id = #{id}
+	</select>
+
+	<!-- 营销活动 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.ProdPlanModel">
+		select count(1) from p_product_plan
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询营销活动 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdPlanModel">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_plan
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 营销活动 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from p_product_plan
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询营销活动 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_plan
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   

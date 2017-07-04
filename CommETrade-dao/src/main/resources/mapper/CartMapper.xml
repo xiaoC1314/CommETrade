@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.order.CartMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.order.Cart" >
+				<result column="id" property="id"/>
+				<result column="cust_no" property="custno"/>
+				<result column="order_no" property="orderno"/>
+				<result column="prod_no" property="prodno"/>
+				<result column="num" property="num"/>
+			</resultMap>
+
+	<!-- o_cart table all fields -->
+	<sql id="Base_Column_List" >
+		id,cust_no,order_no,prod_no,num
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="custno != null and custno != ''" >
+				and cust_no =  #{custno}
+			</if>
+												<if test="orderno != null and orderno != ''" >
+				and order_no =  #{orderno}
+			</if>
+												<if test="prodno != null and prodno != ''" >
+				and prod_no =  #{prodno}
+			</if>
+									<if test="num != null" >
+				and num =  #{num}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.order.Cart" >
+		insert into o_cart(id,cust_no,order_no,prod_no,num)
+ values(#{id,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{orderno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{num,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.order.Cart" >
+		update o_cart set cust_no=#{custno,jdbcType=VARCHAR},order_no=#{orderno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},num=#{num,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.order.Cart" >
+		update o_cart set 
+	<trim  suffixOverrides="," >
+	<if test="custno != null  and custno != '' ">
+		cust_no=#{custno},
+	</if>
+	<if test="orderno != null  and orderno != '' ">
+		order_no=#{orderno},
+	</if>
+	<if test="prodno != null  and prodno != '' ">
+		prod_no=#{prodno},
+	</if>
+	<if test="num != null  ">
+		num=#{num},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.order.Cart">
+		delete 	 from o_cart where id = #{id}
+	</update>
+
+	<!-- 购物车列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from o_cart where id = #{id}
+	</select>
+
+	<!-- 购物车 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.order.CartModel">
+		select count(1) from o_cart
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询购物车 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.order.CartModel">
+		select
+		<include refid="Base_Column_List"/>
+		from o_cart
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 购物车 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from o_cart
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询购物车 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from o_cart
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+</mapper>   
