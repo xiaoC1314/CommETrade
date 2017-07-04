@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zhzx.uip.commons.constants.Constants;
-import com.zhzx.uip.commons.constants.UserCenterConstants;
-import com.zhzx.uip.commons.enums.CacheTimes;
-import com.zhzx.uip.commons.enums.CallerType;
 import com.zhzx.uip.commons.module.CallerInfo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

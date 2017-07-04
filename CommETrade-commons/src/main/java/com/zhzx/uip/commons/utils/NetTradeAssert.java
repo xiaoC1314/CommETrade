@@ -1,6 +1,5 @@
 package com.zhzx.uip.commons.utils;
 
-import com.zhzx.uip.commons.exception.NetTradeException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
