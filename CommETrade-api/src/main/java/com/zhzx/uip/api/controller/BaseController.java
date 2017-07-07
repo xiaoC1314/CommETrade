@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by wangfeng on 2016/3/26.
+ * Created by xiaoC on 2016/3/26.
  */
 public class BaseController {
 

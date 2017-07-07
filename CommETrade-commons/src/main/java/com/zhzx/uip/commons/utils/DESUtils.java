@@ -19,12 +19,13 @@ public class DESUtils {
 	// 算法名称/加密模式/填充方式
 	// DES共有四种工作模式-->>ECB：电子密码本模式、CBC：加密分组链接模式、CFB：加密反馈模式、OFB：输出反馈模式
 	public static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
+	public static final String TRADEPASSWORD_DES_KEY = "8354958e8f437bc131562b23";//私钥
 
 	/**
 	 * 
 	 * 生成密钥key对象
 	 * 
-	 * @param KeyStr
+	 * @param keyStr
 	 *            密钥字符串
 	 * @return 密钥对象
 	 * @throws java.security.InvalidKeyException
@@ -69,7 +70,7 @@ public class DESUtils {
 	public static String encrypt(String data) {
 		String result = "";
 		try {
-			result = encrypt(data, Constants.TRADEPASSWORD_DES_KEY);
+			result = encrypt(data,TRADEPASSWORD_DES_KEY);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -80,7 +81,7 @@ public class DESUtils {
 	public static String decrypt(String data) {
 		String result = "";
 		try {
-			result = decrypt(data, Constants.TRADEPASSWORD_DES_KEY);
+			result = decrypt(data,TRADEPASSWORD_DES_KEY);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
