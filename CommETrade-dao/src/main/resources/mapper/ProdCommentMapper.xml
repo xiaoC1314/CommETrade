@@ -6,13 +6,13 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdComment" >
 				<result column="id" property="id"/>
-				<result column="prod_no" property="prodno"/>
-				<result column="cust_no" property="custno"/>
+				<result column="prod_no" property="prodNo"/>
+				<result column="cust_no" property="custNo"/>
 				<result column="mark_1" property="mark1"/>
 				<result column="mark_2" property="mark2"/>
 				<result column="mark_3" property="mark3"/>
 				<result column="comm" property="comm"/>
-				<result column="create_time" property="createtime"/>
+				<result column="create_time" property="createTime"/>
 			</resultMap>
 
 	<!-- p_product_comment table all fields -->
@@ -28,11 +28,11 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="prodno != null and prodno != ''" >
-				and prod_no =  #{prodno}
+												<if test="prodNo != null and prodNo != ''" >
+				and prod_no =  #{prodNo}
 			</if>
-												<if test="custno != null and custno != ''" >
-				and cust_no =  #{custno}
+												<if test="custNo != null and custNo != ''" >
+				and cust_no =  #{custNo}
 			</if>
 												<if test="mark1 != null and mark1 != ''" >
 				and mark_1 =  #{mark1}
@@ -46,8 +46,8 @@
 												<if test="comm != null and comm != ''" >
 				and comm =  #{comm}
 			</if>
-												<if test="createtime != null and createtime != ''" >
-				and create_time =  #{createtime}
+												<if test="createTime != null and createTime != ''" >
+				and create_time =  #{createTime}
 			</if>
 					</trim>
 	</sql>
@@ -56,23 +56,23 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
 		insert into p_product_comment(id,prod_no,cust_no,mark_1,mark_2,mark_3,comm,create_time)
- values(#{id,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{mark1,jdbcType=VARCHAR},#{mark2,jdbcType=VARCHAR},#{mark3,jdbcType=VARCHAR},#{comm,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{custNo,jdbcType=VARCHAR},#{mark1,jdbcType=VARCHAR},#{mark2,jdbcType=VARCHAR},#{mark3,jdbcType=VARCHAR},#{comm,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
-		update p_product_comment set prod_no=#{prodno,jdbcType=VARCHAR},cust_no=#{custno,jdbcType=VARCHAR},mark_1=#{mark1,jdbcType=VARCHAR},mark_2=#{mark2,jdbcType=VARCHAR},mark_3=#{mark3,jdbcType=VARCHAR},comm=#{comm,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+		update p_product_comment set prod_no=#{prodNo,jdbcType=VARCHAR},cust_no=#{custNo,jdbcType=VARCHAR},mark_1=#{mark1,jdbcType=VARCHAR},mark_2=#{mark2,jdbcType=VARCHAR},mark_3=#{mark3,jdbcType=VARCHAR},comm=#{comm,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdComment" >
 		update p_product_comment set 
 	<trim  suffixOverrides="," >
-	<if test="prodno != null  and prodno != '' ">
-		prod_no=#{prodno},
+	<if test="prodNo != null  and prodNo != '' ">
+		prod_no=#{prodNo},
 	</if>
-	<if test="custno != null  and custno != '' ">
-		cust_no=#{custno},
+	<if test="custNo != null  and custNo != '' ">
+		cust_no=#{custNo},
 	</if>
 	<if test="mark1 != null  and mark1 != '' ">
 		mark_1=#{mark1},
@@ -86,8 +86,8 @@
 	<if test="comm != null  and comm != '' ">
 		comm=#{comm},
 	</if>
-	<if test="createtime != null  and createtime != '' ">
-		create_time=#{createtime},
+	<if test="createTime != null  and createTime != '' ">
+		create_time=#{createTime},
 	</if>
 	</trim> where id=#{id}
 	</update>

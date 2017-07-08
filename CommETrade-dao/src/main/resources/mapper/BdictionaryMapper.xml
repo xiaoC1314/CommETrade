@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhzx.dao.mapper.BdictionaryMapper" >
+<mapper namespace="com.zhzx.dao.mapper.prod.BdictionaryMapper" >
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.Bdictionary" >
 				<result column="id" property="id"/>
@@ -42,18 +42,18 @@
 
 
 	<!-- 插入记录 -->
-	<insert id="insert" parameterType="com.zhzx.dao.bean.Bdictionary" >
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.Bdictionary" >
 		insert into bdictionary(id,keyno,value,caption,describe)
  values(#{id,jdbcType=VARCHAR},#{keyno,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{caption,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
-	<update id="update" parameterType="com.zhzx.dao.bean.Bdictionary" >
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.Bdictionary" >
 		update bdictionary set keyno=#{keyno,jdbcType=VARCHAR},value=#{value,jdbcType=VARCHAR},caption=#{caption,jdbcType=VARCHAR},describe=#{describe,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
-	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.Bdictionary" >
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.Bdictionary" >
 		update bdictionary set 
 	<trim  suffixOverrides="," >
 	<if test="keyno != null  and keyno != '' ">
@@ -72,7 +72,7 @@
 	</update>
 
 	<!-- 逻辑删除，将deleted 改成 1 -->
-	<update id="delete" parameterType="com.zhzx.dao.bean.Bdictionary">
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.Bdictionary">
 		delete 	 from bdictionary where id = #{id}
 	</update>
 
@@ -83,7 +83,7 @@
 	</select>
 
 	<!-- 字典信息 列表总数-->
-	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.BdictionaryModel">
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.BdictionaryModel">
 		select count(1) from bdictionary
 		<include refid="Example_Where_Clause"/>
 		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
@@ -92,7 +92,7 @@
 	</select>
 
 	<!-- 根据id查询字典信息 -->
-	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.BdictionaryModel">
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.BdictionaryModel">
 		select
 		<include refid="Base_Column_List"/>
 		from bdictionary

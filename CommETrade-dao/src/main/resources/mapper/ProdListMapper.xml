@@ -6,12 +6,12 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.order.ProdList" >
 				<result column="id" property="id"/>
-				<result column="order_no" property="orderno"/>
-				<result column="cust_no" property="custno"/>
-				<result column="prod_no" property="prodno"/>
-				<result column="prod_name" property="prodname"/>
-				<result column="prod_price" property="prodprice"/>
-				<result column="prod_num" property="prodnum"/>
+				<result column="order_no" property="orderNo"/>
+				<result column="cust_no" property="custNo"/>
+				<result column="prod_no" property="prodNo"/>
+				<result column="prod_name" property="prodName"/>
+				<result column="prod_price" property="prodPrice"/>
+				<result column="prod_num" property="prodNum"/>
 			</resultMap>
 
 	<!-- o_product_list table all fields -->
@@ -27,23 +27,23 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="orderno != null and orderno != ''" >
-				and order_no =  #{orderno}
+												<if test="orderNo != null and orderNo != ''" >
+				and order_no =  #{orderNo}
 			</if>
-												<if test="custno != null and custno != ''" >
-				and cust_no =  #{custno}
+												<if test="custNo != null and custNo != ''" >
+				and cust_no =  #{custNo}
 			</if>
-												<if test="prodno != null and prodno != ''" >
-				and prod_no =  #{prodno}
+												<if test="prodNo != null and prodNo != ''" >
+				and prod_no =  #{prodNo}
 			</if>
-												<if test="prodname != null and prodname != ''" >
-				and prod_name =  #{prodname}
+												<if test="prodName != null and prodName != ''" >
+				and prod_name =  #{prodName}
 			</if>
-												<if test="prodprice != null and prodprice != ''" >
-				and prod_price =  #{prodprice}
+												<if test="prodPrice != null and prodPrice != ''" >
+				and prod_price =  #{prodPrice}
 			</if>
-									<if test="prodnum != null" >
-				and prod_num =  #{prodnum}
+									<if test="prodNum != null" >
+				and prod_num =  #{prodNum}
 			</if>
 					</trim>
 	</sql>
@@ -52,35 +52,35 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.order.ProdList" >
 		insert into o_product_list(id,order_no,cust_no,prod_no,prod_name,prod_price,prod_num)
- values(#{id,jdbcType=VARCHAR},#{orderno,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{prodname,jdbcType=VARCHAR},#{prodprice,jdbcType=VARCHAR},#{prodnum,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},#{custNo,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{prodName,jdbcType=VARCHAR},#{prodPrice,jdbcType=VARCHAR},#{prodNum,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.order.ProdList" >
-		update o_product_list set order_no=#{orderno,jdbcType=VARCHAR},cust_no=#{custno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},prod_name=#{prodname,jdbcType=VARCHAR},prod_price=#{prodprice,jdbcType=VARCHAR},prod_num=#{prodnum,jdbcType=VARCHAR} where id=#{id}
+		update o_product_list set order_no=#{orderNo,jdbcType=VARCHAR},cust_no=#{custNo,jdbcType=VARCHAR},prod_no=#{prodNo,jdbcType=VARCHAR},prod_name=#{prodName,jdbcType=VARCHAR},prod_price=#{prodPrice,jdbcType=VARCHAR},prod_num=#{prodNum,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.order.ProdList" >
 		update o_product_list set 
 	<trim  suffixOverrides="," >
-	<if test="orderno != null  and orderno != '' ">
-		order_no=#{orderno},
+	<if test="orderNo != null  and orderNo != '' ">
+		order_no=#{orderNo},
 	</if>
-	<if test="custno != null  and custno != '' ">
-		cust_no=#{custno},
+	<if test="custNo != null  and custNo != '' ">
+		cust_no=#{custNo},
 	</if>
-	<if test="prodno != null  and prodno != '' ">
-		prod_no=#{prodno},
+	<if test="prodNo != null  and prodNo != '' ">
+		prod_no=#{prodNo},
 	</if>
-	<if test="prodname != null  and prodname != '' ">
-		prod_name=#{prodname},
+	<if test="prodName != null  and prodName != '' ">
+		prod_name=#{prodName},
 	</if>
-	<if test="prodprice != null  and prodprice != '' ">
-		prod_price=#{prodprice},
+	<if test="prodPrice != null  and prodPrice != '' ">
+		prod_price=#{prodPrice},
 	</if>
-	<if test="prodnum != null  ">
-		prod_num=#{prodnum},
+	<if test="prodNum != null  ">
+		prod_num=#{prodNum},
 	</if>
 	</trim> where id=#{id}
 	</update>

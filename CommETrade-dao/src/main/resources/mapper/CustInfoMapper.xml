@@ -9,17 +9,17 @@
 				<result column="phone" property="phone"/>
 				<result column="name" property="name"/>
 				<result column="password" property="password"/>
-				<result column="face_url" property="faceurl"/>
-				<result column="nick_name" property="nickname"/>
-				<result column="id_card" property="idcard"/>
-				<result column="id_card_type" property="idcardtype"/>
+				<result column="face_url" property="faceUrl"/>
+				<result column="nick_name" property="nickName"/>
+				<result column="id_card" property="idCard"/>
+				<result column="id_card_type" property="idCardType"/>
 				<result column="email" property="email"/>
 				<result column="address" property="address"/>
-				<result column="qq_no" property="qqno"/>
-				<result column="wechat_no" property="wechatno"/>
-				<result column="update_time" property="updatetime"/>
-				<result column="is_delete" property="isdelete"/>
-				<result column="lasted_login_time" property="lastedlogintime"/>
+				<result column="qq_no" property="qqNo"/>
+				<result column="wechat_no" property="wechatNo"/>
+				<result column="update_time" property="updateTime"/>
+				<result column="is_delete" property="isDelete"/>
+				<result column="lasted_login_time" property="lastedLoginTime"/>
 			</resultMap>
 
 	<!-- c_cust_info table all fields -->
@@ -44,17 +44,17 @@
 												<if test="password != null and password != ''" >
 				and password =  #{password}
 			</if>
-												<if test="faceurl != null and faceurl != ''" >
-				and face_url =  #{faceurl}
+												<if test="faceUrl != null and faceUrl != ''" >
+				and face_url =  #{faceUrl}
 			</if>
-												<if test="nickname != null and nickname != ''" >
-				and nick_name =  #{nickname}
+												<if test="nickName != null and nickName != ''" >
+				and nick_name =  #{nickName}
 			</if>
-												<if test="idcard != null and idcard != ''" >
-				and id_card =  #{idcard}
+												<if test="idCard != null and idCard != ''" >
+				and id_card =  #{idCard}
 			</if>
-												<if test="idcardtype != null and idcardtype != ''" >
-				and id_card_type =  #{idcardtype}
+												<if test="idCardType != null and idCardType != ''" >
+				and id_card_type =  #{idCardType}
 			</if>
 												<if test="email != null and email != ''" >
 				and email =  #{email}
@@ -62,20 +62,20 @@
 												<if test="address != null and address != ''" >
 				and address =  #{address}
 			</if>
-												<if test="qqno != null and qqno != ''" >
-				and qq_no =  #{qqno}
+												<if test="qqNo != null and qqNo != ''" >
+				and qq_no =  #{qqNo}
 			</if>
-												<if test="wechatno != null and wechatno != ''" >
-				and wechat_no =  #{wechatno}
+												<if test="wechatNo != null and wechatNo != ''" >
+				and wechat_no =  #{wechatNo}
 			</if>
-												<if test="updatetime != null and updatetime != ''" >
-				and update_time =  #{updatetime}
+												<if test="updateTime != null and updateTime != ''" >
+				and update_time =  #{updateTime}
 			</if>
-												<if test="isdelete != null and isdelete != ''" >
-				and is_delete =  #{isdelete}
+												<if test="isDelete != null and isDelete != ''" >
+				and is_delete =  #{isDelete}
 			</if>
-												<if test="lastedlogintime != null and lastedlogintime != ''" >
-				and lasted_login_time =  #{lastedlogintime}
+												<if test="lastedLoginTime != null and lastedLoginTime != ''" >
+				and lasted_login_time =  #{lastedLoginTime}
 			</if>
 					</trim>
 	</sql>
@@ -84,12 +84,12 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.cust.CustInfo" >
 		insert into c_cust_info(id,phone,name,password,face_url,nick_name,id_card,id_card_type,email,address,qq_no,wechat_no,update_time,is_delete,lasted_login_time)
- values(#{id,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{faceurl,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},#{idcard,jdbcType=VARCHAR},#{idcardtype,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{qqno,jdbcType=VARCHAR},#{wechatno,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR},#{isdelete,jdbcType=VARCHAR},#{lastedlogintime,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{faceUrl,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR},#{idCard,jdbcType=VARCHAR},#{idCardType,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{qqNo,jdbcType=VARCHAR},#{wechatNo,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR},#{isDelete,jdbcType=VARCHAR},#{lastedLoginTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.cust.CustInfo" >
-		update c_cust_info set phone=#{phone,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},face_url=#{faceurl,jdbcType=VARCHAR},nick_name=#{nickname,jdbcType=VARCHAR},id_card=#{idcard,jdbcType=VARCHAR},id_card_type=#{idcardtype,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},qq_no=#{qqno,jdbcType=VARCHAR},wechat_no=#{wechatno,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR},is_delete=#{isdelete,jdbcType=VARCHAR},lasted_login_time=#{lastedlogintime,jdbcType=VARCHAR} where id=#{id}
+		update c_cust_info set phone=#{phone,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},face_url=#{faceUrl,jdbcType=VARCHAR},nick_name=#{nickName,jdbcType=VARCHAR},id_card=#{idCard,jdbcType=VARCHAR},id_card_type=#{idCardType,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},qq_no=#{qqNo,jdbcType=VARCHAR},wechat_no=#{wechatNo,jdbcType=VARCHAR},update_time=#{updateTime,jdbcType=VARCHAR},is_delete=#{isDelete,jdbcType=VARCHAR},lasted_login_time=#{lastedLoginTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
@@ -105,17 +105,17 @@
 	<if test="password != null  and password != '' ">
 		password=#{password},
 	</if>
-	<if test="faceurl != null  and faceurl != '' ">
-		face_url=#{faceurl},
+	<if test="faceUrl != null  and faceUrl != '' ">
+		face_url=#{faceUrl},
 	</if>
-	<if test="nickname != null  and nickname != '' ">
-		nick_name=#{nickname},
+	<if test="nickName != null  and nickName != '' ">
+		nick_name=#{nickName},
 	</if>
-	<if test="idcard != null  and idcard != '' ">
-		id_card=#{idcard},
+	<if test="idCard != null  and idCard != '' ">
+		id_card=#{idCard},
 	</if>
-	<if test="idcardtype != null  and idcardtype != '' ">
-		id_card_type=#{idcardtype},
+	<if test="idCardType != null  and idCardType != '' ">
+		id_card_type=#{idCardType},
 	</if>
 	<if test="email != null  and email != '' ">
 		email=#{email},
@@ -123,20 +123,20 @@
 	<if test="address != null  and address != '' ">
 		address=#{address},
 	</if>
-	<if test="qqno != null  and qqno != '' ">
-		qq_no=#{qqno},
+	<if test="qqNo != null  and qqNo != '' ">
+		qq_no=#{qqNo},
 	</if>
-	<if test="wechatno != null  and wechatno != '' ">
-		wechat_no=#{wechatno},
+	<if test="wechatNo != null  and wechatNo != '' ">
+		wechat_no=#{wechatNo},
 	</if>
-	<if test="updatetime != null  and updatetime != '' ">
-		update_time=#{updatetime},
+	<if test="updateTime != null  and updateTime != '' ">
+		update_time=#{updateTime},
 	</if>
-	<if test="isdelete != null  and isdelete != '' ">
-		is_delete=#{isdelete},
+	<if test="isDelete != null  and isDelete != '' ">
+		is_delete=#{isDelete},
 	</if>
-	<if test="lastedlogintime != null  and lastedlogintime != '' ">
-		lasted_login_time=#{lastedlogintime},
+	<if test="lastedLoginTime != null  and lastedLoginTime != '' ">
+		lasted_login_time=#{lastedLoginTime},
 	</if>
 	</trim> where id=#{id}
 	</update>
@@ -146,13 +146,13 @@
 		delete 	 from c_cust_info where id = #{id}
 	</update>
 
-	<!-- 客户基本信息表列表 -->
+	<!-- 客户信息列表 -->
 	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
 		select <include refid="Base_Column_List" /> 
 	 from c_cust_info where id = #{id}
 	</select>
 
-	<!-- 客户基本信息表 列表总数-->
+	<!-- 客户信息 列表总数-->
 	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.cust.CustInfoModel">
 		select count(1) from c_cust_info
 		<include refid="Example_Where_Clause"/>
@@ -161,7 +161,7 @@
 		</if>
 	</select>
 
-	<!-- 根据id查询客户基本信息表 -->
+	<!-- 根据id查询客户信息 -->
 	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.cust.CustInfoModel">
 		select
 		<include refid="Base_Column_List"/>
@@ -173,13 +173,13 @@
 	</select>
 
 
-	<!-- 客户基本信息表 列表总数-->
+	<!-- 客户信息 列表总数-->
 	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
 		select count(1) from c_cust_info
 		<include refid="Example_Where_Clause"/>
 	</select>
 
-	<!-- 根据id查询客户基本信息表 -->
+	<!-- 根据id查询客户信息 -->
 	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List"/>

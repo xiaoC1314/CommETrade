@@ -6,9 +6,9 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.order.Cart" >
 				<result column="id" property="id"/>
-				<result column="cust_no" property="custno"/>
-				<result column="order_no" property="orderno"/>
-				<result column="prod_no" property="prodno"/>
+				<result column="cust_no" property="custNo"/>
+				<result column="order_no" property="orderNo"/>
+				<result column="prod_no" property="prodNo"/>
 				<result column="num" property="num"/>
 			</resultMap>
 
@@ -25,14 +25,14 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="custno != null and custno != ''" >
-				and cust_no =  #{custno}
+												<if test="custNo != null and custNo != ''" >
+				and cust_no =  #{custNo}
 			</if>
-												<if test="orderno != null and orderno != ''" >
-				and order_no =  #{orderno}
+												<if test="orderNo != null and orderNo != ''" >
+				and order_no =  #{orderNo}
 			</if>
-												<if test="prodno != null and prodno != ''" >
-				and prod_no =  #{prodno}
+												<if test="prodNo != null and prodNo != ''" >
+				and prod_no =  #{prodNo}
 			</if>
 									<if test="num != null" >
 				and num =  #{num}
@@ -44,26 +44,26 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.order.Cart" >
 		insert into o_cart(id,cust_no,order_no,prod_no,num)
- values(#{id,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{orderno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{num,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{custNo,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{num,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.order.Cart" >
-		update o_cart set cust_no=#{custno,jdbcType=VARCHAR},order_no=#{orderno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},num=#{num,jdbcType=VARCHAR} where id=#{id}
+		update o_cart set cust_no=#{custNo,jdbcType=VARCHAR},order_no=#{orderNo,jdbcType=VARCHAR},prod_no=#{prodNo,jdbcType=VARCHAR},num=#{num,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.order.Cart" >
 		update o_cart set 
 	<trim  suffixOverrides="," >
-	<if test="custno != null  and custno != '' ">
-		cust_no=#{custno},
+	<if test="custNo != null  and custNo != '' ">
+		cust_no=#{custNo},
 	</if>
-	<if test="orderno != null  and orderno != '' ">
-		order_no=#{orderno},
+	<if test="orderNo != null  and orderNo != '' ">
+		order_no=#{orderNo},
 	</if>
-	<if test="prodno != null  and prodno != '' ">
-		prod_no=#{prodno},
+	<if test="prodNo != null  and prodNo != '' ">
+		prod_no=#{prodNo},
 	</if>
 	<if test="num != null  ">
 		num=#{num},

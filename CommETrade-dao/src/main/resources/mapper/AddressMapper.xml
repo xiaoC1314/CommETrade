@@ -6,15 +6,15 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.cust.Address" >
 				<result column="id" property="id"/>
-				<result column="cust_no" property="custno"/>
+				<result column="cust_no" property="custNo"/>
 				<result column="address" property="address"/>
-				<result column="detail_address" property="detailaddress"/>
-				<result column="receiver_name" property="receivername"/>
-				<result column="receiver_phone" property="receiverphone"/>
-				<result column="post_code" property="postcode"/>
-				<result column="is_default" property="isdefault"/>
-				<result column="create_time" property="createtime"/>
-				<result column="update_time" property="updatetime"/>
+				<result column="detail_address" property="detailAddress"/>
+				<result column="receiver_name" property="receiverName"/>
+				<result column="receiver_phone" property="receiverPhone"/>
+				<result column="post_code" property="postCode"/>
+				<result column="is_default" property="isDefault"/>
+				<result column="create_time" property="createTime"/>
+				<result column="update_time" property="updateTime"/>
 				<result column="status" property="status"/>
 			</resultMap>
 
@@ -31,32 +31,32 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="custno != null and custno != ''" >
-				and cust_no =  #{custno}
+												<if test="custNo != null and custNo != ''" >
+				and cust_no =  #{custNo}
 			</if>
 												<if test="address != null and address != ''" >
 				and address =  #{address}
 			</if>
-												<if test="detailaddress != null and detailaddress != ''" >
-				and detail_address =  #{detailaddress}
+												<if test="detailAddress != null and detailAddress != ''" >
+				and detail_address =  #{detailAddress}
 			</if>
-												<if test="receivername != null and receivername != ''" >
-				and receiver_name =  #{receivername}
+												<if test="receiverName != null and receiverName != ''" >
+				and receiver_name =  #{receiverName}
 			</if>
-												<if test="receiverphone != null and receiverphone != ''" >
-				and receiver_phone =  #{receiverphone}
+												<if test="receiverPhone != null and receiverPhone != ''" >
+				and receiver_phone =  #{receiverPhone}
 			</if>
-												<if test="postcode != null and postcode != ''" >
-				and post_code =  #{postcode}
+												<if test="postCode != null and postCode != ''" >
+				and post_code =  #{postCode}
 			</if>
-												<if test="isdefault != null and isdefault != ''" >
-				and is_default =  #{isdefault}
+												<if test="isDefault != null and isDefault != ''" >
+				and is_default =  #{isDefault}
 			</if>
-												<if test="createtime != null and createtime != ''" >
-				and create_time =  #{createtime}
+												<if test="createTime != null and createTime != ''" >
+				and create_time =  #{createTime}
 			</if>
-												<if test="updatetime != null and updatetime != ''" >
-				and update_time =  #{updatetime}
+												<if test="updateTime != null and updateTime != ''" >
+				and update_time =  #{updateTime}
 			</if>
 												<if test="status != null and status != ''" >
 				and status =  #{status}
@@ -68,44 +68,44 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.cust.Address" >
 		insert into c_address(id,cust_no,address,detail_address,receiver_name,receiver_phone,post_code,is_default,create_time,update_time,status)
- values(#{id,jdbcType=VARCHAR},#{custno,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{detailaddress,jdbcType=VARCHAR},#{receivername,jdbcType=VARCHAR},#{receiverphone,jdbcType=VARCHAR},#{postcode,jdbcType=VARCHAR},#{isdefault,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{custNo,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{detailAddress,jdbcType=VARCHAR},#{receiverName,jdbcType=VARCHAR},#{receiverPhone,jdbcType=VARCHAR},#{postCode,jdbcType=VARCHAR},#{isDefault,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.cust.Address" >
-		update c_address set cust_no=#{custno,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},detail_address=#{detailaddress,jdbcType=VARCHAR},receiver_name=#{receivername,jdbcType=VARCHAR},receiver_phone=#{receiverphone,jdbcType=VARCHAR},post_code=#{postcode,jdbcType=VARCHAR},is_default=#{isdefault,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR} where id=#{id}
+		update c_address set cust_no=#{custNo,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},detail_address=#{detailAddress,jdbcType=VARCHAR},receiver_name=#{receiverName,jdbcType=VARCHAR},receiver_phone=#{receiverPhone,jdbcType=VARCHAR},post_code=#{postCode,jdbcType=VARCHAR},is_default=#{isDefault,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR},update_time=#{updateTime,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.cust.Address" >
 		update c_address set 
 	<trim  suffixOverrides="," >
-	<if test="custno != null  and custno != '' ">
-		cust_no=#{custno},
+	<if test="custNo != null  and custNo != '' ">
+		cust_no=#{custNo},
 	</if>
 	<if test="address != null  and address != '' ">
 		address=#{address},
 	</if>
-	<if test="detailaddress != null  and detailaddress != '' ">
-		detail_address=#{detailaddress},
+	<if test="detailAddress != null  and detailAddress != '' ">
+		detail_address=#{detailAddress},
 	</if>
-	<if test="receivername != null  and receivername != '' ">
-		receiver_name=#{receivername},
+	<if test="receiverName != null  and receiverName != '' ">
+		receiver_name=#{receiverName},
 	</if>
-	<if test="receiverphone != null  and receiverphone != '' ">
-		receiver_phone=#{receiverphone},
+	<if test="receiverPhone != null  and receiverPhone != '' ">
+		receiver_phone=#{receiverPhone},
 	</if>
-	<if test="postcode != null  and postcode != '' ">
-		post_code=#{postcode},
+	<if test="postCode != null  and postCode != '' ">
+		post_code=#{postCode},
 	</if>
-	<if test="isdefault != null  and isdefault != '' ">
-		is_default=#{isdefault},
+	<if test="isDefault != null  and isDefault != '' ">
+		is_default=#{isDefault},
 	</if>
-	<if test="createtime != null  and createtime != '' ">
-		create_time=#{createtime},
+	<if test="createTime != null  and createTime != '' ">
+		create_time=#{createTime},
 	</if>
-	<if test="updatetime != null  and updatetime != '' ">
-		update_time=#{updatetime},
+	<if test="updateTime != null  and updateTime != '' ">
+		update_time=#{updateTime},
 	</if>
 	<if test="status != null  and status != '' ">
 		status=#{status},
@@ -118,13 +118,13 @@
 		delete 	 from c_address where id = #{id}
 	</update>
 
-	<!-- 客户收货地址表列表 -->
+	<!-- 地址信息列表 -->
 	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
 		select <include refid="Base_Column_List" /> 
 	 from c_address where id = #{id}
 	</select>
 
-	<!-- 客户收货地址表 列表总数-->
+	<!-- 地址信息 列表总数-->
 	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.cust.AddressModel">
 		select count(1) from c_address
 		<include refid="Example_Where_Clause"/>
@@ -133,7 +133,7 @@
 		</if>
 	</select>
 
-	<!-- 根据id查询客户收货地址表 -->
+	<!-- 根据id查询地址信息 -->
 	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.cust.AddressModel">
 		select
 		<include refid="Base_Column_List"/>
@@ -145,13 +145,13 @@
 	</select>
 
 
-	<!-- 客户收货地址表 列表总数-->
+	<!-- 地址信息 列表总数-->
 	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
 		select count(1) from c_address
 		<include refid="Example_Where_Clause"/>
 	</select>
 
-	<!-- 根据id查询客户收货地址表 -->
+	<!-- 根据id查询地址信息 -->
 	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List"/>

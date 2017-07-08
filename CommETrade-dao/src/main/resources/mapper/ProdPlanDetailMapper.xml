@@ -6,10 +6,10 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdPlanDetail" >
 				<result column="id" property="id"/>
-				<result column="plan_no" property="planno"/>
-				<result column="prod_no" property="prodno"/>
+				<result column="plan_no" property="planNo"/>
+				<result column="prod_no" property="prodNo"/>
 				<result column="order" property="order"/>
-				<result column="create_time" property="createtime"/>
+				<result column="create_time" property="createTime"/>
 			</resultMap>
 
 	<!-- p_product_plan_detail table all fields -->
@@ -25,17 +25,17 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="planno != null and planno != ''" >
-				and plan_no =  #{planno}
+												<if test="planNo != null and planNo != ''" >
+				and plan_no =  #{planNo}
 			</if>
-												<if test="prodno != null and prodno != ''" >
-				and prod_no =  #{prodno}
+												<if test="prodNo != null and prodNo != ''" >
+				and prod_no =  #{prodNo}
 			</if>
 												<if test="order != null and order != ''" >
 				and order =  #{order}
 			</if>
-												<if test="createtime != null and createtime != ''" >
-				and create_time =  #{createtime}
+												<if test="createTime != null and createTime != ''" >
+				and create_time =  #{createTime}
 			</if>
 					</trim>
 	</sql>
@@ -44,29 +44,29 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
 		insert into p_product_plan_detail(id,plan_no,prod_no,order,create_time)
- values(#{id,jdbcType=VARCHAR},#{planno,jdbcType=VARCHAR},#{prodno,jdbcType=VARCHAR},#{order,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{planNo,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{order,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
-		update p_product_plan_detail set plan_no=#{planno,jdbcType=VARCHAR},prod_no=#{prodno,jdbcType=VARCHAR},order=#{order,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+		update p_product_plan_detail set plan_no=#{planNo,jdbcType=VARCHAR},prod_no=#{prodNo,jdbcType=VARCHAR},order=#{order,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
 		update p_product_plan_detail set 
 	<trim  suffixOverrides="," >
-	<if test="planno != null  and planno != '' ">
-		plan_no=#{planno},
+	<if test="planNo != null  and planNo != '' ">
+		plan_no=#{planNo},
 	</if>
-	<if test="prodno != null  and prodno != '' ">
-		prod_no=#{prodno},
+	<if test="prodNo != null  and prodNo != '' ">
+		prod_no=#{prodNo},
 	</if>
 	<if test="order != null  and order != '' ">
 		order=#{order},
 	</if>
-	<if test="createtime != null  and createtime != '' ">
-		create_time=#{createtime},
+	<if test="createTime != null  and createTime != '' ">
+		create_time=#{createTime},
 	</if>
 	</trim> where id=#{id}
 	</update>

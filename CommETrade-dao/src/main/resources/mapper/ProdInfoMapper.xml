@@ -7,14 +7,14 @@
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdInfo" >
 				<result column="id" property="id"/>
 				<result column="name" property="name"/>
-				<result column="display_name" property="displayname"/>
+				<result column="display_name" property="displayName"/>
 				<result column="stock" property="stock"/>
 				<result column="status" property="status"/>
 				<result column="price" property="price"/>
 				<result column="url" property="url"/>
 				<result column="discribe" property="discribe"/>
-				<result column="create_time" property="createtime"/>
-				<result column="update_time" property="updatetime"/>
+				<result column="create_time" property="createTime"/>
+				<result column="update_time" property="updateTime"/>
 			</resultMap>
 
 	<!-- p_product_info table all fields -->
@@ -33,8 +33,8 @@
 												<if test="name != null and name != ''" >
 				and name =  #{name}
 			</if>
-												<if test="displayname != null and displayname != ''" >
-				and display_name =  #{displayname}
+												<if test="displayName != null and displayName != ''" >
+				and display_name =  #{displayName}
 			</if>
 									<if test="stock != null" >
 				and stock =  #{stock}
@@ -51,11 +51,11 @@
 												<if test="discribe != null and discribe != ''" >
 				and discribe =  #{discribe}
 			</if>
-												<if test="createtime != null and createtime != ''" >
-				and create_time =  #{createtime}
+												<if test="createTime != null and createTime != ''" >
+				and create_time =  #{createTime}
 			</if>
-												<if test="updatetime != null and updatetime != ''" >
-				and update_time =  #{updatetime}
+												<if test="updateTime != null and updateTime != ''" >
+				and update_time =  #{updateTime}
 			</if>
 					</trim>
 	</sql>
@@ -64,12 +64,12 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdInfo" >
 		insert into p_product_info(id,name,display_name,stock,status,price,url,discribe,create_time,update_time)
- values(#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{displayname,jdbcType=VARCHAR},#{stock,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{price,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{discribe,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{displayName,jdbcType=VARCHAR},#{stock,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{price,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{discribe,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdInfo" >
-		update p_product_info set name=#{name,jdbcType=VARCHAR},display_name=#{displayname,jdbcType=VARCHAR},stock=#{stock,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},price=#{price,jdbcType=VARCHAR},url=#{url,jdbcType=VARCHAR},discribe=#{discribe,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR},update_time=#{updatetime,jdbcType=VARCHAR} where id=#{id}
+		update p_product_info set name=#{name,jdbcType=VARCHAR},display_name=#{displayName,jdbcType=VARCHAR},stock=#{stock,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},price=#{price,jdbcType=VARCHAR},url=#{url,jdbcType=VARCHAR},discribe=#{discribe,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR},update_time=#{updateTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
@@ -79,8 +79,8 @@
 	<if test="name != null  and name != '' ">
 		name=#{name},
 	</if>
-	<if test="displayname != null  and displayname != '' ">
-		display_name=#{displayname},
+	<if test="displayName != null  and displayName != '' ">
+		display_name=#{displayName},
 	</if>
 	<if test="stock != null  ">
 		stock=#{stock},
@@ -97,11 +97,11 @@
 	<if test="discribe != null  and discribe != '' ">
 		discribe=#{discribe},
 	</if>
-	<if test="createtime != null  and createtime != '' ">
-		create_time=#{createtime},
+	<if test="createTime != null  and createTime != '' ">
+		create_time=#{createTime},
 	</if>
-	<if test="updatetime != null  and updatetime != '' ">
-		update_time=#{updatetime},
+	<if test="updateTime != null  and updateTime != '' ">
+		update_time=#{updateTime},
 	</if>
 	</trim> where id=#{id}
 	</update>

@@ -6,12 +6,12 @@
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdPlan" >
 				<result column="id" property="id"/>
-				<result column="plan_name" property="planname"/>
-				<result column="plan_desc" property="plandesc"/>
+				<result column="plan_name" property="planName"/>
+				<result column="plan_desc" property="planDesc"/>
 				<result column="status" property="status"/>
-				<result column="start_time" property="starttime"/>
-				<result column="end_time" property="endtime"/>
-				<result column="create_time" property="createtime"/>
+				<result column="start_time" property="startTime"/>
+				<result column="end_time" property="endTime"/>
+				<result column="create_time" property="createTime"/>
 			</resultMap>
 
 	<!-- p_product_plan table all fields -->
@@ -27,23 +27,23 @@
 												<if test="id != null and id != ''" >
 				and id =  #{id}
 			</if>
-												<if test="planname != null and planname != ''" >
-				and plan_name =  #{planname}
+												<if test="planName != null and planName != ''" >
+				and plan_name =  #{planName}
 			</if>
-												<if test="plandesc != null and plandesc != ''" >
-				and plan_desc =  #{plandesc}
+												<if test="planDesc != null and planDesc != ''" >
+				and plan_desc =  #{planDesc}
 			</if>
 												<if test="status != null and status != ''" >
 				and status =  #{status}
 			</if>
-												<if test="starttime != null and starttime != ''" >
-				and start_time =  #{starttime}
+												<if test="startTime != null and startTime != ''" >
+				and start_time =  #{startTime}
 			</if>
-												<if test="endtime != null and endtime != ''" >
-				and end_time =  #{endtime}
+												<if test="endTime != null and endTime != ''" >
+				and end_time =  #{endTime}
 			</if>
-												<if test="createtime != null and createtime != ''" >
-				and create_time =  #{createtime}
+												<if test="createTime != null and createTime != ''" >
+				and create_time =  #{createTime}
 			</if>
 					</trim>
 	</sql>
@@ -52,35 +52,35 @@
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
 		insert into p_product_plan(id,plan_name,plan_desc,status,start_time,end_time,create_time)
- values(#{id,jdbcType=VARCHAR},#{planname,jdbcType=VARCHAR},#{plandesc,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{starttime,jdbcType=VARCHAR},#{endtime,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
+ values(#{id,jdbcType=VARCHAR},#{planName,jdbcType=VARCHAR},#{planDesc,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{startTime,jdbcType=VARCHAR},#{endTime,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
-		update p_product_plan set plan_name=#{planname,jdbcType=VARCHAR},plan_desc=#{plandesc,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},start_time=#{starttime,jdbcType=VARCHAR},end_time=#{endtime,jdbcType=VARCHAR},create_time=#{createtime,jdbcType=VARCHAR} where id=#{id}
+		update p_product_plan set plan_name=#{planName,jdbcType=VARCHAR},plan_desc=#{planDesc,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},start_time=#{startTime,jdbcType=VARCHAR},end_time=#{endTime,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdPlan" >
 		update p_product_plan set 
 	<trim  suffixOverrides="," >
-	<if test="planname != null  and planname != '' ">
-		plan_name=#{planname},
+	<if test="planName != null  and planName != '' ">
+		plan_name=#{planName},
 	</if>
-	<if test="plandesc != null  and plandesc != '' ">
-		plan_desc=#{plandesc},
+	<if test="planDesc != null  and planDesc != '' ">
+		plan_desc=#{planDesc},
 	</if>
 	<if test="status != null  and status != '' ">
 		status=#{status},
 	</if>
-	<if test="starttime != null  and starttime != '' ">
-		start_time=#{starttime},
+	<if test="startTime != null  and startTime != '' ">
+		start_time=#{startTime},
 	</if>
-	<if test="endtime != null  and endtime != '' ">
-		end_time=#{endtime},
+	<if test="endTime != null  and endTime != '' ">
+		end_time=#{endTime},
 	</if>
-	<if test="createtime != null  and createtime != '' ">
-		create_time=#{createtime},
+	<if test="createTime != null  and createTime != '' ">
+		create_time=#{createTime},
 	</if>
 	</trim> where id=#{id}
 	</update>
