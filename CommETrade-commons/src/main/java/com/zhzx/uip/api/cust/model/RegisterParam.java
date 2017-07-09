@@ -5,7 +5,8 @@ import java.io.Serializable;
 /**
  * Created by fu on 2017/7/8.
  */
-public class RegisterParam implements Serializable{
+public class
+RegisterParam implements Serializable{
 
     private static final long serialVersionUID = 520867985851171024L;
     /**
@@ -31,22 +32,22 @@ public class RegisterParam implements Serializable{
     /**
      *头像图片
      */
-    private String faceurl;
+    private String faceUrl;
 
     /**
      *昵称
      */
-    private String nickname;
+    private String nickName;
 
     /**
      *证件号码
      */
-    private String idcard;
+    private String idCard;
 
     /**
      *证件类型
      */
-    private String idcardtype;
+    private String idCardType;
 
     /**
      *电子邮箱
@@ -61,12 +62,12 @@ public class RegisterParam implements Serializable{
     /**
      *qq号
      */
-    private String qqno;
+    private String qqNo;
 
     /**
      *微信号
      */
-    private String wechatno;
+    private String wechatNo;
 
     public Integer getSmsCode() {
         return smsCode;
@@ -100,36 +101,36 @@ public class RegisterParam implements Serializable{
         this.password = password;
     }
 
-    public String getFaceurl() {
-        return faceurl;
+    public String getFaceUrl() {
+        return faceUrl;
     }
 
-    public void setFaceurl(String faceurl) {
-        this.faceurl = faceurl;
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public String getIdcard() {
-        return idcard;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
-    public String getIdcardtype() {
-        return idcardtype;
+    public String getIdCardType() {
+        return idCardType;
     }
 
-    public void setIdcardtype(String idcardtype) {
-        this.idcardtype = idcardtype;
+    public void setIdCardType(String idCardType) {
+        this.idCardType = idCardType;
     }
 
     public String getEmail() {
@@ -148,19 +149,19 @@ public class RegisterParam implements Serializable{
         this.address = address;
     }
 
-    public String getQqno() {
-        return qqno;
+    public String getQqNo() {
+        return qqNo;
     }
 
-    public void setQqno(String qqno) {
-        this.qqno = qqno;
+    public void setQqNo(String qqNo) {
+        this.qqNo = qqNo;
     }
 
-    public String getWechatno() {
-        return wechatno;
+    public String getWechatNo() {
+        return wechatNo;
     }
 
-    public void setWechatno(String wechatno) {
-        this.wechatno = wechatno;
+    public void setWechatNo(String wechatNo) {
+        this.wechatNo = wechatNo;
     }
 }

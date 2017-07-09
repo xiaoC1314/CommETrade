@@ -199,5 +199,11 @@
 		from c_cust_info where phone = #{phone} and is_delete = 0
 	</select>
 
+	<select id="selectByPhoneForUpdate"  resultMap="BaseResultMap" parameterType="long">
+		select <include refid="Base_Column_List" />
+		from c_cust_info where phone = #{phone} and is_delete = 0
+		for update
+	</select>
+
 
 </mapper>   
