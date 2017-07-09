@@ -10,8 +10,8 @@ public enum ErrorEnum {
 /********************************查询错误信息*****************************************/
 	COMM_DATE_FORMAT_ERR("UIP_COMM_DATE_FORMAT_ERR_0001", "日期参数格式错误"),
 	COMM_DATE_NO_BLANK_ERR("UIP_COMM_NO_BLANK_ERR_0001", "日期参数不能为空"),
-	COMM_PARAM_NO_FUNDCODE_ERR("COMM_PARAM_NO_FUNDCODE_ERR_0001", "产品代码不能为空"), ;
-
+	COMM_PARAM_NO_FUNDCODE_ERR("COMM_PARAM_NO_FUNDCODE_ERR_0001", "产品代码不能为空"),
+	COMM_PHONE_EXIST_ERR("COMM_PHONE_EXIST_ERR", "手机号码已注册"), ;
 
 	private String errorCode;
 	private String errorMsg;

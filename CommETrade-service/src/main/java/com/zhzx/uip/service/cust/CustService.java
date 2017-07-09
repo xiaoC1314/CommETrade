@@ -14,4 +14,12 @@ public interface CustService {
 	 */
 	public ResponseVo getCustInfoByphone(CustInfoPara inPara);
 
+
+	/**
+	 * 检测手机号码是否已注册
+	 * @param phone
+	 * @return
+	 */
+	boolean checkPhone(String phone);
+
 }

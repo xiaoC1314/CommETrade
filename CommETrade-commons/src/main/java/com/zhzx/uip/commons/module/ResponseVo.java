@@ -1,5 +1,7 @@
 package com.zhzx.uip.commons.module;
 
+import com.zhzx.uip.commons.enums.ErrorEnum;
+
 import java.io.Serializable;
 
 public class ResponseVo implements Serializable {
@@ -44,6 +46,13 @@ public class ResponseVo implements Serializable {
 		this.code = code;
 		this.data = data;
 		this.recordsize = recordSize;
+	}
+
+	public ResponseVo(Boolean success, ErrorEnum errorEnum, Object data) {
+		this.success = success;
+		this.message = errorEnum.getErrorMsg();
+		this.code = errorEnum.getErrorCode();
+		this.data = data;
 	}
 
 	public Boolean getSuccess() {

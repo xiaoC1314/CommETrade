@@ -46,4 +46,11 @@ public class CustServiceImpl implements CustService {
 		}
 		return responseVo;
 	}
+
+	@Override
+	public boolean checkPhone(String phone) {
+		long phoneNo = Long.parseLong(phone);
+		CustInfo custInfo = (CustInfo)custInfoService.getMapper().selectByPhone(phoneNo);
+		return custInfo != null;
+	}
 }

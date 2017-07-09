@@ -8,6 +8,7 @@ import com.zhzx.dao.mapper.BaseMapper;
  *
  */
 public interface CustInfoMapper<T> extends BaseMapper<T> {
-	
-	
+
+
+    T selectByPhone(long phone);
 }
