@@ -4,6 +4,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class StringUtil {
@@ -160,5 +162,17 @@ public class StringUtil {
 	 */
 	public static String formatterString(String arg, Object... objects) {
 		return MessageFormat.format(arg, objects);
+	}
+
+
+	/**
+	 * 判断是否为数字
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNumeric(String str){
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher isNum = pattern.matcher(str);
+		return isNum.matches();
 	}
 }
