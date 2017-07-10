@@ -37,7 +37,7 @@
         <mapper resource="mapper/LogLoginMapper.xml"/>
         <mapper resource="mapper/ProdCommentMapper.xml"/>
         <mapper resource="mapper/ProdInfoMapper.xml"/>
-        <mapper resource="mapper/ProdPlanMapper.xml"/>s
+        <mapper resource="mapper/ProdPlanMapper.xml"/>
         <mapper resource="mapper/ProdPlanDetailMapper.xml"/>
         <mapper resource="mapper/ProdPropertyMapper.xml"/>
 	</mappers>
