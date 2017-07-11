@@ -38,7 +38,7 @@ public class CustServiceImpl implements CustService {
 		try {
             CustInfoModel model = new CustInfoModel();
             model.setPhone(inPara.getPhone());
-            //listret = custInfoService.selectByModel(model);
+            listret = custInfoService.selectByModel(model);
 			if (CollectionUtils.isNotEmpty(listret)) {
 				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listret);
 			} else {
