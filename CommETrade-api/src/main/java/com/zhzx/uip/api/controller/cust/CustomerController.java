@@ -6,6 +6,7 @@ import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.commons.utils.ResponseFactory;
 import com.zhzx.uip.commons.utils.StringUtil;
+import com.zhzx.uip.manager.cust.CustManager;
 import com.zhzx.uip.service.cust.CustService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class CustomerController extends BaseController{
     @Autowired
     CustService custService;
 
+    @Autowired
+    CustManager custManager;
+
     @ResponseBody
     @RequestMapping("check_phone")
     public ResponseVo checkPhone(String phone){
@@ -35,12 +39,7 @@ public class CustomerController extends BaseController{
             errorLogger.error("[phone={}]参数校验失败:{}",new Object[]{phone,e.getMessage()});
             return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
-        if (custService.checkPhone(phone)){
-            responseVo = ResponseFactory.buildFailResponse(ErrorEnum.COMM_PHONE_EXIST_ERR);
-        }else {
-            responseVo = ResponseFactory.buildSuccessResponse(true);
-        }
-        return responseVo;
+        return custService.checkPhone(phone);
     }
 
     @ResponseBody
@@ -48,7 +47,7 @@ public class CustomerController extends BaseController{
     public ResponseVo register(RegisterParam param) {
         ResponseVo responseVo;
         try {
-            Assert.isTrue(custService.checkPhone(param.getPhone()), "手机号码已注册");
+            Assert.isTrue(custService.checkPhone(param.getPhone()).getSuccess(), "手机号码已注册");
             Assert.isTrue(param.getPhone().length() == 11, "手机号码格式不正确");
             Assert.isTrue(!StringUtil.isEmptyString(param.getPassword()),"密码不能为空");
             Assert.notNull(param.getSmsCode(),"验证码不能为空");
@@ -78,6 +77,28 @@ public class CustomerController extends BaseController{
                     e.getMessage(),false);
         }
         return custService.profileUpdate(param);
+    }
+
+    /**
+     *
+     * @param phone
+     * @param password
+     * @param type 1,密码登录；2.短信验证码登录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("login")
+    public ResponseVo login(String phone, String password, Integer type) {
+        try {
+            Assert.isTrue(!StringUtil.isEmptyString(phone),"手机号码不能为空");
+            Assert.notNull(type,"登录类型不能为空");
+            Assert.isTrue(!StringUtil.isEmptyString(password),type==1?"密码不能为空":"短信验证码不能为空");
+        }catch (IllegalArgumentException e){
+            errorLogger.error("[phone={},password={},type={}]参数校验失败:{}",new Object[]{phone,password,type,e.getMessage()});
+            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
+                    e.getMessage(),false);
+        }
+        return  custService.login(phone,password,type);
     }
 
     @ResponseBody
