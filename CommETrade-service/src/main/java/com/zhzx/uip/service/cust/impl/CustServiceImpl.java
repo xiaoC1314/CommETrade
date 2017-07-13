@@ -8,7 +8,7 @@ import com.zhzx.uip.api.cust.model.RegisterParam;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.commons.utils.ResponseFactory;
-import com.zhzx.uip.manager.cust.CustManager;
+import com.zhzx.uip.service.manager.cust.CustManager;
 import com.zhzx.uip.service.cust.CustService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

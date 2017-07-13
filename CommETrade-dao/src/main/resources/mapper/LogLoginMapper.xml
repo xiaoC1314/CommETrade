@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhzx.dao.mapper.prod.LogLoginMapper" >
+<mapper namespace="com.zhzx.dao.mapper.LogLoginMapper" >
 	<!-- Result Map-->
 	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.LogLogin" >
 				<result column="id" property="id"/>
@@ -54,18 +54,18 @@
 
 
 	<!-- 插入记录 -->
-	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.LogLogin" >
+	<insert id="insert" parameterType="com.zhzx.dao.bean.LogLogin" >
 		insert into log_login(id,cust_no,user_id,client,ip,mobile,flag,createtime)
  values(#{id,jdbcType=VARCHAR},#{custNo,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{client,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
-	<update id="update" parameterType="com.zhzx.dao.bean.prod.LogLogin" >
+	<update id="update" parameterType="com.zhzx.dao.bean.LogLogin" >
 		update log_login set cust_no=#{custNo,jdbcType=VARCHAR},user_id=#{userId,jdbcType=VARCHAR},client=#{client,jdbcType=VARCHAR},ip=#{ip,jdbcType=VARCHAR},mobile=#{mobile,jdbcType=VARCHAR},flag=#{flag,jdbcType=VARCHAR},createtime=#{createtime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
-	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.LogLogin" >
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.LogLogin" >
 		update log_login set 
 	<trim  suffixOverrides="," >
 	<if test="custNo != null  and custNo != '' ">
@@ -93,7 +93,7 @@
 	</update>
 
 	<!-- 逻辑删除，将deleted 改成 1 -->
-	<update id="delete" parameterType="com.zhzx.dao.bean.prod.LogLogin">
+	<update id="delete" parameterType="com.zhzx.dao.bean.LogLogin">
 		delete 	 from log_login where id = #{id}
 	</update>
 
@@ -104,7 +104,7 @@
 	</select>
 
 	<!-- 登陆日志 列表总数-->
-	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.LogLoginModel">
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.LogLoginModel">
 		select count(1) from log_login
 		<include refid="Example_Where_Clause"/>
 		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
@@ -113,7 +113,7 @@
 	</select>
 
 	<!-- 根据id查询登陆日志 -->
-	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.LogLoginModel">
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.LogLoginModel">
 		select
 		<include refid="Base_Column_List"/>
 		from log_login
