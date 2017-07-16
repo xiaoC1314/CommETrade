@@ -1,10 +1,12 @@
 package com.zhzx.uip.service.manager.prod;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.common.Navigate;
 import com.zhzx.dao.model.prod.ProdCommentModel;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.model.prod.ProdPlanModel;
 import com.zhzx.dao.model.prod.ProdPropertyModel;
+import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public interface ManagerService {
 	 * @param inPara
 	 * @return
 	 */
-	public ResponseVo getProductList(ProdInfoModel inPara);
+	public ResponseToMa getProductList(ProdInfoModel inPara, Navigate navig);
 
 	/**
 	 * 添加商品信息
@@ -59,4 +61,19 @@ public interface ManagerService {
 	 * @return
 	 */
 	public ResponseVo serchProductList(ProdInfoModel inPara);
+
+	/**
+	 * 删除商品
+	 * @param ids
+	 * @return
+	 */
+	public ResponseVo delProductInfo(String ids);
+
+	/**
+	 * 修改商品信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyProductInfo(ProdInfo inPara);
+
 }

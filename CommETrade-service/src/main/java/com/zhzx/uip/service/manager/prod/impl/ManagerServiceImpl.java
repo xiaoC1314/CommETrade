@@ -8,7 +8,9 @@ import com.zhzx.dao.model.prod.*;
 import com.zhzx.dao.service.BdictionaryService;
 import com.zhzx.dao.service.prod.*;
 import com.zhzx.uip.commons.enums.ErrorEnum;
+import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
+import com.zhzx.uip.commons.utils.JSONUtils;
 import com.zhzx.uip.service.manager.prod.ManagerService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -16,7 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -48,21 +52,36 @@ public class ManagerServiceImpl implements ManagerService {
 	 * @return
      */
 	@Override
-	public ResponseVo getProductList(ProdInfoModel inPara){
+	public ResponseToMa getProductList(ProdInfoModel inPara, Navigate navig){
 		List<ProdInfo> listProds = null;
-		ResponseVo responseVo = null;
+		ResponseToMa resp = null;
 		try {
+			int count = prodInfoService.getMapper().selectByModelCount(inPara);
+			inPara.setNavigate(navig);
+//			Map selectMap = new HashMap();
+//			selectMap.put("ProdInfoModel",inPara);
+//			selectMap.put()
+//			selectByMap
 			listProds = queryProductList(inPara);
 			if (CollectionUtils.isNotEmpty(listProds)) {
-				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listProds);
+//				StringBuffer resp = new StringBuffer("{\"total\":");
+//				resp.append(listProds.size());
+//				resp.append(",\"rows\":");
+//				resp.append(JSONUtils.jsonEncode(listProds));
+//				resp.append("}");
+				resp = new ResponseToMa(count,listProds);
+//				responseVo = resp.toString();
 			} else {
-				responseVo = new ResponseVo(false, ErrorEnum.COMM_EMPTY_DATA.getErrorMsg(), ErrorEnum.COMM_EMPTY_DATA.getErrorCode());
+//				responseVo = "{\"total\":0,\"rows\":[]}";
+				resp = new ResponseToMa(0,null);
 			}
+
 		}catch (Exception e){
 			logger.error("查询商品基本信息失败："+e.getMessage());
-			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+//			responseVo = "{\"total\":0,\"rows\":[]}";
+			resp = new ResponseToMa(0,null);
 		}
-		return responseVo;
+		return resp;
 	}
 
 	/**
@@ -266,4 +285,40 @@ public class ManagerServiceImpl implements ManagerService {
 		return responseVo;
 	}
 
+	/**
+	 * 删除商品
+	 * @param ids
+	 * @return
+	 */
+	public ResponseVo delProductInfo(String  ids){
+		ResponseVo responseVo = null;
+		try {
+			String[] idArray = ids.split(",");
+			for (String id:idArray) {
+				prodInfoService.getMapper().delete(id);
+			}
+		}catch (Exception e){
+			logger.error("删除商品基本信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改商品信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyProductInfo(ProdInfo inPara){
+		ResponseVo responseVo = null;
+		try {
+			prodInfoService.getMapper().update(inPara);
+		}catch (Exception e){
+			logger.error("更新商品基本信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
 }

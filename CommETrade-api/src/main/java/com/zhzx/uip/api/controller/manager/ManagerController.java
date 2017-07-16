@@ -1,11 +1,18 @@
 package com.zhzx.uip.api.controller.manager;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.common.Navigate;
+import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.uip.api.controller.BaseController;
+import com.zhzx.uip.api.controller.product.ProductController;
+import com.zhzx.uip.commons.module.ResponseToMa;
+import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.manager.prod.ManagerService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.naming.ldap.InitialLdapContext;
@@ -19,6 +26,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/console")
 public class ManagerController extends BaseController {
+    private final static Logger log= Logger.getLogger(ProductController.class);
 
     @Autowired
     private ManagerService managerService;
@@ -65,6 +73,83 @@ public class ManagerController extends BaseController {
         return mav;
     }
 
+    /**
+     *
+     * <br>
+     * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("addprodinfoajax")
+    public ResponseVo addProdInfoAjax(HttpServletRequest request, ProdInfo inPara){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            resp = managerService.addProductList(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息修改<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("modifyprodinfoajax")
+    public ResponseVo modifyProdInfoAjax(HttpServletRequest request, ProdInfo inPara){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            resp = managerService.modifyProductInfo(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>获取当前社区商品列表<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("prodlist")
+    public ResponseToMa list(ProdInfoModel inPara,String page,String rows){
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if(page!=null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if(rows!=null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+        try{
+            resp = managerService.getProductList(inPara, navig);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>添加商品初始化页面<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
     @RequestMapping("addprodinit")
     public ModelAndView addProdInfoInt(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -324,6 +409,28 @@ public class ManagerController extends BaseController {
 
         ModelAndView mav = new ModelAndView("/login/login");
         return mav;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("delprodinfoajax")
+    public ResponseVo delProdinfoAjax(HttpServletRequest request, String ids){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            resp = managerService.delProductInfo(ids);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
     }
 
 }
