@@ -34,7 +34,7 @@
 </head>
 <body>
 <table align="center" cellpadding="0" cellspacing="0" class="topbg"><tr>
-    <td class="top"><img src="/images/top-logo.png" width="425" height="32" /></td>
+    <td class="top"><img src="./images/top.jpg" width="425" height="32" /></td>
   </tr>
 </table>
 
