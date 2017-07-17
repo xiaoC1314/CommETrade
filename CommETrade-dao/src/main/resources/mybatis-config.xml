@@ -39,5 +39,6 @@
         <mapper resource="mapper/ProdInfoMapper.xml"/>
         <mapper resource="mapper/ProdPlanMapper.xml"/>
         <mapper resource="mapper/ProdPlanDetailMapper.xml"/>
+        <mapper resource="mapper/ProdPropertyMapper.xml"/>
 	</mappers>
 </configuration>

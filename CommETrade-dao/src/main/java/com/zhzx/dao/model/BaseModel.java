@@ -1,7 +1,7 @@
 package com.zhzx.dao.model;
 
 
-import com.zhzx.dao.common.Navigate;
+import com.zhzx.dao.support.Navigate;
 
 import java.util.HashMap;
 

@@ -1,0 +1,1 @@
+ALTER TABLE `CommETrade`.`p_product_property` CHANGE COLUMN `key` `prop_key` varchar(16) DEFAULT NULL COMMENT '属性key', CHANGE COLUMN `name` `prop_name` varchar(10) DEFAULT NULL COMMENT '属性名称', CHANGE COLUMN `value` `prop_value` varchar(200) DEFAULT NULL COMMENT '属性值', CHANGE COLUMN `discribe` `prop_discribe` varchar(255) DEFAULT NULL COMMENT '属性描述';

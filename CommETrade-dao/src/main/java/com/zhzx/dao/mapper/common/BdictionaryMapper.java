@@ -1,4 +1,6 @@
-package com.zhzx.dao.mapper;
+package com.zhzx.dao.mapper.common;
+
+import com.zhzx.dao.mapper.BaseMapper;
 
 /**
  * Bdictionary Mapper

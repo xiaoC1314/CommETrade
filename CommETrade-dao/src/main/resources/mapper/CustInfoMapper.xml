@@ -193,16 +193,22 @@
 		</if>
 	</select>
 
-	<!-- 客户基本信息表列表 -->
-	<select id="selectByPhone"  resultMap="BaseResultMap" parameterType="long">
-		select <include refid="Base_Column_List" />
-		from c_cust_info where phone = #{phone} and is_delete = 0
-	</select>
-
-	<select id="selectByPhoneForUpdate"  resultMap="BaseResultMap" parameterType="long">
-		select <include refid="Base_Column_List" />
-		from c_cust_info where phone = #{phone} and is_delete = 0
-		for update
+	<!-- 分页查询客户信息-->
+	<select id="selectByModelAsPage" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.cust.CustInfoModel">
+		select
+		<include refid="Base_Column_List"/>
+		from (select rownum r,<include refid="Base_Column_List"/> from
+				(select * from c_cust_info
+					<include refid="Example_Where_Clause"/>
+					<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+					  ${navigate.otherCondition}
+					</if>
+					<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+					  ${navigate.orderCondition}
+					</if>
+				)
+		)  where 1=1
+		${navigate.mysqlQueryCondition}
 	</select>
 
 

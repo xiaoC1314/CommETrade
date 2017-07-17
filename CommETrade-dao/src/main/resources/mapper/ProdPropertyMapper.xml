@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhzx.dao.mapper.prod.ProdPropertyMapper" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.zhzx.dao.bean.prod.ProdProperty" >
+				<result column="id" property="id"/>
+				<result column="prod_no" property="prodNo"/>
+				<result column="prop_key" property="propKey"/>
+				<result column="prop_name" property="propName"/>
+				<result column="prop_value" property="propValue"/>
+				<result column="prop_discribe" property="propDiscribe"/>
+				<result column="extend" property="extend"/>
+				<result column="status" property="status"/>
+			</resultMap>
+
+	<!-- p_product_property table all fields -->
+	<sql id="Base_Column_List" >
+		id,prod_no,prop_key,prop_name,prop_value,prop_discribe,extend,status
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim  suffixOverrides="," >
+												<if test="id != null and id != ''" >
+				and id =  #{id}
+			</if>
+												<if test="prodNo != null and prodNo != ''" >
+				and prod_no =  #{prodNo}
+			</if>
+												<if test="propKey != null and propKey != ''" >
+				and prop_key =  #{propKey}
+			</if>
+												<if test="propName != null and propName != ''" >
+				and prop_name =  #{propName}
+			</if>
+												<if test="propValue != null and propValue != ''" >
+				and prop_value =  #{propValue}
+			</if>
+												<if test="propDiscribe != null and propDiscribe != ''" >
+				and prop_discribe =  #{propDiscribe}
+			</if>
+												<if test="extend != null and extend != ''" >
+				and extend =  #{extend}
+			</if>
+												<if test="status != null and status != ''" >
+				and status =  #{status}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdProperty" >
+		insert into p_product_property(id,prod_no,prop_key,prop_name,prop_value,prop_discribe,extend,status)
+ values(#{id,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{propKey,jdbcType=VARCHAR},#{propName,jdbcType=VARCHAR},#{propValue,jdbcType=VARCHAR},#{propDiscribe,jdbcType=VARCHAR},#{extend,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 根据id，修改记录-->
+	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdProperty" >
+		update p_product_property set prod_no=#{prodNo,jdbcType=VARCHAR},prop_key=#{propKey,jdbcType=VARCHAR},prop_name=#{propName,jdbcType=VARCHAR},prop_value=#{propValue,jdbcType=VARCHAR},prop_discribe=#{propDiscribe,jdbcType=VARCHAR},extend=#{extend,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<!--  -->
+	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.prod.ProdProperty" >
+		update p_product_property set 
+	<trim  suffixOverrides="," >
+	<if test="prodNo != null  and prodNo != '' ">
+		prod_no=#{prodNo},
+	</if>
+	<if test="propKey != null  and propKey != '' ">
+		prop_key=#{propKey},
+	</if>
+	<if test="propName != null  and propName != '' ">
+		prop_name=#{propName},
+	</if>
+	<if test="propValue != null  and propValue != '' ">
+		prop_value=#{propValue},
+	</if>
+	<if test="propDiscribe != null  and propDiscribe != '' ">
+		prop_discribe=#{propDiscribe},
+	</if>
+	<if test="extend != null  and extend != '' ">
+		extend=#{extend},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status},
+	</if>
+	</trim> where id=#{id}
+	</update>
+
+	<!-- 逻辑删除，将deleted 改成 1 -->
+	<update id="delete" parameterType="com.zhzx.dao.bean.prod.ProdProperty">
+		delete 	 from p_product_property where id = #{id}
+	</update>
+
+	<!-- 产品属性信息列表 -->
+	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> 
+	 from p_product_property where id = #{id}
+	</select>
+
+	<!-- 产品属性信息 列表总数-->
+	<select id="selectByModelCount" resultType="java.lang.Integer"  parameterType="com.zhzx.dao.model.prod.ProdPropertyModel">
+		select count(1) from p_product_property
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+	</select>
+
+	<!-- 根据id查询产品属性信息 -->
+	<select id="selectByModel" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdPropertyModel">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_property
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
+	</select>
+
+
+	<!-- 产品属性信息 列表总数-->
+	<select id="selectByMapCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select count(1) from p_product_property
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 根据id查询产品属性信息 -->
+	<select id="selectByMap" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_property
+		<include refid="Example_Where_Clause"/>
+		<if test="queryCondition != null and queryCondition != ''" >
+			${queryCondition}
+		</if>
+		<if test="orderCondition != null and queryCondition != ''" >
+			order by ${orderCondition}
+		</if>
+	</select>
+
+	<!-- 分页查询产品属性信息-->
+	<select id="selectByModelAsPage" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdPropertyModel">
+		select
+		<include refid="Base_Column_List"/>
+		from (select rownum r,<include refid="Base_Column_List"/> from
+				(select * from p_product_property
+					<include refid="Example_Where_Clause"/>
+					<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+					  ${navigate.otherCondition}
+					</if>
+					<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+					  ${navigate.orderCondition}
+					</if>
+				)
+		)  where 1=1
+		${navigate.mysqlQueryCondition}
+	</select>
+
+
+</mapper>   

@@ -1,4 +1,4 @@
-package com.zhzx.dao.common;
+package com.zhzx.dao.support;
 
 import com.zhzx.uip.commons.utils.DESUtils;
 import org.springframework.beans.factory.FactoryBean;
@@ -28,15 +28,17 @@ public class PropertiesEncryptFactoryBean implements FactoryBean {
     public void setProperties(Properties inProperties) {  
         this.properties = inProperties;  
         String originalUsername = properties.getProperty("user");  
-        String originalPassword = properties.getProperty("password");  
-        if (originalUsername != null){  
+        String originalPassword = properties.getProperty("password");
+        properties.put("user", originalUsername);
+        /*if (originalUsername != null){
             String newUsername = deEncryptUsername(originalUsername);  
             properties.put("user", newUsername);  
-        }  
-        if (originalPassword != null){  
-            String newPassword = deEncryptPassword(originalPassword);  
-            properties.put("password", newPassword);  
-        }  
+        }*/
+        properties.put("password", originalPassword);
+        /*if (originalPassword != null){
+            String newPassword = deEncryptPassword(originalPassword);
+            properties.put("password", newPassword);
+        }  */
     }  
       
     private String deEncryptUsername(String originalUsername){  
