@@ -1,16 +1,15 @@
 package com.zhzx.uip.service.manager.prod.impl;
 
-import com.zhzx.dao.bean.Bdictionary;
+import com.zhzx.dao.bean.common.Bdictionary;
 import com.zhzx.dao.bean.prod.*;
-import com.zhzx.dao.common.Navigate;
-import com.zhzx.dao.model.BdictionaryModel;
+import com.zhzx.dao.model.common.BdictionaryModel;
+import com.zhzx.dao.service.common.BdictionaryService;
+import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.*;
-import com.zhzx.dao.service.BdictionaryService;
 import com.zhzx.dao.service.prod.*;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
-import com.zhzx.uip.commons.utils.JSONUtils;
 import com.zhzx.uip.service.manager.prod.ManagerService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -18,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -163,7 +160,7 @@ public class ManagerServiceImpl implements ManagerService {
 		try {
 			BdictionaryModel model = new BdictionaryModel();
 			model.setCaption(prodType);
-			listret = bdictionaryService.getMapper().selectByModel(model);
+			listret = bdictionaryService.selectByModel(model);
 			if (CollectionUtils.isNotEmpty(listret)) {
 				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listret);
 			} else {

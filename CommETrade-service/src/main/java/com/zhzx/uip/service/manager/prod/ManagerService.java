@@ -1,8 +1,7 @@
 package com.zhzx.uip.service.manager.prod;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
-import com.zhzx.dao.common.Navigate;
-import com.zhzx.dao.model.prod.ProdCommentModel;
+import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.model.prod.ProdPlanModel;
 import com.zhzx.dao.model.prod.ProdPropertyModel;

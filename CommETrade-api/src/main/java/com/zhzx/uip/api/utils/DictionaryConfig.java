@@ -1,8 +1,8 @@
 package com.zhzx.uip.api.utils;
 
-import com.zhzx.dao.bean.Bdictionary;
-import com.zhzx.dao.model.BdictionaryModel;
-import com.zhzx.dao.service.BdictionaryService;
+import com.zhzx.dao.bean.common.Bdictionary;
+import com.zhzx.dao.model.common.BdictionaryModel;
+import com.zhzx.dao.service.common.BdictionaryService;
 import com.zhzx.uip.commons.utils.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

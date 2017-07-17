@@ -1,13 +1,12 @@
 package com.zhzx.uip.service.prod.impl;
 
-import com.zhzx.dao.bean.Bdictionary;
+import com.zhzx.dao.bean.common.Bdictionary;
 import com.zhzx.dao.bean.prod.*;
-import com.zhzx.dao.common.Navigate;
-import com.zhzx.dao.model.BdictionaryModel;
+import com.zhzx.dao.model.common.BdictionaryModel;
+import com.zhzx.dao.service.common.BdictionaryService;
+import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.*;
-import com.zhzx.dao.service.BdictionaryService;
 import com.zhzx.dao.service.prod.*;
-import com.zhzx.uip.api.cust.model.RegisterParam;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.prod.ProdQueryService;

@@ -35,7 +35,7 @@
         <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/> -->
 	</bean>
 
-	<bean id="dataSourceProperties" class="com.zhzx.dao.common.PropertiesEncryptFactoryBean">
+	<bean id="dataSourceProperties" class="com.zhzx.dao.support.PropertiesEncryptFactoryBean">
 		<property name="properties">
 			<props>
 				<prop key="user">${jdbc.username}</prop>

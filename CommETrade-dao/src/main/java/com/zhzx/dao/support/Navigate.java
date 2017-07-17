@@ -1,4 +1,4 @@
-package com.zhzx.dao.common;
+package com.zhzx.dao.support;
 
 import java.util.ArrayList;
 

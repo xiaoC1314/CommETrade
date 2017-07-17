@@ -1,7 +1,7 @@
 package com.zhzx.uip.api.controller.manager;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
-import com.zhzx.dao.common.Navigate;
+import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.controller.product.ProductController;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.ldap.InitialLdapContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

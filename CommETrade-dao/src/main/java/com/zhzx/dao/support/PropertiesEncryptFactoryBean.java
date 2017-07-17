@@ -1,4 +1,4 @@
-package com.zhzx.dao.common;
+package com.zhzx.dao.support;
 
 import com.zhzx.uip.commons.utils.DESUtils;
 import org.springframework.beans.factory.FactoryBean;

@@ -1,10 +1,12 @@
-package com.zhzx.dao.service;
+package com.zhzx.dao.service.common;
 
-import com.zhzx.dao.mapper.LogLoginMapper;
+import com.zhzx.dao.service.BaseService;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.zhzx.dao.mapper.common.LogLoginMapper;
 
 /**
  * 
