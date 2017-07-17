@@ -91,6 +91,9 @@ public class CustServiceImpl implements CustService {
 			if (custInfo == null){
 				return ResponseFactory.buildFailResponse(ErrorEnum.COMM_USER_NOT_EXIST_ERR);
 			}
+			if (!custInfo.getPassword().equals(param.getPassword())){
+				return ResponseFactory.buildFailResponse(ErrorEnum.COMM_PASSWORD_INCORRECT_ERR);
+			}
 			CustInfo newCust = initRegister(param);
 			newCust.setId(custInfo.getId());
 			custInfoService.getMapper().updateBySelective(newCust);

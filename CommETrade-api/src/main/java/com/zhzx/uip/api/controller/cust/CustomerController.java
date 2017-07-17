@@ -50,6 +50,7 @@ public class CustomerController extends BaseController{
             Assert.isTrue(custService.checkPhone(param.getPhone()).getSuccess(), "手机号码已注册");
             Assert.isTrue(param.getPhone().length() == 11, "手机号码格式不正确");
             Assert.isTrue(!StringUtil.isEmptyString(param.getPassword()),"密码不能为空");
+            Assert.isTrue(param.getPassword().length()>=6 && param.getPassword().length()<=12,"密码长度应在6-12位");
             Assert.notNull(param.getSmsCode(),"验证码不能为空");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},smsCode={}]参数校验失败:{}",new Object[]{param.getPhone(),param.getPassword(),param.getSmsCode(),e.getMessage()});
@@ -108,7 +109,8 @@ public class CustomerController extends BaseController{
             Assert.isTrue(!StringUtil.isEmptyString(phone),"手机号码不能为空");
             Assert.isTrue(!StringUtil.isEmptyString(password),"密码不能为空");
             Assert.isTrue(!StringUtil.isEmptyString(newPassword),"新密码不能为空");
-            Assert.isTrue(password.equals(newPassword),"新旧密码不能相同");
+            Assert.isTrue(!password.equals(newPassword),"新旧密码不能相同");
+            Assert.isTrue(newPassword.length()>=6 && newPassword.length()<=12,"密码长度应在6-12位");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},newPassword={}]参数校验失败:{}",new Object[]{phone,password,newPassword,e.getMessage()});
             return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
