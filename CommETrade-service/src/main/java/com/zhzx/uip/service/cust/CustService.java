@@ -21,7 +21,7 @@ public interface CustService {
 	 * @param phone
 	 * @return
 	 */
-	boolean checkPhone(String phone);
+	ResponseVo checkPhone(String phone);
 
 	/**
 	 * 用户注册
@@ -45,5 +45,14 @@ public interface CustService {
 	 * @return
 	 */
 	ResponseVo changePassword(String phone,String password,String newPassword);
+
+	/**
+	 * 用户登录
+	 * @param phone
+	 * @param password
+	 * @param type
+	 * @return
+	 */
+	ResponseVo login(String phone,String password,Integer type);
 
 }
