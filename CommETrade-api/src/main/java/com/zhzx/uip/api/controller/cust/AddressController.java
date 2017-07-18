@@ -4,6 +4,7 @@ import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.cust.model.AddParam;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
+import com.zhzx.uip.commons.utils.ResponseFactory;
 import com.zhzx.uip.commons.utils.StringUtil;
 import com.zhzx.uip.service.cust.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,7 @@ public class AddressController extends BaseController{
             Assert.isTrue(!StringUtil.isEmptyString(addParam.getReceiverPhone()),"收件人电话不能为空");
         }catch (IllegalArgumentException e){
             errorLogger.error("[addParam ={}]参数校验失败:{}",new Object[]{addParam,e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(),false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
         return  addressService.addAddress(addParam);
     }

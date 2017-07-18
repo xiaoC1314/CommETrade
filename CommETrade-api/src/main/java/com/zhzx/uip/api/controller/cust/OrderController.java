@@ -4,6 +4,7 @@ import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.cust.model.OrderParam;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
+import com.zhzx.uip.commons.utils.ResponseFactory;
 import com.zhzx.uip.commons.utils.StringUtil;
 import com.zhzx.uip.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,7 @@ public class OrderController extends BaseController{
             Assert.isTrue(!StringUtil.isEmptyString(param.getCustNo()),"客户编号不能为空");
         }catch (IllegalArgumentException e) {
             errorLogger.error("[addParam ={}]参数校验失败:{}", new Object[]{param, e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(), false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
         return orderService.createOrder(param);
     }
