@@ -54,7 +54,7 @@
 
 	<!--  -->
 	<update id="updateBySelective" parameterType="com.zhzx.dao.bean.Bdictionary" >
-		update bdictionary set 
+		update bdictionary set
 	<trim  suffixOverrides="," >
 	<if test="keyno != null  and keyno != '' ">
 		keyno=#{keyno},
@@ -78,7 +78,7 @@
 
 	<!-- 字典信息列表 -->
 	<select id="selectById"  resultMap="BaseResultMap" parameterType="java.lang.String">
-		select <include refid="Base_Column_List" /> 
+		select <include refid="Base_Column_List" />
 	 from bdictionary where id = #{id}
 	</select>
 
