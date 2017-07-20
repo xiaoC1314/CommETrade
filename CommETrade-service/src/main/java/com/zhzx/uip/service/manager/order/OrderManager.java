@@ -10,6 +10,7 @@ import com.zhzx.dao.service.order.OrderInfoService;
 import com.zhzx.dao.service.order.ProdListService;
 import com.zhzx.dao.service.prod.ProdInfoService;
 import com.zhzx.uip.api.cust.model.OrderParam;
+import com.zhzx.uip.commons.enums.OrderStatusEnum;
 import com.zhzx.uip.commons.exception.BusinessException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class OrderManager {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setAddNo(param.getAddNo());
         orderInfo.setCustNo(param.getCustNo());
+        orderInfo.setStatus(OrderStatusEnum.INIT.getStatus());
         orderInfoService.insert(orderInfo);
         OrderInfoModel orderInfoModel = new OrderInfoModel();
         BeanUtils.copyProperties(orderInfo,orderInfoModel);
@@ -74,5 +76,20 @@ public class OrderManager {
             prodListService.insert(prodList);
         }
         return order.getId();
+    }
+
+    public OrderInfo queryOrderById(String id) throws Exception {
+        OrderInfo orderInfo = (OrderInfo) orderInfoService.selectById(id);
+        return orderInfo;
+    }
+
+    public List<OrderInfo> queryOrderByPage(String custNo,Integer page,Integer pageSize) throws Exception {
+        OrderInfoModel orderInfoModel = new OrderInfoModel();
+        orderInfoModel.setCustNo(custNo);
+        orderInfoModel.getNavigate().setPageSize(pageSize);
+        orderInfoModel.getNavigate().setPageId(page);
+        orderInfoModel.getNavigate().setOrderField("createTime");
+        List<OrderInfo> orderInfos =  orderInfoService.selectByModel(orderInfoModel);
+        return orderInfos;
     }
 }
