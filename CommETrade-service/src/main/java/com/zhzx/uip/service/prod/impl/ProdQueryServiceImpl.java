@@ -9,6 +9,7 @@ import com.zhzx.dao.model.prod.*;
 import com.zhzx.dao.service.prod.*;
 import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseVo;
+import com.zhzx.uip.commons.utils.BeanUtils;
 import com.zhzx.uip.service.prod.ProdQueryService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -66,7 +67,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	}
 
 	/**
-	 * 获取商品详情
+	 * 获取商品属性
 	 *
 	 * @param inPara
 	 * @return
@@ -90,6 +91,36 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	}
 
 	/**
+	 * 获取商品详情
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo getProdInfoDetail(ProdInfoModel inPara){
+		ProdInfoDetail prodDetailInfo = null;
+		ResponseVo responseVo = null;
+		try {
+			List<ProdInfo> prodinfos = prodInfoService.selectByModel(inPara);
+			if(prodinfos == null || prodinfos.isEmpty()){
+				return new ResponseVo(false, ErrorEnum.COMM_EMPTY_DATA.getErrorMsg(), ErrorEnum.COMM_EMPTY_DATA.getErrorCode());
+			}
+			BeanUtils.copy(prodinfos.get(0), prodDetailInfo);
+			ProdPropertyModel prodProperty = new ProdPropertyModel();
+			prodProperty.setProdNo(prodinfos.get(0).getId());
+			List<ProdProperty> prodDetail = queryProdListByProperty(prodProperty);
+			prodDetailInfo.setProdPropertys(prodDetail);
+
+			ProdCommentModel prodComment = new ProdCommentModel();
+			prodComment.setProdNo(prodinfos.get(0).getId());
+			List<ProdComment> listProdComs  = prodCommentService.selectByModel(prodComment);
+			prodDetailInfo.setProdComments(listProdComs);
+			responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), prodDetailInfo);
+		}catch (Exception e){
+			logger.error("查询商品详细信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		return responseVo;
+	}
+	/**
 	 * 根据商品属性查询
 	 *
 	 * @param inPara
@@ -97,7 +128,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
 		List<ProdProperty> prodList = null;
-		prodList = prodPropertyService.getMapper().selectByModel(inPara);
+		prodList = prodPropertyService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -109,7 +140,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		prodList = prodInfoService.getMapper().selectByModel(inPara);
+		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -126,7 +157,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 		try {
 			BdictionaryModel model = new BdictionaryModel();
 			model.setCaption(prodType);
-			listret = bdictionaryService.getMapper().selectByModel(model);
+			listret = bdictionaryService.selectByModel(model);
 			if (CollectionUtils.isNotEmpty(listret)) {
 				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listret);
 			} else {
@@ -191,12 +222,12 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 		prodPlanModel.setStatus("1");
 		ResponseVo responseVo = null;
 		try {
-			List<ProdPlan> prodPlan = prodPlanService.getMapper().selectByModel(prodPlanModel);
+			List<ProdPlan> prodPlan = prodPlanService.selectByModel(prodPlanModel);
 			if(prodPlan != null && prodPlan.size()>0){
 				String planid = prodPlan.get(0).getId();
 				ProdPlanDetailModel  prodPlanDetailModel= new ProdPlanDetailModel();
 				prodPlanDetailModel.setPlanNo(planid);
-				List<ProdPlanDetail> prodPlanDetails = prodPlanDetailService.getMapper().selectByModel(prodPlanDetailModel);
+				List<ProdPlanDetail> prodPlanDetails = prodPlanDetailService.selectByModel(prodPlanDetailModel);
 				if(prodPlanDetails != null && prodPlanDetails.size()>0){
 					StringBuffer prodids = new StringBuffer(" and id in ('");
 					for (ProdPlanDetail prodPlanDetail : prodPlanDetails) {
@@ -258,8 +289,8 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	public ResponseVo getProductComment(ProdCommentModel inPara) {
 		ResponseVo responseVo = null;
 		List<ProdComment> listProdComs = null;
-		try {
-			listProdComs = prodCommentService.getMapper().selectByModel(inPara);
+			try {
+				listProdComs = prodCommentService.selectByModel(inPara);
 			if (CollectionUtils.isNotEmpty(listProdComs)) {
 				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listProdComs);
 			} else {

@@ -51,10 +51,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("proddetail")
-    public ResponseVo getProdPropertys(ProdPropertyModel inPara){
+    public ResponseVo getProdInfoDetail(ProdInfoModel inPara){
         ResponseVo resp = null;
         try{
-            resp = prodQueryService.getProdPropertys(inPara);
+            resp = prodQueryService.getProdInfoDetail(inPara);
         }catch(Exception e){
             log.error(e);
         }

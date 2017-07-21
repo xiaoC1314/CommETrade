@@ -1,6 +1,7 @@
 package com.zhzx.uip.service.manager.prod;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.bean.prod.ProdProperty;
 import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.model.prod.ProdPlanModel;
@@ -17,7 +18,7 @@ public interface ManagerService {
 	 * @param inPara
 	 * @return
 	 */
-	public ResponseToMa getProductList(ProdInfoModel inPara, Navigate navig);
+	public ResponseToMa getProductList(ProdInfoModel inPara);
 
 	/**
 	 * 添加商品信息
@@ -27,11 +28,34 @@ public interface ManagerService {
 	public ResponseVo addProductList(ProdInfo inPara);
 
 	/**
-	 * 获取商品详情
+	 * 获取商品属性
 	 * @param inPara
 	 * @return
 	 */
-	public ResponseVo getProdPropertys(ProdPropertyModel inPara);
+	public ResponseToMa getProdPropertys(ProdPropertyModel inPara);
+
+
+	/**
+	 * 添加商品属性
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo addProdProperty(ProdProperty inPara);
+
+	/**
+	 * 修改商品属性
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyProdProperty(ProdProperty inPara);
+
+
+	/**
+	 * 删除商品属性
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo delProdProperty(String... ids);
 
 	/**
 	 * 获取商品分类

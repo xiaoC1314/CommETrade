@@ -1,23 +1,32 @@
 package com.zhzx.uip.api.controller.manager;
 
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.bean.prod.ProdProperty;
+import com.zhzx.dao.model.prod.ProdPropertyModel;
 import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.controller.product.ProductController;
+import com.zhzx.uip.api.utils.DictionaryConfig;
 import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.manager.prod.ManagerService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.Iterator;
 
 /**
  * Created by dongwm on 2017/7/9.
@@ -32,7 +41,6 @@ public class ManagerController extends BaseController {
 
     /**
      *
-     * <br>
      * <b>功能：</b>管理员登录<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
@@ -40,23 +48,44 @@ public class ManagerController extends BaseController {
      */
     @RequestMapping("login")
     public ModelAndView loginInit(HttpServletRequest request, HttpServletResponse response){
+        DictionaryConfig.getInstance();
         return new ModelAndView("/login/login");
     }
 
+    /**
+     *
+     * <b>功能：</b>管理员登录后页面<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
     @RequestMapping("dologin")
     public ModelAndView doLogin(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
 
-
-        ModelAndView mav = new ModelAndView("frameset");
+        ModelAndView mav = new ModelAndView("/frameset");
         return mav;
     }
 
+    /**
+     *
+     * <b>功能：</b>添加商品初始化页面<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @RequestMapping("addprodinit")
+    public ModelAndView addProdInfoInt(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        //是否登录验证
+
+        ModelAndView mav = new ModelAndView("/prod/addprodinfo");
+        return mav;
+    }
 
     /**
      *
-     * <br>
      * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
@@ -74,7 +103,6 @@ public class ManagerController extends BaseController {
 
     /**
      *
-     * <br>
      * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
@@ -96,7 +124,6 @@ public class ManagerController extends BaseController {
 
     /**
      *
-     * <br>
      * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息修改<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
@@ -110,6 +137,28 @@ public class ManagerController extends BaseController {
         ResponseVo resp = null;
         try{
             resp = managerService.modifyProductInfo(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("delprodinfoajax")
+    public ResponseVo delProdinfoAjax(HttpServletRequest request, String ids){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            resp = managerService.delProductInfo(ids);
         }catch(Exception e){
             log.error(e);
         }
@@ -133,8 +182,9 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
+//        inPara.setNavigate(navig);
         try{
-            resp = managerService.getProductList(inPara, navig);
+            resp = managerService.getProductList(inPara);
         }catch(Exception e){
             log.error(e);
         }
@@ -144,53 +194,73 @@ public class ManagerController extends BaseController {
     /**
      *
      * <br>
-     * <b>功能：</b>添加商品初始化页面<br>
+     * <b>功能：</b>支持同时上传多张图片（商品图片库和其它库分离，当前可以通过文件目录分离）init<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("addprodinit")
-    public ModelAndView addProdInfoInt(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
-        //是否登录验证
-
-        ModelAndView mav = new ModelAndView("/prod/addprodinfo");
-        return mav;
-    }
-
-    /**
-     *
-     * <br>
-     * <b>功能：</b>通过商品条形码对商品信息进行修改【web端】<br>
-     * <b>作者：</b>dongwm<br>
-     * <b>日期：</b> Dec 8, 2011 <br>
-     * @return
-     */
-    @RequestMapping("modifyprodinfo")
-    public ModelAndView modifyProdInfo(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("uploadinit")
+    public ModelAndView uploadProdInit(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
 
-
-        ModelAndView mav = new ModelAndView("/login/login");
+        ModelAndView mav = new ModelAndView("/upload/uploadinit");
         return mav;
     }
 
     /**
      *
-     * <br>
      * <b>功能：</b>支持同时上传多张图片（商品图片库和其它库分离，当前可以通过文件目录分离）<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("uploadprodpicinfo")
-    public ModelAndView uploadProdpicInfo(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("uploadsubmit")
+    public ModelAndView uploadProdSubmit(HttpServletRequest request, HttpServletResponse response,String prodNo){
         HttpSession session = request.getSession();
         //登录验证
 
+        ModelAndView mav = new ModelAndView("/upload/uploadresult");
+        if(StringUtils.isEmpty(prodNo)){
+            mav.addObject("successflag","0");
+            return mav;
+        }
+        try{
+            //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
+            CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(request.getSession().getServletContext());
+            //检查form中是否有enctype="multipart/form-data"
+            if(multipartResolver.isMultipart(request))
+            {
+                //将request变成多部分request
+                MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+                //获取multiRequest 中所有的文件名
+                Iterator iter=multiRequest.getFileNames();
+                while(iter.hasNext())
+                {
+                    //一次遍历所有文件
+                    MultipartFile file=multiRequest.getFile(iter.next().toString());
+                    if(file!=null)
+                    {
+                        String path="E:/springUpload"+file.getOriginalFilename();
+                        //上传
+                        file.transferTo(new File(path));
 
-        ModelAndView mav = new ModelAndView("/login/login");
+                        String picpath = "http://127.0.0.1:8080/api/pic/"+file.getOriginalFilename();
+                        ProdProperty inPara = new ProdProperty();
+                        inPara.setProdNo(prodNo);
+                        inPara.setPropKey("pic");
+                        inPara.setPropName("");
+                        inPara.setPropValue(picpath);
+                        inPara.setPropDiscribe("");
+                        managerService.addProdProperty(inPara);
+                    }
+                }
+            }
+        } catch(Exception e){
+            log.error(e);
+        }
+
+        mav.addObject("successflag","1");
         return mav;
     }
 
@@ -202,7 +272,40 @@ public class ManagerController extends BaseController {
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("modifyprodpropetyinfo")
+    @RequestMapping("modifyprodpropetyinit")
+    public ModelAndView modifyProdPropetyInit(HttpServletRequest request, HttpServletResponse response){
+
+        ModelAndView mav = new ModelAndView("/prod/modprodproperty");
+        return mav;
+    }
+
+    /**
+     * ajax 获取商品属性列表
+     * @param inPara
+     * @param page
+     * @param rows
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("prodprotylist")
+    public ResponseToMa getProdPropetyList(ProdPropertyModel inPara, String page, String rows){
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if(page!=null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if(rows!=null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+//        inPara.setNavigate(navig);
+        try{
+            resp = managerService.getProdPropertys(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+
+    @RequestMapping("modifyprodpropetysubmit")
     public ModelAndView modifyProdPropetyInfo(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
@@ -410,26 +513,6 @@ public class ManagerController extends BaseController {
         return mav;
     }
 
-    /**
-     *
-     * <br>
-     * <b>功能：</b>通过条形码或二维码或手工录入方式将商品信息录入<br>
-     * <b>作者：</b>dongwm<br>
-     * <b>日期：</b> Dec 8, 2011 <br>
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("delprodinfoajax")
-    public ResponseVo delProdinfoAjax(HttpServletRequest request, String ids){
-        HttpSession session = request.getSession();
-        //登录验证
-        ResponseVo resp = null;
-        try{
-            resp = managerService.delProductInfo(ids);
-        }catch(Exception e){
-            log.error(e);
-        }
-        return resp;
-    }
+
 
 }
