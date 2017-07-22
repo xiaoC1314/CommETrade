@@ -14,6 +14,7 @@ import com.zhzx.uip.service.manager.prod.ManagerService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +39,12 @@ public class ManagerController extends BaseController {
 
     @Autowired
     private ManagerService managerService;
+
+    @Value("${prod.picture.prefixurl}")
+    private String picUrl;
+
+    @Value("${upload.folder.prefixurl}")
+    private String picSaveUrl;
 
     /**
      *
@@ -200,11 +207,14 @@ public class ManagerController extends BaseController {
      * @return
      */
     @RequestMapping("uploadinit")
-    public ModelAndView uploadProdInit(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView uploadProdInit(HttpServletRequest request, HttpServletResponse response,String prodNo){
         HttpSession session = request.getSession();
         //登录验证
 
+//        prodNo = "10001";
         ModelAndView mav = new ModelAndView("/upload/uploadinit");
+        mav.addObject("prodNo",prodNo);
+
         return mav;
     }
 
@@ -241,17 +251,17 @@ public class ManagerController extends BaseController {
                     MultipartFile file=multiRequest.getFile(iter.next().toString());
                     if(file!=null)
                     {
-                        String path="E:/springUpload"+file.getOriginalFilename();
+                        String path=picSaveUrl+file.getOriginalFilename();
                         //上传
                         file.transferTo(new File(path));
 
-                        String picpath = "http://127.0.0.1:8080/api/pic/"+file.getOriginalFilename();
+                        String picpath = picSaveUrl+file.getOriginalFilename();
                         ProdProperty inPara = new ProdProperty();
                         inPara.setProdNo(prodNo);
-                        inPara.setPropKey("pic");
-                        inPara.setPropName("");
+                        inPara.setPropKey("picture");
+                        inPara.setPropName("picture");
                         inPara.setPropValue(picpath);
-                        inPara.setPropDiscribe("");
+                        inPara.setPropDiscribe("picture");
                         managerService.addProdProperty(inPara);
                     }
                 }
@@ -273,9 +283,10 @@ public class ManagerController extends BaseController {
      * @return
      */
     @RequestMapping("modifyprodpropetyinit")
-    public ModelAndView modifyProdPropetyInit(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView modifyProdPropetyInit(HttpServletRequest request, HttpServletResponse response,String prodNo){
 
         ModelAndView mav = new ModelAndView("/prod/modprodproperty");
+        mav.addObject("prodNo",prodNo);
         return mav;
     }
 
@@ -298,6 +309,32 @@ public class ManagerController extends BaseController {
 //        inPara.setNavigate(navig);
         try{
             resp = managerService.getProdPropertys(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     * ajax 修改商品属性
+     * @param inPara
+     * @param opt 0.添加。1.修改，2，删除
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("modifyprodpropetyajax")
+    public ResponseVo modifyProdpropetyAjax(HttpServletRequest request, ProdProperty inPara, String opt, String ids){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            if("0".equals(opt)){
+                resp = managerService.addProdProperty(inPara);
+            } else if("1".equals(opt)){
+                resp = managerService.modifyProdProperty(inPara);
+            } else if("2".equals(opt)){
+                resp = managerService.delProdProperty(ids);
+            }
         }catch(Exception e){
             log.error(e);
         }

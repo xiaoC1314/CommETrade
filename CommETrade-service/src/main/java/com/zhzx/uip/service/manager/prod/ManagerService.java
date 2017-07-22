@@ -52,10 +52,10 @@ public interface ManagerService {
 
 	/**
 	 * 删除商品属性
-	 * @param inPara
+	 * @param ids
 	 * @return
 	 */
-	public ResponseVo delProdProperty(String... ids);
+	public ResponseVo delProdProperty(String ids);
 
 	/**
 	 * 获取商品分类

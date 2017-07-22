@@ -35,24 +35,27 @@
 	<div style="margin-bottom:5px">
 		<a href="#" id="prod_add" class="easyui-linkbutton" iconCls="icon-add" plain="false">添加</a>
 		<a href="#" id="prod_edit" class="easyui-linkbutton" iconCls="icon-edit" plain="false">修改</a>
-		<!--a href="#" id="prod_save" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a-->
+
 		<a href="#" id="prod_del" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+		<a href="#" id="prod_save" class="easyui-linkbutton" iconCls="icon-save" plain="false">上传图片</a>
 	</div>
 	<div>
 		<!--Date From: <input class="easyui-datebox" style="width:80px">
 		To: <input class="easyui-datebox" style="width:80px">-->
 		产品代码：<input type="text" name="prod_no" id="prod_no"/>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="prod_search">Search</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-search"   id="prod_search">查找</a>
 	</div>
 </div>
 <div style="margin:10px 0;">
-	<span>Selection Mode: </span>
+	<span>选择模式: </span>
 	<select onchange="$('#dg').datagrid({singleSelect:(this.value==0)})">
-		<option value="0">Single Row</option>
-		<option value="1">Multiple Rows</option>
+		<option value="0">选择单行</option>
+		<option value="1">选择多行</option>
 	</select><br/>
-	SelectOnCheck: <input type="checkbox" checked onchange="$('#dg').datagrid({selectOnCheck:$(this).is(':checked')})"><br/>
-	CheckOnSelect: <input type="checkbox" checked onchange="$('#dg').datagrid({checkOnSelect:$(this).is(':checked')})">
+	<div style="display:none;">
+		SelectOnCheck: <input type="checkbox" checked onchange="$('#dg').datagrid({selectOnCheck:$(this).is(':checked')})"><br/>
+		CheckOnSelect: <input type="checkbox" checked onchange="$('#dg').datagrid({checkOnSelect:$(this).is(':checked')})">
+	</div>
 </div>
 <div id="dd" style="display:none;width: 390px;height: 320px;">
 	<form name="addProdinfoForm" method="post" action="<%=request.getContextPath()%>/console/addprodinfo" id="addProdinfoForm" autocomplete="off">
@@ -140,14 +143,43 @@
 </body>
 </html>
 <script type="text/javascript">
+
+    var url = "<%=request.getContextPath()%>/console/prodlist";
+    function prodsearch() {
+        var prod_no = $('#prod_no').val();
+        if(prod_no == null || prod_no == ""){
+            alert("请输入商品编号！");
+            return false;
+        }
+        var handler = "<%=request.getContextPath()%>/console/prodlist?id=" + prod_no;
+        $('#dg').datagrid('options').url = handler;
+        $('#dg').datagrid('reload');
+    }
+    $('#prod_search').bind('click', function(){
+        prodsearch();
+    });
+
     $('#prod_add').bind('click', function(){
         add_prod();
-
     });
     $('#prod_edit').bind('click', function(){
         set_prodinfo();
 
     });
+    $('#prod_save').bind('click', function(){
+        if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
+            alert("请选择商品！");
+            return false;
+        }
+        var queryid = $('#dg').datagrid('getSelected').id;
+        if(queryid == ""){
+            alert("请选择商品！");
+            return false;
+        }
+        window.location.href="<%=request.getContextPath()%>/console/uploadinit?prodNo="+queryid;
+    });
+
+
     function set_prodinfo(){
         if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
             alert("请选择要修改的商品！");

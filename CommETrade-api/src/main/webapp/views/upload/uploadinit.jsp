@@ -14,31 +14,74 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/easyui/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
-
-<form name="uploadForm" id="uploadForm" action="<%=request.getContextPath()%>/console/uploadsubmit" method="post"  enctype="multipart/form-data">
-    <h1>使用spring mvc提供的类的方法上传文件</h1>
-    <input type="file" name="file">
-    <input type="submit" value="upload"/>
-</form>
-
-<p>The filebox component represents a file field of the forms.</p>
+<h1>商品图片上传</h1>
 <div style="margin:20px 0;"></div>
-<div class="easyui-panel" title="Upload File" style="width:400px;padding:30px 70px 50px 70px">
-    <div style="margin-bottom:20px">
-        <div>Name:</div>
-        <input class="easyui-textbox" style="width:100%">
-    </div>
-    <div style="margin-bottom:20px">
-        <div>File1:</div>
-        <input class="easyui-filebox" name="file1" data-options="prompt:'Choose a file...'" style="width:100%">
-    </div>
-    <div style="margin-bottom:20px">
-        <div>File2:</div>
-        <input class="easyui-filebox" name="file2" data-options="prompt:'Choose another file...'" style="width:100%">
-    </div>
-    <div>
-        <a href="#" class="easyui-linkbutton" style="width:100%">Upload</a>
-    </div>
+<div class="easyui-panel" title="商品图片上传" style="width:400px;padding:30px 70px 50px 70px">
+    <form name="uploadForm" id="uploadForm" action="<%=request.getContextPath()%>/console/uploadsubmit" method="post"  enctype="multipart/form-data">
+        <!--input class="easyui-filebox" name="file2" data-options="prompt:'Choose another file...'" style="width:100%"-->
+        <div>
+            <div>商品编号:</div>
+            <input type="hidden" name="prodNo" value="${prodNo}">
+            <span class="easyui-textbox" >${prodNo}</span>
+        </div>
+        <div >
+            <div>picture:</div>
+            <input id="file1" type="file" name="img" onchange="fileCheck(this);">
+        </div>
+        <div id="mdiv">
+
+        </div>
+        <div  style="margin-top:20px">
+            <a href="javascript:addimg()" id="addImg" class="easyui-linkbutton">增加图片</a>  <a class="easyui-linkbutton" id="submitform">上传</a>
+        </div>
+    </form>
 </div>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function(){
+        bindListener();
+    })
+    var ii = 0;
+    function addimg(){
+        ii = ii+1;
+        $("#mdiv").append('<div class="iptdiv" ><input type="file" name="img'+ii+'" onchange="fileCheck(this);"/><a href="#" name="rmlink">X</a></div>');
+
+        // 为新元素节点添加事件侦听器
+        bindListener();
+    }
+    // 用来绑定事件(使用unbind避免重复绑定)
+    function bindListener(){
+        $("a[name=rmlink]").unbind().click(function(){
+            $(this).parent().remove();
+        })
+    }
+
+    $('#submitform').bind('click', function(){
+        $('#uploadForm').submit();
+    });
+
+
+    function fileCheck(pic){
+        var filetypes =[".jpg",".jpeg",".png",".gif"];
+        var filepath = pic.value;
+        if(filepath){
+            var isnext = false;
+            var fileend = filepath.substring(filepath.lastIndexOf("."));
+            for(var i =0; i<filetypes.length ; i++){
+                if(filetypes[i]==fileend){
+                    isnext = true;
+                    break;
+                }
+            }
+            if(!isnext){
+                alert("非图片格式，请重新上传！");
+                pic.value ="";
+                return false;
+            }
+
+        }else{
+            return false;
+        }
+    }
+</script>

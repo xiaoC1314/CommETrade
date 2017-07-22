@@ -150,14 +150,17 @@ public class ManagerServiceImpl implements ManagerService {
 	/**
 	 * 删除商品属性
 	 *
-	 * @param inPara
+	 * @param ids
 	 * @return
 	 */
 	@Override
-	public ResponseVo delProdProperty(String... ids) {
+	public ResponseVo delProdProperty(String ids) {
 		ResponseVo responseVo = null;
 		try {
-			prodPropertyService.delete(ids);
+			String[] idArray = ids.split(",");
+			for (String id:idArray) {
+				prodPropertyService.delete(id);
+			}
 		}catch (Exception e){
 			logger.error("查询商品基本信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
@@ -174,7 +177,8 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
 		List<ProdProperty> prodList = null;
-		prodList = prodPropertyService.selectByModelAsPage(inPara);
+//		prodList = prodPropertyService.selectByModelAsPage(inPara);
+		prodList = prodPropertyService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -186,7 +190,8 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		prodList = prodInfoService.selectByModelAsPage(inPara);
+//		prodList = prodInfoService.selectByModelAsPage(inPara);
+		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
 
