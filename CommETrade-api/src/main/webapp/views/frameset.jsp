@@ -31,16 +31,16 @@
 					<span>信息录入或修改</span>
 					<ul>
 						<li>
-							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品信息录入</a></span>
+							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品基本信息录入</a></span>
 						</li>
 						<li>
-							<span><a href="#">商品信息修改</a></span>
+							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品基本信息修改</a></span>
 						</li>
 						<li>
-							<span><a href="#">商品属性修改</a></span>
+							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/modifyprodpropetyinit">商品属性修改</a></span>
 						</li>
 						<li>
-							<span><a href="#">商品图片上传</a></span>
+							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品图片上传</a></span>
 						</li>
 					</ul>
 				</li>

@@ -175,4 +175,15 @@ public class StringUtil {
 		Matcher isNum = pattern.matcher(str);
 		return isNum.matches();
 	}
+
+	/**
+	 * 生成申请编号
+	 * 14位时间锉和6位随机数
+	 */
+	public static String buildAlloCode(){
+		String nowTime=DateUtil.timeNow("yyyyMMddHHmmss");
+		String randomNo=AuthCodeUtils.getCode();
+		return nowTime+randomNo;
+	}
+
 }
