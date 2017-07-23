@@ -54,8 +54,7 @@ public class CustomerController extends BaseController{
             Assert.notNull(param.getSmsCode(),"验证码不能为空");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},smsCode={}]参数校验失败:{}",new Object[]{param.getPhone(),param.getPassword(),param.getSmsCode(),e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(),false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
 
         if(custService.register(param)){
@@ -74,8 +73,7 @@ public class CustomerController extends BaseController{
             Assert.isTrue(param.getPhone().length() == 11, "手机号码格式不正确");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={}]参数校验失败:{}",new Object[]{param.getPhone(),e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(),false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
         return custService.profileUpdate(param);
     }
@@ -96,8 +94,7 @@ public class CustomerController extends BaseController{
             Assert.isTrue(!StringUtil.isEmptyString(password),type==1?"密码不能为空":"短信验证码不能为空");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},type={}]参数校验失败:{}",new Object[]{phone,password,type,e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(),false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
         return  custService.login(phone,password,type);
     }
@@ -113,8 +110,7 @@ public class CustomerController extends BaseController{
             Assert.isTrue(newPassword.length()>=6 && newPassword.length()<=12,"密码长度应在6-12位");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},newPassword={}]参数校验失败:{}",new Object[]{phone,password,newPassword,e.getMessage()});
-            return new ResponseVo(false, ErrorEnum.UIP_COMM_PARAM_ERROR.getErrorCode(),
-                    e.getMessage(),false);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
         }
         return  custService.changePassword(phone,password,newPassword);
     }
