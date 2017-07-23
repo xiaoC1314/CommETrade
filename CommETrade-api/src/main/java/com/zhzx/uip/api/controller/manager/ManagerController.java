@@ -189,7 +189,9 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-//        inPara.setNavigate(navig);
+        inPara.setNavigate(navig);
+
+
         try{
             resp = managerService.getProductList(inPara);
         }catch(Exception e){

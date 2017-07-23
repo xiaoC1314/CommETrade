@@ -190,8 +190,13 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-//		prodList = prodInfoService.selectByModelAsPage(inPara);
-		prodList = prodInfoService.selectByModel(inPara);
+		System.out.println(inPara.getNavigate().getPageCount());
+		System.out.println(inPara.getNavigate().getPageOffset());
+		System.out.println(inPara.getNavigate().getPageTail());
+		System.out.println(inPara.getNavigate());
+		prodList = prodInfoService.selectByModelAsPage(inPara);
+
+//		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
 
