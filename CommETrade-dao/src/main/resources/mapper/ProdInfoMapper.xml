@@ -160,7 +160,9 @@
 
 	<!-- 分页查询商品信息-->
 	<select id="selectByModelAsPage" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdInfoModel">
-		select * from p_product_info
+		select
+		<include refid="Base_Column_List"/>
+		from p_product_info
 		<include refid="Example_Where_Clause"/>
 		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
 		  ${navigate.otherCondition}
