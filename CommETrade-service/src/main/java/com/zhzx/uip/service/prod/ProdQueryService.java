@@ -19,11 +19,18 @@ public interface ProdQueryService {
 	public ResponseVo getProductList(ProdInfoModel inPara);
 
 	/**
-	 * 获取商品详情
+	 * 获取商品属性
 	 * @param inPara
 	 * @return
 	 */
 	public ResponseVo getProdPropertys(ProdPropertyModel inPara);
+
+	/**
+	 * 获取商品详情
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo getProdInfoDetail(ProdInfoModel inPara);
 
 	/**
 	 * 获取商品分类
