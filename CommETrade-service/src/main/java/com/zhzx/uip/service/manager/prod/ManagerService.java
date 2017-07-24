@@ -1,7 +1,16 @@
 package com.zhzx.uip.service.manager.prod;
 
+import com.zhzx.dao.bean.cust.Address;
+import com.zhzx.dao.bean.cust.CustInfo;
+import com.zhzx.dao.bean.order.OrderInfo;
+import com.zhzx.dao.bean.order.ProdList;
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.bean.prod.ProdPlan;
+import com.zhzx.dao.bean.prod.ProdPlanDetail;
 import com.zhzx.dao.bean.prod.ProdProperty;
+import com.zhzx.dao.model.cust.CustInfoModel;
+import com.zhzx.dao.model.order.OrderInfoModel;
+import com.zhzx.dao.model.prod.ProdPlanDetailModel;
 import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.model.prod.ProdPlanModel;
@@ -99,4 +108,102 @@ public interface ManagerService {
 	 */
 	public ResponseVo modifyProductInfo(ProdInfo inPara);
 
+	/**
+	 * 查询订单列表
+	 * @param inPara
+	 * @return
+	 */
+	ResponseToMa queryOrderList(OrderInfoModel inPara);
+
+	/**
+	 * 修改订单状态
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyOrderInfo(OrderInfo inPara);
+	/**
+	 * 修改订单列表-购物清单
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyOrderInfo(ProdList inPara);
+
+	/**
+	 * 查询客户列表
+	 * @param inPara
+	 * @return
+	 */
+	ResponseToMa queryCustInfoList(CustInfoModel inPara);
+
+	/**
+	 * 修改客户信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyCustInfo(CustInfo inPara);
+
+	/**
+	 * 新增客户信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo addyCustInfo(CustInfo inPara);
+
+	/**
+	 * 修改客户地址信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyAddressInfo(Address inPara);
+
+	/**
+	 * 查询特殊活动列表
+	 * @param inPara
+	 * @return
+	 */
+	ResponseToMa queryProdPlanList(ProdPlanModel inPara);
+
+	/**
+	 * 查询特殊活动详情
+	 * @param inPara
+	 * @return
+	 */
+	ResponseToMa queryProdPlanDetailList(ProdPlanDetailModel inPara);
+
+	/**
+	 * 新增殊活动信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo addProdPlan(ProdPlan inPara);
+
+	/**
+	 * 修改殊活动信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyProdPlan(ProdPlan inPara);
+
+
+	/**
+	 * 修改殊活动详情信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo modifyProdPlanDetail(ProdPlanDetail inPara);
+
+	/**
+	 * 修改殊活动详情信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo addProdPlanDetail(ProdPlanDetail inPara);
+
+
+	/**
+	 * 修改殊活动详情信息
+	 * @param inPara
+	 * @return
+	 */
+	public ResponseVo delProdPlanDetail(String ids);
 }

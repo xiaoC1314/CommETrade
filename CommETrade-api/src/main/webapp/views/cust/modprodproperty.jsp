@@ -208,7 +208,7 @@
                 if(data.success){
                     alert( "删除成功");
                 } else {
-                    alert( "删除失败，请重新删除！");
+                    alert( "删除失败，请从新录入！");
                 }
                 window.location.reload();
             }
