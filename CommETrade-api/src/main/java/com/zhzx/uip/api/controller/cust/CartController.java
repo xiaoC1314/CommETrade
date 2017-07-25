@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by Administrator on 2017/7/18.
+ * Created by fu on 2017/7/18.
  */
 @Controller
 @RequestMapping("/cart")

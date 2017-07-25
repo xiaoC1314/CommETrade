@@ -72,16 +72,16 @@ public class CustServiceImpl implements CustService {
 	}
 
 	@Override
-	public boolean register(RegisterParam param){
+	public ResponseVo register(RegisterParam param){
 		CustInfo custInfo = initRegister(param);
 		// TODO: 2017/7/9 校验短信验证码
 		try {
 			custInfoService.insert(custInfo);
 		} catch (Exception e) {
 			logger.error("用户["+param.getPhone()+"]注册失败！",e);
-			return false;
+			return ResponseFactory.buildFailResponse(ErrorEnum.COMM_ERROR);
 		}
-		return true;
+		return ResponseFactory.buildSuccessResponse(true);
 	}
 
 	@Override
