@@ -49,33 +49,19 @@ public class ManagerServiceImpl implements ManagerService {
 	 * @return
      */
 	@Override
-	public ResponseToMa getProductList(ProdInfoModel inPara, Navigate navig){
+	public ResponseToMa getProductList(ProdInfoModel inPara){
 		List<ProdInfo> listProds = null;
 		ResponseToMa resp = null;
 		try {
-			int count = prodInfoService.getMapper().selectByModelCount(inPara);
-			inPara.setNavigate(navig);
-//			Map selectMap = new HashMap();
-//			selectMap.put("ProdInfoModel",inPara);
-//			selectMap.put()
-//			selectByMap
 			listProds = queryProductList(inPara);
 			if (CollectionUtils.isNotEmpty(listProds)) {
-//				StringBuffer resp = new StringBuffer("{\"total\":");
-//				resp.append(listProds.size());
-//				resp.append(",\"rows\":");
-//				resp.append(JSONUtils.jsonEncode(listProds));
-//				resp.append("}");
-				resp = new ResponseToMa(count,listProds);
-//				responseVo = resp.toString();
+				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),listProds);
 			} else {
-//				responseVo = "{\"total\":0,\"rows\":[]}";
 				resp = new ResponseToMa(0,null);
 			}
 
 		}catch (Exception e){
 			logger.error("查询商品基本信息失败："+e.getMessage());
-//			responseVo = "{\"total\":0,\"rows\":[]}";
 			resp = new ResponseToMa(0,null);
 		}
 		return resp;
@@ -90,7 +76,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public ResponseVo addProductList(ProdInfo inPara){
 		ResponseVo responseVo = null;
 		try {
-			prodInfoService.getMapper().insert(inPara);
+			prodInfoService.insert(inPara);
 		}catch (Exception e){
 			logger.error("查询商品基本信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
@@ -106,20 +92,80 @@ public class ManagerServiceImpl implements ManagerService {
 	 * @return
 	 */
 	@Override
-	public ResponseVo getProdPropertys(ProdPropertyModel inPara) {
+	public ResponseToMa getProdPropertys(ProdPropertyModel inPara) {
 		List<ProdProperty> prodDetail = null;
-		ResponseVo responseVo = null;
+		ResponseToMa responseVo = null;
 		try {
 			prodDetail = queryProdListByProperty(inPara);
 			if (CollectionUtils.isNotEmpty(prodDetail)) {
-				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), prodDetail);
+				responseVo = new ResponseToMa(inPara.getNavigate().getRowCount(), prodDetail);
 			} else {
-				responseVo = new ResponseVo(false, ErrorEnum.COMM_EMPTY_DATA.getErrorMsg(), ErrorEnum.COMM_EMPTY_DATA.getErrorCode());
+				responseVo = new ResponseToMa(0,null);
 			}
 		}catch (Exception e){
 			logger.error("查询商品详情信息失败："+e.getMessage());
+			responseVo = new ResponseToMa(0,null);
+		}
+		return responseVo;
+	}
+
+	/**
+	 * 添加商品属性
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo addProdProperty(ProdProperty inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPropertyService.insert(inPara);
+		}catch (Exception e){
+			logger.error("查询商品基本信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改商品属性
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyProdProperty(ProdProperty inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPropertyService.update(inPara);
+		}catch (Exception e){
+			logger.error("查询商品基本信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 删除商品属性
+	 *
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public ResponseVo delProdProperty(String ids) {
+		ResponseVo responseVo = null;
+		try {
+			String[] idArray = ids.split(",");
+			for (String id:idArray) {
+				prodPropertyService.delete(id);
+			}
+		}catch (Exception e){
+			logger.error("查询商品基本信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
 		return responseVo;
 	}
 
@@ -131,7 +177,8 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
 		List<ProdProperty> prodList = null;
-		prodList = prodPropertyService.getMapper().selectByModel(inPara);
+//		prodList = prodPropertyService.selectByModelAsPage(inPara);
+		prodList = prodPropertyService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -143,7 +190,13 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		prodList = prodInfoService.getMapper().selectByModel(inPara);
+		System.out.println(inPara.getNavigate().getPageCount());
+		System.out.println(inPara.getNavigate().getPageOffset());
+		System.out.println(inPara.getNavigate().getPageTail());
+		System.out.println(inPara.getNavigate());
+		prodList = prodInfoService.selectByModelAsPage(inPara);
+
+//		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -225,12 +278,12 @@ public class ManagerServiceImpl implements ManagerService {
 		prodPlanModel.setStatus("1");
 		ResponseVo responseVo = null;
 		try {
-			List<ProdPlan> prodPlan = prodPlanService.getMapper().selectByModel(prodPlanModel);
+			List<ProdPlan> prodPlan = prodPlanService.selectByModel(prodPlanModel);
 			if(prodPlan != null && prodPlan.size()>0){
 				String planid = prodPlan.get(0).getId();
 				ProdPlanDetailModel  prodPlanDetailModel= new ProdPlanDetailModel();
 				prodPlanDetailModel.setPlanNo(planid);
-				List<ProdPlanDetail> prodPlanDetails = prodPlanDetailService.getMapper().selectByModel(prodPlanDetailModel);
+				List<ProdPlanDetail> prodPlanDetails = prodPlanDetailService.selectByModel(prodPlanDetailModel);
 				if(prodPlanDetails != null && prodPlanDetails.size()>0){
 					StringBuffer prodids = new StringBuffer(" and id in ('");
 					for (ProdPlanDetail prodPlanDetail : prodPlanDetails) {
@@ -292,7 +345,7 @@ public class ManagerServiceImpl implements ManagerService {
 		try {
 			String[] idArray = ids.split(",");
 			for (String id:idArray) {
-				prodInfoService.getMapper().delete(id);
+				prodInfoService.delete(id);
 			}
 		}catch (Exception e){
 			logger.error("删除商品基本信息失败："+e.getMessage());
@@ -310,7 +363,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public ResponseVo modifyProductInfo(ProdInfo inPara){
 		ResponseVo responseVo = null;
 		try {
-			prodInfoService.getMapper().update(inPara);
+			prodInfoService.update(inPara);
 		}catch (Exception e){
 			logger.error("更新商品基本信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());

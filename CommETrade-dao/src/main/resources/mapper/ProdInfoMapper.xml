@@ -162,17 +162,14 @@
 	<select id="selectByModelAsPage" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.prod.ProdInfoModel">
 		select
 		<include refid="Base_Column_List"/>
-		from (select rownum r,<include refid="Base_Column_List"/> from
-				(select * from p_product_info
-					<include refid="Example_Where_Clause"/>
-					<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
-					  ${navigate.otherCondition}
-					</if>
-					<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
-					  ${navigate.orderCondition}
-					</if>
-				)
-		)  where 1=1
+		from p_product_info
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+		  ${navigate.otherCondition}
+		</if>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+		  ${navigate.orderCondition}
+		</if>
 		${navigate.mysqlQueryCondition}
 	</select>
 

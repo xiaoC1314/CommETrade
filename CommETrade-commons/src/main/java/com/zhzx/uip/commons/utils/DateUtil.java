@@ -752,4 +752,17 @@ public class DateUtil {
 		}
 	}
 
+
+	/**
+	 * 获取当前时间
+	 *
+	 * @param pattern
+	 * @return
+	 */
+	public static String timeNow(String pattern) {
+		Calendar today = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		return format.format(today.getTime());
+	}
+
 }

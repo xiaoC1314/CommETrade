@@ -122,7 +122,7 @@ public Navigate() {
   }
   
   public String getMysqlQueryCondition(){
-      String condition = " and r between " + pageOffset + " and " + pageTail;
+      String condition =  "limit " + pageOffset + " , " + pageTail;
       return condition;
   }
   
