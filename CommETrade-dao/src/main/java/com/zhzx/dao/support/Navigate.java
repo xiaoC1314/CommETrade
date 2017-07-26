@@ -107,10 +107,10 @@ public Navigate() {
     
     //Mysql 算法
     this.pageOffset=(this.pageId-1)*this.pageSize;
-    this.pageTail=this.pageOffset+this.pageSize;
+    this.pageTail=this.pageOffset+this.pageSize-1;
     if((this.pageOffset+this.pageSize)>this.rowCount)
       this.pageTail=this.rowCount;
-    this.pageOffset++;
+//    this.pageOffset++;
   }
 
   public String getOrderCondition(){

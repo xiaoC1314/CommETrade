@@ -96,7 +96,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 * @return
 	 */
 	public ResponseVo getProdInfoDetail(ProdInfoModel inPara){
-		ProdInfoDetail prodDetailInfo = null;
+		ProdInfoDetail prodDetailInfo = new ProdInfoDetail();
 		ResponseVo responseVo = null;
 		try {
 			List<ProdInfo> prodinfos = prodInfoService.selectByModel(inPara);

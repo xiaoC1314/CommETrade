@@ -49,11 +49,19 @@ public class ManagerController extends BaseController {
     @Autowired
     private ManagerService managerService;
 
+    //图片上传网络地址前缀
     @Value("${prod.picture.prefixurl}")
     private String picUrl;
 
+    //图片上传服务器保存地址前缀
     @Value("${upload.folder.prefixurl}")
     private String picSaveUrl;
+
+    @Value("${admin.login.name}")
+    private String loginName;
+
+    @Value("${admin.login.pwd}")
+    private String loginPwd;
 
     /**
      *
@@ -68,6 +76,13 @@ public class ManagerController extends BaseController {
         return new ModelAndView("/login/login");
     }
 
+    @RequestMapping("layout")
+    public ModelAndView layOut(HttpServletRequest request, HttpServletResponse response){
+        //设置登录标识 0，登录成功
+        request.getSession().setAttribute("ISLOGIN","1");
+        return new ModelAndView("/login/login");
+    }
+
     /**
      *
      * <b>功能：</b>管理员登录后页面<br>
@@ -76,9 +91,13 @@ public class ManagerController extends BaseController {
      * @return
      */
     @RequestMapping("dologin")
-    public ModelAndView doLogin(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
+    public ModelAndView doLogin(HttpServletRequest request, HttpServletResponse response,String login ,String password){
         //登录验证
+        if(!login.equals(loginName) || !password.equals(loginPwd)){
+            return new ModelAndView("/login/error");
+        }
+        //设置登录标识 0，登录成功
+        request.getSession().setAttribute("ISLOGIN","0");
 
         ModelAndView mav = new ModelAndView("/frameset");
         return mav;
@@ -321,6 +340,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("prod_no");
         inPara.setNavigate(navig);
         try{
             resp = managerService.getProdPropertys(inPara);
@@ -472,6 +492,7 @@ public class ManagerController extends BaseController {
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
+    @ResponseBody
     @RequestMapping("prodorderlist")
     public ResponseToMa prodOrderInfo(OrderInfoModel inPara, String page, String rows){
         ResponseToMa resp = null;
@@ -480,7 +501,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-        navig.setOrderField("createTime");
+        navig.setOrderField("create_time");
         inPara.setNavigate(navig);
 
         try{
@@ -561,7 +582,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if (rows != null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-        navig.setOrderField("createTime");
+        navig.setOrderField("create_time");
         inPara.setNavigate(navig);
 
         try {
@@ -642,7 +663,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if (rows != null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-        navig.setOrderField("createTime");
+        navig.setOrderField("create_time");
         inPara.setNavigate(navig);
 
         try {

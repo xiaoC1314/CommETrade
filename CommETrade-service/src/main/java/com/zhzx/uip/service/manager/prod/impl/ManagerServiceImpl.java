@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -184,10 +185,14 @@ public class ManagerServiceImpl implements ManagerService {
 		try {
 			String[] idArray = ids.split(",");
 			for (String id:idArray) {
-				prodPropertyService.delete(id);
+				ProdProperty inPara = new ProdProperty();
+				inPara.setId(id);
+				inPara.setStatus("0");//无效
+				prodPropertyService.updateBySelective(inPara);
+//				prodPropertyService.delete(id);
 			}
 		}catch (Exception e){
-			logger.error("查询商品基本信息失败："+e.getMessage());
+			logger.error("删除商品属性失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
 		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
@@ -202,8 +207,8 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
 		List<ProdProperty> prodList = null;
-//		prodList = prodPropertyService.selectByModelAsPage(inPara);
-		prodList = prodPropertyService.selectByModel(inPara);
+		prodList = prodPropertyService.selectByModelAsPage(inPara);
+//		prodList = prodPropertyService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -215,12 +220,7 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		System.out.println(inPara.getNavigate().getPageCount());
-		System.out.println(inPara.getNavigate().getPageOffset());
-		System.out.println(inPara.getNavigate().getPageTail());
-		System.out.println(inPara.getNavigate());
 		prodList = prodInfoService.selectByModelAsPage(inPara);
-
 //		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
@@ -404,7 +404,7 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	@Override
 	public ResponseToMa queryOrderList(OrderInfoModel inPara){
-		List<OrderInfoDetail> orderDetaillist = null;
+		List<OrderInfoDetail> orderDetaillist = new ArrayList<OrderInfoDetail>();
 		ResponseToMa resp = null;
 		try {
 			List<OrderInfo>  orderInfos =  orderInfoService.selectByModelAsPage(inPara);
@@ -418,6 +418,7 @@ public class ManagerServiceImpl implements ManagerService {
 					model.setOrderNo(orderNo);
 					List<ProdList> prodList = prodListService.selectByModel(model);
 					BeanUtils.copy(prodList.get(0),orderInfoDetail);
+					orderInfoDetail.setProdId(prodList.get(0).getId());
 					orderDetaillist.add(orderInfoDetail);
 				}
 				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),orderDetaillist);

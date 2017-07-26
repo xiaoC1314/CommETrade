@@ -24,7 +24,7 @@
 		<th data-options="field:'name',width:80">客户姓名</th>
 		<th data-options="field:'idCardType',width:80">证件类型</th>
 		<th data-options="field:'idCard',width:82">证件号码</th>
-		<th data-options="field:'nickName',width:80'">昵称</th>
+		<th data-options="field:'nickName',width:80">昵称</th>
 		<th data-options="field:'phone',width:80">客户手机</th>
 		<th data-options="field:'qqNo',width:82">QQ号码</th>
 		<th data-options="field:'wechatNo',width:120">微信号</th>

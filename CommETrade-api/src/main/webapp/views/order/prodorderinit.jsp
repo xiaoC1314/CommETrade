@@ -16,7 +16,7 @@
 <body style="padding-left:10px;">
 <div style="margin:20px 0;"></div>
 <table id="dg" class="easyui-datagrid" title="商品订单信息查询" style="width:1100px;height:400px"
-	   data-options="rownumbers:true,singleSelect:true,url:'prodlist',method:'get',toolbar:'#tb'" pagination="true">
+	   data-options="rownumbers:true,singleSelect:true,url:'prodorderlist',method:'get',toolbar:'#tb'" pagination="true">
 	<thead>
 	<tr>
 		<th data-options="field:'ck',checkbox:true"></th>

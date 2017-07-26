@@ -23,8 +23,16 @@
 		<th data-options="field:'prodNo',width:80">商品编号</th>
 		<th data-options="field:'propKey',width:100">属性key</th>
 		<th data-options="field:'propName',width:100,align:'left'">属性名称</th>
-		<th data-options="field:'propValue',width:280,align:'left'">属性值</th>
+		<th data-options="field:'propValue',width:220,align:'left'">属性值</th>
 		<th data-options="field:'propDiscribe',width:180">属性描述</th>
+		<th data-options="field:'status',width:60,
+						formatter:function(value,row){
+							if(value == '0')
+								return '无效';
+							else
+								return '有效';
+						}">属性状态</th>
+
 	</tr>
 	</thead>
 </table>

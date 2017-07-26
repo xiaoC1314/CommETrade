@@ -91,7 +91,7 @@
 				</li>
 			</ul>
 		</div>
-		<div title="退出" iconcls="icon-cancel" style="overflow: auto; padding: 10px;">
+		<div title="退出" onclick="layout();" iconcls="icon-cancel" style="overflow: auto; padding: 10px;">
 			退出系统
 		</div>
 	</div>
@@ -108,6 +108,10 @@
 </body>
 </html>
 <script language="JavaScript">
+	function  layout() {
+		alert("退出成功！");
+        window.location.href="<%=request.getContextPath()%>/console/layout";
+    }
     $(document).ready(function () {
         $('.easyui-accordion li a').click(function () {
             var tabTitle = $(this).text();
