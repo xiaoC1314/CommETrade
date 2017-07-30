@@ -30,7 +30,7 @@ public class OrderResult {
     /**
      * 订单收货地址信息
      */
-    private AddressResult addressResult;
+    private AddressResult address;
 
     /**
      * 产品清单
@@ -91,11 +91,11 @@ public class OrderResult {
         this.createTime = createTime;
     }
 
-    public AddressResult getAddressResult() {
-        return addressResult;
+    public AddressResult getAddress() {
+        return address;
     }
 
-    public void setAddressResult(AddressResult addressResult) {
-        this.addressResult = addressResult;
+    public void setAddress(AddressResult address) {
+        this.address = address;
     }
 }

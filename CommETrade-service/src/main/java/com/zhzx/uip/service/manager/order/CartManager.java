@@ -33,7 +33,7 @@ public class CartManager {
         cartModel.put("queryCondition","and order_no is null");
         cartModel.put("orderCondition","cust_no limit 1 for update");
         List<Cart> carts =  cartService.selectByMap(cartModel);
-        if (carts != null){
+        if (carts != null && carts.size() != 0){
             return carts.get(0);
         }
         return null;

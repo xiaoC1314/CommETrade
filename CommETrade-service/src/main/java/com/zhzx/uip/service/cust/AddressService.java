@@ -9,4 +9,6 @@ import com.zhzx.uip.commons.module.ResponseVo;
 public interface AddressService {
 
     ResponseVo addAddress(AddParam param);
+
+    ResponseVo queryAddressList(String custNo,Integer page,Integer pageSize);
 }
