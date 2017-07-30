@@ -17,9 +17,11 @@ import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.controller.product.ProductController;
 import com.zhzx.uip.api.utils.DictionaryConfig;
+import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.manager.prod.ManagerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by dongwm on 2017/7/9.
@@ -683,7 +686,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if (rows != null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-        navig.setOrderField("order");
+        navig.setOrderField("order_no");
         inPara.setNavigate(navig);
 
         try {
@@ -746,6 +749,30 @@ public class ManagerController extends BaseController {
             }
         }catch(Exception e){
             log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     * 获取商品分类
+     * @param prodType
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("dicitems")
+    public ResponseVo getDicItems(String caption){
+        ResponseVo resp = null;
+        try{
+            caption = new String(caption.getBytes("iso-8859-1"),"utf-8");
+            List list = DictionaryConfig.getInstance().getItems(caption);
+            if (CollectionUtils.isNotEmpty(list)) {
+                resp = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), list);
+            } else {
+                resp = new ResponseVo(false, ErrorEnum.COMM_EMPTY_DATA.getErrorMsg(), ErrorEnum.COMM_EMPTY_DATA.getErrorCode());
+            }
+        }catch(Exception e){
+            log.error("查询商品分类信息失败："+e.getMessage());
+            resp = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
         }
         return resp;
     }

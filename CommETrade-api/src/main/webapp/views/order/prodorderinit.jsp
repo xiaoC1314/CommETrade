@@ -16,13 +16,27 @@
 <body style="padding-left:10px;">
 <div style="margin:20px 0;"></div>
 <table id="dg" class="easyui-datagrid" title="商品订单信息查询" style="width:1100px;height:400px"
-	   data-options="rownumbers:true,singleSelect:true,url:'prodorderlist',method:'get',toolbar:'#tb'" pagination="true">
+	   data-options="rownumbers:true,singleSelect:true,url:'prodorderlist',method:'get',toolbar:'#tb',onLoadSuccess:functionLoadSuccess" pagination="true">
 	<thead>
 	<tr>
 		<th data-options="field:'ck',checkbox:true"></th>
 		<th data-options="field:'id',width:80">订单编号</th>
 		<th data-options="field:'custNo',width:150">客户编号</th>
-		<th data-options="field:'status',width:200,align:'right'">订单状态</th>
+		<th data-options="field:'status',width:200,align:'right',
+						formatter:function(value,row){
+							if(value == '1')
+								return '生成订单';
+							else if(value == '2')
+								return '等待发货';
+							else if(value == '3')
+								return '完成';
+							else if(value == '-1')
+								return '订单取消';
+							else if(value == '-2')
+								return '订单过期';
+							else
+								return value;
+						}">订单状态</th>
 		<th data-options="field:'createTime',width:80,align:'right'">生成时间</th>
 		<th data-options="field:'prodId',display:'none'">订单清单编号</th>
 		<th data-options="field:'prodName',width:80">产品名称</th>
@@ -42,6 +56,7 @@
 		订单编号：<input type="text" id="order_id"/>
 		订单状态：
 		<select class="easyui-combobox" panelHeight="auto" id="order_status" style="width:100px">
+			<option value="">全部</option>
 			<option value="1">生成订单</option>
 			<option value="2">等待发货</option>
 			<option value="3">完成</option>
@@ -94,7 +109,7 @@
 				<td field="state" class="">
 				</td>
 				<td field="state" class="">
-					<button type="button" class="easyui-linkbutton" id="modify_orderstatus_bt">&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;</button>
+					<button type="button" class="easyui-linkbutton" id="modify_orderstatus_bt">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
 				</td>
 			</tr>
 			</tbody>
@@ -152,7 +167,7 @@
 				<td field="state" class="">
 				</td>
 				<td field="state" class="">
-					<button type="button" class="easyui-linkbutton" id="modify_orderinfo_bt">&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;</button>
+					<button type="button" class="easyui-linkbutton" id="modify_orderinfo_bt">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
 				</td>
 			</tr>
 			</tbody>
@@ -183,12 +198,12 @@
 
     function set_orderinfo(){
         if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
-            alert("请选择要修改的商品！");
+            alert("请选择要修改的信息！");
             return false;
         }
         var queryid = $('#dg').datagrid('getSelected').id;
         if(queryid == ""){
-            alert("请选择要修改的商品！");
+            alert("请选择要修改的信息！");
             return false;
         }
         $.ajax({
@@ -255,12 +270,12 @@
 
     function set_prodinfo(){
         if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
-            alert("请选择要修改的商品！");
+            alert("请选择要修改的信息！");
             return false;
         }
         var queryid = $('#dg').datagrid('getSelected').id;
         if(queryid == ""){
-            alert("请选择要修改的商品！");
+            alert("请选择要修改的信息！");
             return false;
         }
         $.ajax({
@@ -293,5 +308,17 @@
                 }
             }
         });
+    }
+    function functionLoadSuccess(data){
+        if (data.total == 0) {
+            //alert(data.total );
+            //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
+            //$('#dg').datagrid('appendRow', { itemid: '<div style="text-align:center;color:red">没有相关记录！</div>' }).datagrid('mergeCells', { index: 0, field: 'itemid', colspan: 7 });
+            //隐藏分页导航条，这个需要熟悉datagrid的html结构，直接用jquery操作DOM对象，easyui datagrid没有提供相关方法隐藏导航条
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+        } else
+        //如果通过调用reload方法重新加载数据有数据时显示出分页导航容器
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+
     }
 </script>

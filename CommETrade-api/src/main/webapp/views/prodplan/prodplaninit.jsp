@@ -287,7 +287,7 @@
             alert("请选择活动信息！");
             return false;
         }
-        window.location.href="<%=request.getContextPath()%>/console/uploadinit?planNo="+queryid;
+        window.location.href="<%=request.getContextPath()%>/console/prodplandetailinit?planNo="+queryid;
     });
 
 </script>

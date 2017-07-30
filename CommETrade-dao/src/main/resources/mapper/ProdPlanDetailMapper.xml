@@ -8,13 +8,13 @@
 				<result column="id" property="id"/>
 				<result column="plan_no" property="planNo"/>
 				<result column="prod_no" property="prodNo"/>
-				<result column="order" property="order"/>
+				<result column="order_no" property="orderNo"/>
 				<result column="create_time" property="createTime"/>
 			</resultMap>
 
 	<!-- p_product_plan_detail table all fields -->
 	<sql id="Base_Column_List" >
-		id,plan_no,prod_no,order,create_time
+		id,plan_no,prod_no,order_no,create_time
 	</sql>
 
 
@@ -31,8 +31,8 @@
 												<if test="prodNo != null and prodNo != ''" >
 				and prod_no =  #{prodNo}
 			</if>
-												<if test="order != null and order != ''" >
-				and order =  #{order}
+												<if test="orderNo != null and orderNo != ''" >
+				and order_no =  #{orderNo}
 			</if>
 												<if test="createTime != null and createTime != ''" >
 				and create_time =  #{createTime}
@@ -43,13 +43,13 @@
 
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
-		insert into p_product_plan_detail(id,plan_no,prod_no,order,create_time)
- values(#{id,jdbcType=VARCHAR},#{planNo,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{order,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
+		insert into p_product_plan_detail(id,plan_no,prod_no,order_no,create_time)
+ values(#{id,jdbcType=VARCHAR},#{planNo,jdbcType=VARCHAR},#{prodNo,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.prod.ProdPlanDetail" >
-		update p_product_plan_detail set plan_no=#{planNo,jdbcType=VARCHAR},prod_no=#{prodNo,jdbcType=VARCHAR},order=#{order,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR} where id=#{id}
+		update p_product_plan_detail set plan_no=#{planNo,jdbcType=VARCHAR},prod_no=#{prodNo,jdbcType=VARCHAR},order_no=#{orderNo,jdbcType=VARCHAR},create_time=#{createTime,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
@@ -62,8 +62,8 @@
 	<if test="prodNo != null  and prodNo != '' ">
 		prod_no=#{prodNo},
 	</if>
-	<if test="order != null  and order != '' ">
-		order=#{order},
+	<if test="orderNo != null  and orderNo != '' ">
+		order_no=#{orderNo},
 	</if>
 	<if test="createTime != null  and createTime != '' ">
 		create_time=#{createTime},

@@ -23,7 +23,7 @@
 		<th data-options="field:'id',width:80">活动明细编号</th>
 		<th data-options="field:'planNo',width:150">活动编号</th>
 		<th data-options="field:'prodNo',width:200,align:'right'">产品编号</th>
-		<th data-options="field:'order',width:80">排列序号</th>
+		<th data-options="field:'orderNo',width:80">排列序号</th>
 		<th data-options="field:'createTime',width:120,align:'center'">创建时间</th>
 	</tr>
 	</thead>
@@ -62,7 +62,7 @@
 				</td>
 				<td field="orderDate" class="">
 					<input type="hidden" name="opt" id="opt" value="1"/>
-					<input type="hidden" name="id" id="id"/>
+					<input type="hidden" name="id" id="plandetailid"/>
 					<span id="plan_detail_id"></span>
 				</td>
 			</tr>
@@ -87,7 +87,7 @@
 					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>排列序号</span></div>
 				</td>
 				<td field="cardNo" class="">
-					<input type="text" name="order" id="order"/>
+					<input type="text" name="orderNo" id="orderNo"/>
 				</td>
 			</tr>
 			<tr id="plan_createTime_tp" class="datagrid-header-row">
@@ -121,14 +121,14 @@
         var plan_id = $('#plan_no').val();
         serchdetail(plan_id);
     });
-    function serchdetail(plan_no{
-		if(plan_no==""){
-		    return false;
-		}
+    function serchdetail(plan_no){
+        if(plan_no==""){
+            return false;
+        }
         var handler = "<%=request.getContextPath()%>/console/queryprodplandetailajax?planNo=" + plan_no;
         $('#dg').datagrid('options').url = handler;
         $('#dg').datagrid('reload');
-	}
+    }
 
 
     $('#plan_add').bind('click', function(){
@@ -160,9 +160,10 @@
                     $('#plan_detail_id_tip').show();
                     $('#plan_createTime_tp').show();
                     $('#plan_detail_id').html(rows.id);
+                    $('#plandetailid').val(rows.id);
                     $('#planNo').val(rows.planNo);
                     $('#prodNo').val(rows.prodNo);
-                    $('#order').val(rows.order);
+                    $('#orderNo').val(rows.orderNo);
                     $('#plan_createTime').html(rows.createTime);
                     $('#opt').val("1");
                     $('#add_prod_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -185,8 +186,7 @@
     }
 
     $('#add_prod_bt').bind('click', function(){
-        if($('#id').val()=="" || $('#name').val()=="" || $('#displayName').val()=="" || $('#stock').val()=="" ||
-            $('#price').val()=="" || $('#discribe').val()=="" || $('#url').val()=="" ){
+        if($('#planNo').val()=="" || $('#prodNo').val()=="" || $('#orderNo').val()=="" ){
             alert("请填写完整商品信息！");
             return false;
         }
@@ -208,14 +208,14 @@
     function add_prod(){
         $('#planNo').val("");
         $('#prodNo').val("");
-        $('#order').val("");
+        $('#orderNo').val("");
         $('#plan_detail_id_tip').hide();
         $('#plan_createTime_tp').hide();
         $('#opt').val("0");
         $('#add_prod_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;新增&nbsp;&nbsp;&nbsp;&nbsp;")
         $('#dd').show();
         $('#dd').dialog({
-            title: '添加商品',
+            title: '添加',
             width: 400,
             height: 280,
             closed: false,

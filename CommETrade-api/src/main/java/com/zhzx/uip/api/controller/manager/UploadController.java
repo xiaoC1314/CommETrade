@@ -11,6 +11,7 @@ import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.manager.prod.ManagerService;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,18 +73,24 @@ public class UploadController extends BaseController {
         String propertiesFileName = "config";
         String kyeName = "file_path";
         int sheetIndex = 0;
-        Map<String, String> titleAndAttribute=null;
-        Class<ProdInfo> clazz=ProdInfo.class;
+        Class<ProdInfo> clazz = ProdInfo.class;
         //定义对应的标题名与对应属性名
-        titleAndAttribute=new HashMap<String, String>();
-        titleAndAttribute.put("ID", "id");
-        titleAndAttribute.put("NAME", "name");
+        Map<String, String> titleAndAttribute=new HashMap<String, String>();
+        titleAndAttribute.put("id", "id");
+        titleAndAttribute.put("name", "name");
+        titleAndAttribute.put("displayName", "displayName");
+        titleAndAttribute.put("stock", "stock");
+        titleAndAttribute.put("status", "status");
+        titleAndAttribute.put("price", "price");
+        titleAndAttribute.put("url", "url");
+        titleAndAttribute.put("discribe", "discribe");
 
+        Map<String, List<ProdInfo>> resultMap = new HashMap<String, List<ProdInfo>>();
         //调用解析工具包
         testExcel = new ExcelInUtils<ProdInfo>(formart);
         //解析excel，获取客户信息集合
         try {
-            prodInfoList = testExcel.uploadAndRead(multipart, propertiesFileName, kyeName, sheetIndex, titleAndAttribute, clazz);
+            prodInfoList = testExcel.uploadAndRead(multipart, propertiesFileName, kyeName, sheetIndex, titleAndAttribute, clazz, resultMap);
         } catch (Exception e) {
             log.error("读取Excel文件错误！",e);
         }
@@ -104,29 +111,29 @@ public class UploadController extends BaseController {
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("exportexcel")
-    public ModelAndView exportExcel(HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> conditionMap = null;
-        List<Object> dataSet = null;
-        String fileName = "client";
-        String title = "用户信息";
-        String[] rowName = { "编号", "名称" };
-
-        List<Object[]> dataList = new ArrayList<Object[]>();
-        Object[] objs = null;
-        for (int i = 0; i < dataSet.size(); i++) {
-            objs = new Object[rowName.length];
-            objs[0] = i;
-            objs[1] = dataSet.get(i);
-            dataList.add(objs);
-        }
-        ExcelOutUtils excelOut  = new ExcelOutUtils(fileName,title, rowName, dataList,response);
-        try {
-            excelOut.export();
-        } catch (Exception e) {
-            log.error("写入Excle出错！", e);
-        }
-        ModelAndView mav = new ModelAndView("/upload/uploadresult");
-        return mav;
-    }
+//    @RequestMapping("exportexcel")
+//    public ModelAndView exportExcel(HttpServletRequest request, HttpServletResponse response){
+//        Map<String, Object> conditionMap = null;
+//        List<Object> dataSet = null;
+//        String fileName = "client";
+//        String title = "用户信息";
+//        String[] rowName = { "编号", "名称" };
+//
+//        List<Object[]> dataList = new ArrayList<Object[]>();
+//        Object[] objs = null;
+//        for (int i = 0; i < dataSet.size(); i++) {
+//            objs = new Object[rowName.length];
+//            objs[0] = i;
+//            objs[1] = dataSet.get(i);
+//            dataList.add(objs);
+//        }
+//        ExcelOutUtils excelOut  = new ExcelOutUtils(fileName,title, rowName, dataList,response);
+//        try {
+//            excelOut.export();
+//        } catch (Exception e) {
+//            log.error("写入Excle出错！", e);
+//        }
+//        ModelAndView mav = new ModelAndView("/upload/uploadresult");
+//        return mav;
+//    }
 }

@@ -46,7 +46,9 @@ public class DictionaryConfig  implements Serializable {
         List<Bdictionary> listret = null;
         try {
             BdictionaryModel model = new BdictionaryModel();
-            listret = bdictionaryService.selectByModel(model);
+            model.getNavigate().setPageSize(99999);
+            model.getNavigate().setOrderField("id");
+            listret = bdictionaryService.selectByModelAsPage(model);
             if(!listret.isEmpty()){
                 Map config = null;
                 Map configDse = null;
@@ -56,7 +58,7 @@ public class DictionaryConfig  implements Serializable {
                 String value = null;
                 for (Bdictionary bean:listret) {
                     caption = bean.getCaption();
-                    captionDes = caption+"说明";
+                    captionDes = bean.getDescribed();
                     value = bean.getValue();
                     if (value == null) {
                         value = "空";
@@ -67,7 +69,7 @@ public class DictionaryConfig  implements Serializable {
                         config = new LinkedHashMap();
                         configDse = new LinkedHashMap();
                         configDicts.put(caption, config);
-                        configDicts.put(captionDes, configDse);
+                        configDicts.put(caption+"说明", configDse);
                     } else {
                         isBlock = false;
                     }
