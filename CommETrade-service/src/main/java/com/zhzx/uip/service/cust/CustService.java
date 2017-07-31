@@ -28,7 +28,7 @@ public interface CustService {
 	 * @param param
 	 * @return
 	 */
-	boolean register(RegisterParam param);
+	ResponseVo register(RegisterParam param);
 
 	/**
 	 * 用户更新资料

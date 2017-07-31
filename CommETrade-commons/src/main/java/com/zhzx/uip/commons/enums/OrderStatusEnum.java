@@ -21,6 +21,8 @@ public enum OrderStatusEnum {
     private String msg;
 
     OrderStatusEnum(String status, String msg) {
+        this.status = status;
+        this.msg = msg;
     }
 
     public String getStatus() {
@@ -37,5 +39,9 @@ public enum OrderStatusEnum {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(INIT.getStatus());
     }
 }

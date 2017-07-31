@@ -54,15 +54,9 @@ public class CustomerController extends BaseController{
             Assert.notNull(param.getSmsCode(),"验证码不能为空");
         }catch (IllegalArgumentException e){
             errorLogger.error("[phone={},password={},smsCode={}]参数校验失败:{}",new Object[]{param.getPhone(),param.getPassword(),param.getSmsCode(),e.getMessage()});
-            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR,e.getMessage());
         }
-
-        if(custService.register(param)){
-            responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS,true);
-        }else {
-            responseVo = new ResponseVo(false, ErrorEnum.COMM_PHONE_EXIST_ERR,false);
-        }
-        return responseVo;
+        return custService.register(param);
     }
 
     @ResponseBody

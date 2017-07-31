@@ -45,7 +45,7 @@ public class OrderManager {
     @Transactional
     public String createOrder(OrderParam param) throws Exception {
         List<Cart> carts = cartManager.queryAllCartForUpdate(param.getCustNo(),true);
-        if (carts ==null){
+        if (carts ==null || carts.size()==0){
             throw new BusinessException("购物车为空！无法下单");
         }
         OrderInfo orderInfo = new OrderInfo();
@@ -88,8 +88,8 @@ public class OrderManager {
         orderInfoModel.setCustNo(custNo);
         orderInfoModel.getNavigate().setPageSize(pageSize);
         orderInfoModel.getNavigate().setPageId(page);
-        orderInfoModel.getNavigate().setOrderField("createTime");
-        List<OrderInfo> orderInfos =  orderInfoService.selectByModel(orderInfoModel);
+        orderInfoModel.getNavigate().setOrderField("create_time");
+        List<OrderInfo> orderInfos =  orderInfoService.selectByModelAsPage(orderInfoModel);
         return orderInfos;
     }
 }

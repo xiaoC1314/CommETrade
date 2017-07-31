@@ -1,9 +1,12 @@
 package com.zhzx.uip.service.order.impl;
 
 import com.google.common.collect.Lists;
+import com.zhzx.dao.bean.cust.Address;
 import com.zhzx.dao.bean.order.OrderInfo;
 import com.zhzx.dao.bean.order.ProdList;
+import com.zhzx.dao.service.cust.AddressService;
 import com.zhzx.dao.service.order.OrderInfoService;
+import com.zhzx.uip.api.cust.model.AddressResult;
 import com.zhzx.uip.api.cust.model.OrderParam;
 import com.zhzx.uip.api.cust.model.OrderResult;
 import com.zhzx.uip.api.cust.model.ProdListResult;
@@ -41,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderInfoService orderInfoService;
 
+    @Autowired
+    AddressService addressService;
+
 
     @Override
     public ResponseVo createOrder(OrderParam param) {
@@ -76,6 +82,10 @@ public class OrderServiceImpl implements OrderService {
                 }
                 orderResult.setProdList(prodListResults);
             }
+            Address address = (Address) addressService.selectById(orderInfo.getAddNo());
+            AddressResult addressResult = new AddressResult();
+            BeanUtils.copyProperties(address,addressResult);
+            orderResult.setAddress(addressResult);
         } catch (Exception e) {
             logger.error("订单["+orderNo+"]查询失败！",e);
             return ResponseFactory.buildFailResponse(ErrorEnum.COMM_ERROR);
