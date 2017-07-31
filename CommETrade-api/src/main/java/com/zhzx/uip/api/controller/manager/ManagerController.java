@@ -1,16 +1,27 @@
 package com.zhzx.uip.api.controller.manager;
 
+import com.zhzx.dao.bean.cust.CustInfo;
+import com.zhzx.dao.bean.order.OrderInfo;
+import com.zhzx.dao.bean.order.ProdList;
 import com.zhzx.dao.bean.prod.ProdInfo;
+import com.zhzx.dao.bean.prod.ProdPlan;
+import com.zhzx.dao.bean.prod.ProdPlanDetail;
 import com.zhzx.dao.bean.prod.ProdProperty;
+import com.zhzx.dao.model.cust.CustInfoModel;
+import com.zhzx.dao.model.order.OrderInfoModel;
+import com.zhzx.dao.model.prod.ProdPlanDetailModel;
+import com.zhzx.dao.model.prod.ProdPlanModel;
 import com.zhzx.dao.model.prod.ProdPropertyModel;
 import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.uip.api.controller.BaseController;
 import com.zhzx.uip.api.controller.product.ProductController;
 import com.zhzx.uip.api.utils.DictionaryConfig;
+import com.zhzx.uip.commons.enums.ErrorEnum;
 import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
 import com.zhzx.uip.service.manager.prod.ManagerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by dongwm on 2017/7/9.
@@ -40,11 +52,19 @@ public class ManagerController extends BaseController {
     @Autowired
     private ManagerService managerService;
 
+    //图片上传网络地址前缀
     @Value("${prod.picture.prefixurl}")
     private String picUrl;
 
+    //图片上传服务器保存地址前缀
     @Value("${upload.folder.prefixurl}")
     private String picSaveUrl;
+
+    @Value("${admin.login.name}")
+    private String loginName;
+
+    @Value("${admin.login.pwd}")
+    private String loginPwd;
 
     /**
      *
@@ -55,7 +75,14 @@ public class ManagerController extends BaseController {
      */
     @RequestMapping("login")
     public ModelAndView loginInit(HttpServletRequest request, HttpServletResponse response){
-        DictionaryConfig.getInstance();
+
+        return new ModelAndView("/login/login");
+    }
+
+    @RequestMapping("layout")
+    public ModelAndView layOut(HttpServletRequest request, HttpServletResponse response){
+        //设置登录标识 0，登录成功
+        request.getSession().setAttribute("ISLOGIN","1");
         return new ModelAndView("/login/login");
     }
 
@@ -67,9 +94,13 @@ public class ManagerController extends BaseController {
      * @return
      */
     @RequestMapping("dologin")
-    public ModelAndView doLogin(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
+    public ModelAndView doLogin(HttpServletRequest request, HttpServletResponse response,String login ,String password){
         //登录验证
+        if(!login.equals(loginName) || !password.equals(loginPwd)){
+            return new ModelAndView("/login/error");
+        }
+        //设置登录标识 0，登录成功
+        request.getSession().setAttribute("ISLOGIN","0");
 
         ModelAndView mav = new ModelAndView("/frameset");
         return mav;
@@ -86,6 +117,9 @@ public class ManagerController extends BaseController {
     public ModelAndView addProdInfoInt(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //是否登录验证
+
+//        DictionaryConfig.getInstance().getMapByTypeName("商品类别");
+
 
         ModelAndView mav = new ModelAndView("/prod/addprodinfo");
         return mav;
@@ -189,6 +223,7 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("update_time");//生效日期排序
         inPara.setNavigate(navig);
 
 
@@ -308,7 +343,8 @@ public class ManagerController extends BaseController {
             navig.setPageId(Integer.parseInt(page));
         if(rows!=null && !"".equals(rows))
             navig.setPageSize(Integer.parseInt(rows));
-//        inPara.setNavigate(navig);
+        navig.setOrderField("prod_no");
+        inPara.setNavigate(navig);
         try{
             resp = managerService.getProdPropertys(inPara);
         }catch(Exception e){
@@ -341,17 +377,6 @@ public class ManagerController extends BaseController {
             log.error(e);
         }
         return resp;
-    }
-
-
-    @RequestMapping("modifyprodpropetysubmit")
-    public ModelAndView modifyProdPropetyInfo(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
-        //登录验证
-
-
-        ModelAndView mav = new ModelAndView("/login/login");
-        return mav;
     }
 
     /**
@@ -429,13 +454,13 @@ public class ManagerController extends BaseController {
     /**
      *
      * <br>
-     * <b>功能：</b>订单列表【web端】<br>
+     * <b>功能：</b>已支付列表<br>
      * <b>作者：</b>dongwm<br>
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("prodorderinfo")
-    public ModelAndView prodOrderInfo(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("payorderinfo")
+    public ModelAndView payOrderInfo(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
 
@@ -443,6 +468,78 @@ public class ManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("/login/login");
         return mav;
     }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>订单信息编辑【web端】 init<br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @RequestMapping("prodorderinit")
+    public ModelAndView prodOrderInfoInit(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        //登录验证
+
+
+        ModelAndView mav = new ModelAndView("/order/prodorderinit");
+        return mav;
+    }
+
+    /**
+     *
+     * <br>
+     * <b>功能：</b>订单列表及已支付列表【web端】 <br>
+     * <b>作者：</b>dongwm<br>
+     * <b>日期：</b> Dec 8, 2011 <br>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("prodorderlist")
+    public ResponseToMa prodOrderInfo(OrderInfoModel inPara, String page, String rows){
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if(page!=null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if(rows!=null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("create_time");
+        inPara.setNavigate(navig);
+
+        try{
+            resp = managerService.queryOrderList(inPara);
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+
+    /**
+     * ajax 订单信息编辑
+     * @param inPara
+     * @param opt 0.修改订单状态。1.修改修改订单列表-购物清单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("modifyorderajax")
+    public ResponseVo modifyOrderInfoajax(HttpServletRequest request, OrderInfo inPara, ProdList prodList, String opt){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            if("0".equals(opt)){
+                resp = managerService.modifyOrderInfo(inPara);
+            } else if("1".equals(opt)){
+                resp = managerService.modifyOrderInfo(prodList);
+            }
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
 
     /**
      *
@@ -470,32 +567,67 @@ public class ManagerController extends BaseController {
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("querycustinfo")
-    public ModelAndView queryCustInfo(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("querycustinit")
+    public ModelAndView queryCustInit(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
 
-
-        ModelAndView mav = new ModelAndView("/login/login");
+        ModelAndView mav = new ModelAndView("/cust/custinit");
         return mav;
     }
 
+    @ResponseBody
+    @RequestMapping("custinfolist")
+    public ResponseToMa queryCustinfo(CustInfoModel inPara, String page, String rows) {
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if (page != null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if (rows != null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("create_time");
+        inPara.setNavigate(navig);
+
+        try {
+            resp = managerService.queryCustInfoList(inPara);
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return resp;
+    }
+
     /**
-     *
-     * <br>
      * <b>功能：</b>客户信息编辑【web端】<br>
-     * <b>作者：</b>dongwm<br>
-     * <b>日期：</b> Dec 8, 2011 <br>
+     * ajax 订单信息编辑
+     * @param inPara
+     * @param opt 0.新增，1.修改。2.删除。
      * @return
      */
+    @ResponseBody
     @RequestMapping("modifycustinfo")
-    public ModelAndView modifyCustInfo(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
-        //登录验证
-
-
-        ModelAndView mav = new ModelAndView("/login/login");
-        return mav;
+    public ResponseVo modifyCustInfo(HttpServletRequest request, CustInfo inPara, String opt, String ids){
+            HttpSession session = request.getSession();
+            //登录验证
+            ResponseVo resp = null;
+            try{
+                if("0".equals(opt)){
+                    resp = managerService.addyCustInfo(inPara);
+                } else if("1".equals(opt)){
+                    inPara.setIsDelete("0");//正常
+                    resp = managerService.modifyCustInfo(inPara);
+                } else if("2".equals(opt)){
+                    String[] idArray = ids.split(",");
+                    for (String id:idArray) {
+                        inPara = new CustInfo();
+                        inPara.setId(id);
+                        inPara.setIsDelete("1");//删除
+                        resp = managerService.modifyCustInfo(inPara);
+                    }
+                }
+            }catch(Exception e){
+                log.error(e);
+            }
+            return resp;
     }
 
     /**
@@ -506,14 +638,143 @@ public class ManagerController extends BaseController {
      * <b>日期：</b> Dec 8, 2011 <br>
      * @return
      */
-    @RequestMapping("modifyprodplaninfo")
-    public ModelAndView modifyProdplanInfo(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("prodplaninfoinit")
+    public ModelAndView prodPlaninfoInit(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         //登录验证
 
-
-        ModelAndView mav = new ModelAndView("/login/login");
+        ModelAndView mav = new ModelAndView("/prodplan/prodplaninit");
         return mav;
+    }
+
+    @RequestMapping("prodplandetailinit")
+    public ModelAndView prodPlanDetailinfoInit(HttpServletRequest request, HttpServletResponse response,String planNo){
+        HttpSession session = request.getSession();
+        //登录验证
+
+        ModelAndView mav = new ModelAndView("/prodplan/prodplandetail");
+        mav.addObject("planNo",planNo);
+        return mav;
+    }
+
+    @ResponseBody
+    @RequestMapping("queryprodplanajax")
+    public ResponseToMa queryProdPlan(ProdPlanModel inPara, String page, String rows) {
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if (page != null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if (rows != null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("create_time");
+        inPara.setNavigate(navig);
+
+        try {
+            resp = managerService.queryProdPlanList(inPara);
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return resp;
+    }
+
+    @ResponseBody
+    @RequestMapping("queryprodplandetailajax")
+    public ResponseToMa queryProdPlanDetail(ProdPlanDetailModel inPara, String page, String rows) {
+        ResponseToMa resp = null;
+        Navigate navig = new Navigate();
+        if (page != null && !"".equals(page))
+            navig.setPageId(Integer.parseInt(page));
+        if (rows != null && !"".equals(rows))
+            navig.setPageSize(Integer.parseInt(rows));
+        navig.setOrderField("order_no");
+        inPara.setNavigate(navig);
+
+        try {
+            resp = managerService.queryProdPlanDetailList(inPara);
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     * <b>功能：</b>活动信息编辑【web端】<br>
+     * ajax 活动信息编辑
+     * @param inPara
+     * @param opt 0.新增，1.修改。2.删除。
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("modifyprodplan")
+    public ResponseVo modifyProdPlan(HttpServletRequest request, ProdPlan inPara, String opt){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            if("0".equals(opt)){
+                resp = managerService.addProdPlan(inPara);
+            } else if("1".equals(opt)){
+                inPara.setStatus("1");//有效
+                resp = managerService.modifyProdPlan(inPara);
+            } else if("2".equals(opt)){
+                inPara.setStatus("0");//失效
+                resp = managerService.modifyProdPlan(inPara);
+            }
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     * <b>功能：</b>活动信息详情编辑【web端】<br>
+     * ajax 活动信息详情编辑
+     * @param inPara
+     * @param opt 0.新增，1.修改。2.删除。
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("modifyprodplandetail")
+    public ResponseVo modifyProdPlanDetail(HttpServletRequest request, ProdPlanDetail inPara, String opt, String ids){
+        HttpSession session = request.getSession();
+        //登录验证
+        ResponseVo resp = null;
+        try{
+            if("0".equals(opt)){
+                resp = managerService.addProdPlanDetail(inPara);
+            } else if("1".equals(opt)){
+                resp = managerService.modifyProdPlanDetail(inPara);
+            } else if("2".equals(opt)){
+                resp = managerService.delProdPlanDetail(ids);
+            }
+        }catch(Exception e){
+            log.error(e);
+        }
+        return resp;
+    }
+
+    /**
+     * 获取商品分类
+     * @param prodType
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("dicitems")
+    public ResponseVo getDicItems(String caption){
+        ResponseVo resp = null;
+        try{
+            caption = new String(caption.getBytes("iso-8859-1"),"utf-8");
+            List list = DictionaryConfig.getInstance().getItems(caption);
+            if (CollectionUtils.isNotEmpty(list)) {
+                resp = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), list);
+            } else {
+                resp = new ResponseVo(false, ErrorEnum.COMM_EMPTY_DATA.getErrorMsg(), ErrorEnum.COMM_EMPTY_DATA.getErrorCode());
+            }
+        }catch(Exception e){
+            log.error("查询商品分类信息失败："+e.getMessage());
+            resp = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+        }
+        return resp;
     }
 
     /**
@@ -533,25 +794,5 @@ public class ManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("/login/login");
         return mav;
     }
-
-    /**
-     *
-     * <br>
-     * <b>功能：</b>已支付列表<br>
-     * <b>作者：</b>dongwm<br>
-     * <b>日期：</b> Dec 8, 2011 <br>
-     * @return
-     */
-    @RequestMapping("payorderinfo")
-    public ModelAndView payOrderInfo(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
-        //登录验证
-
-
-        ModelAndView mav = new ModelAndView("/login/login");
-        return mav;
-    }
-
-
 
 }

@@ -1,15 +1,29 @@
 package com.zhzx.uip.service.manager.prod.impl;
 
 import com.zhzx.dao.bean.common.Bdictionary;
+import com.zhzx.dao.bean.cust.Address;
+import com.zhzx.dao.bean.cust.CustInfo;
+import com.zhzx.dao.bean.order.OrderInfo;
+import com.zhzx.dao.bean.order.OrderInfoDetail;
+import com.zhzx.dao.bean.order.ProdList;
 import com.zhzx.dao.bean.prod.*;
 import com.zhzx.dao.model.common.BdictionaryModel;
+import com.zhzx.dao.model.cust.CustInfoModel;
+import com.zhzx.dao.model.order.OrderInfoModel;
+import com.zhzx.dao.model.order.ProdListModel;
 import com.zhzx.dao.service.common.BdictionaryService;
+import com.zhzx.dao.service.cust.AddressService;
+import com.zhzx.dao.service.cust.CustInfoService;
+import com.zhzx.dao.service.order.OrderInfoService;
+import com.zhzx.dao.service.order.ProdListService;
 import com.zhzx.dao.support.Navigate;
 import com.zhzx.dao.model.prod.*;
 import com.zhzx.dao.service.prod.*;
 import com.zhzx.uip.commons.enums.ErrorEnum;
+import com.zhzx.uip.commons.enums.OrderStatusEnum;
 import com.zhzx.uip.commons.module.ResponseToMa;
 import com.zhzx.uip.commons.module.ResponseVo;
+import com.zhzx.uip.commons.utils.BeanUtils;
 import com.zhzx.uip.service.manager.prod.ManagerService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -17,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +56,18 @@ public class ManagerServiceImpl implements ManagerService {
 	@Autowired
 	private ProdCommentService prodCommentService;
 
+	@Autowired
+	OrderInfoService orderInfoService;
 
+	@Autowired
+	ProdListService prodListService;
+
+
+	@Autowired
+	private CustInfoService custInfoService;
+
+	@Autowired
+	AddressService addressService;
 
 	/**
 	 * 查询商品列表
@@ -138,9 +164,9 @@ public class ManagerServiceImpl implements ManagerService {
 	public ResponseVo modifyProdProperty(ProdProperty inPara) {
 		ResponseVo responseVo = null;
 		try {
-			prodPropertyService.update(inPara);
+			prodPropertyService.updateBySelective(inPara);
 		}catch (Exception e){
-			logger.error("查询商品基本信息失败："+e.getMessage());
+			logger.error("修改商品属性信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
 		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
@@ -159,10 +185,14 @@ public class ManagerServiceImpl implements ManagerService {
 		try {
 			String[] idArray = ids.split(",");
 			for (String id:idArray) {
-				prodPropertyService.delete(id);
+				ProdProperty inPara = new ProdProperty();
+				inPara.setId(id);
+				inPara.setStatus("0");//无效
+				prodPropertyService.updateBySelective(inPara);
+//				prodPropertyService.delete(id);
 			}
 		}catch (Exception e){
-			logger.error("查询商品基本信息失败："+e.getMessage());
+			logger.error("删除商品属性失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
 		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
@@ -177,8 +207,8 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
 		List<ProdProperty> prodList = null;
-//		prodList = prodPropertyService.selectByModelAsPage(inPara);
-		prodList = prodPropertyService.selectByModel(inPara);
+		prodList = prodPropertyService.selectByModelAsPage(inPara);
+//		prodList = prodPropertyService.selectByModel(inPara);
 		return prodList;
 	}
 
@@ -190,12 +220,7 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		System.out.println(inPara.getNavigate().getPageCount());
-		System.out.println(inPara.getNavigate().getPageOffset());
-		System.out.println(inPara.getNavigate().getPageTail());
-		System.out.println(inPara.getNavigate());
 		prodList = prodInfoService.selectByModelAsPage(inPara);
-
 //		prodList = prodInfoService.selectByModel(inPara);
 		return prodList;
 	}
@@ -363,9 +388,303 @@ public class ManagerServiceImpl implements ManagerService {
 	public ResponseVo modifyProductInfo(ProdInfo inPara){
 		ResponseVo responseVo = null;
 		try {
-			prodInfoService.update(inPara);
+			prodInfoService.updateBySelective(inPara);
 		}catch (Exception e){
 			logger.error("更新商品基本信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 查询商品列表
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseToMa queryOrderList(OrderInfoModel inPara){
+		List<OrderInfoDetail> orderDetaillist = new ArrayList<OrderInfoDetail>();
+		ResponseToMa resp = null;
+		try {
+			List<OrderInfo>  orderInfos =  orderInfoService.selectByModelAsPage(inPara);
+			if (CollectionUtils.isNotEmpty(orderInfos)) {
+				String orderNo = "";
+				OrderInfoDetail orderInfoDetail = new OrderInfoDetail();
+				for (OrderInfo orderInfo:orderInfos ) {
+					BeanUtils.copy(orderInfo,orderInfoDetail);
+					orderNo = orderInfo.getId();
+					ProdListModel model = new ProdListModel();
+					model.setOrderNo(orderNo);
+					List<ProdList> prodList = prodListService.selectByModel(model);
+					BeanUtils.copy(prodList.get(0),orderInfoDetail);
+					orderInfoDetail.setProdId(prodList.get(0).getId());
+					orderDetaillist.add(orderInfoDetail);
+				}
+				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),orderDetaillist);
+			} else {
+				resp = new ResponseToMa(0,null);
+			}
+		}catch (Exception e){
+			logger.error("查询订单信息失败："+e.getMessage());
+			resp = new ResponseToMa(0,null);
+		}
+		return resp;
+	}
+
+	/**
+	 * 修改订单状态
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyOrderInfo(OrderInfo inPara) {
+		ResponseVo responseVo = null;
+		try {
+			OrderInfo newOrder = new OrderInfo();
+			newOrder.setId(inPara.getId());
+			newOrder.setStatus(inPara.getStatus());
+			orderInfoService.updateBySelective(newOrder);
+		}catch (Exception e){
+			logger.error("更新订单状态失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改订单列表-购物清单
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyOrderInfo(ProdList inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodListService.updateBySelective(inPara);
+		}catch (Exception e){
+			logger.error("修改购物清单失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 查询客户列表
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseToMa queryCustInfoList(CustInfoModel inPara) {
+		List<CustInfo> custInfoList = null;
+		ResponseToMa resp = null;
+		try {
+			custInfoList = ( List<CustInfo>)custInfoService.selectByModelAsPage(inPara);
+			if (CollectionUtils.isNotEmpty(custInfoList)) {
+				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),custInfoList);
+			} else {
+				resp = new ResponseToMa(0,null);
+			}
+		}catch (Exception e){
+			logger.error("查询客户信息失败："+e.getMessage());
+			resp = new ResponseToMa(0,null);
+		}
+		return resp;
+	}
+
+	/**
+	 * 修改客户信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyCustInfo(CustInfo inPara) {
+		ResponseVo responseVo = null;
+		try {
+			custInfoService.updateBySelective(inPara);
+		}catch (Exception e){
+			logger.error("更新客户信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 新增客户信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo addyCustInfo(CustInfo inPara) {
+		ResponseVo responseVo = null;
+		try {
+			custInfoService.insert(inPara);
+		}catch (Exception e){
+			logger.error("新增客户信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改客户收货地址
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyAddressInfo(Address inPara) {
+		return null;
+	}
+
+	/**
+	 * 查询特殊活动列表
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseToMa queryProdPlanList(ProdPlanModel inPara) {
+		List<ProdPlan> prodPlanList = null;
+		ResponseToMa resp = null;
+		try {
+			prodPlanList = ( List<ProdPlan>)prodPlanService.selectByModelAsPage(inPara);
+			if (CollectionUtils.isNotEmpty(prodPlanList)) {
+				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),prodPlanList);
+			} else {
+				resp = new ResponseToMa(0,null);
+			}
+		}catch (Exception e){
+			logger.error("查询活动信息失败："+e.getMessage());
+			resp = new ResponseToMa(0,null);
+		}
+		return resp;
+	}
+
+	/**
+	 * 查询特殊活动详情
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseToMa queryProdPlanDetailList(ProdPlanDetailModel inPara) {
+		List<ProdPlanDetail> prodPlanDetailList = null;
+		ResponseToMa resp = null;
+		try {
+			prodPlanDetailList = ( List<ProdPlanDetail>)prodPlanDetailService.selectByModelAsPage(inPara);
+			if (CollectionUtils.isNotEmpty(prodPlanDetailList)) {
+				resp = new ResponseToMa(inPara.getNavigate().getRowCount(),prodPlanDetailList);
+			} else {
+				resp = new ResponseToMa(0,null);
+			}
+		}catch (Exception e){
+			logger.error("查询活动详情记录失败："+e.getMessage());
+			resp = new ResponseToMa(0,null);
+		}
+		return resp;
+	}
+
+	/**
+	 * 新增殊活动信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo addProdPlan(ProdPlan inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPlanService.insert(inPara);
+		}catch (Exception e){
+			logger.error("新增活动信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改殊活动信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyProdPlan(ProdPlan inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPlanService.updateBySelective(inPara);
+		}catch (Exception e){
+			logger.error("修改活动信息失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改殊活动详情信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo modifyProdPlanDetail(ProdPlanDetail inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPlanDetailService.updateBySelective(inPara);
+		}catch (Exception e){
+			logger.error("修改活动详情记录失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改殊活动详情信息
+	 *
+	 * @param inPara
+	 * @return
+	 */
+	@Override
+	public ResponseVo addProdPlanDetail(ProdPlanDetail inPara) {
+		ResponseVo responseVo = null;
+		try {
+			prodPlanDetailService.insert(inPara);
+		}catch (Exception e){
+			logger.error("新增活动详情记录失败："+e.getMessage());
+			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
+		}
+		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);
+		return responseVo;
+	}
+
+	/**
+	 * 修改殊活动详情信息
+	 *
+	 * @param ids@return
+	 */
+	@Override
+	public ResponseVo delProdPlanDetail(String ids) {
+		ResponseVo responseVo = null;
+		try {
+			String[] idArray = ids.split(",");
+			for (String id:idArray) {
+				prodPlanDetailService.delete(id);
+			}
+		}catch (Exception e){
+			logger.error("删除活动详情信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
 		responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), null);

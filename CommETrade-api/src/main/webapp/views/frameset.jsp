@@ -33,9 +33,9 @@
 						<li>
 							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品基本信息录入</a></span>
 						</li>
-						<li>
+						<!--li>
 							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/addprodinit">商品基本信息修改</a></span>
-						</li>
+						</li-->
 						<li>
 							<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/modifyprodpropetyinit">商品属性修改</a></span>
 						</li>
@@ -61,37 +61,37 @@
 		<div title="订单管理" iconcls="icon-edit" style="padding: 10px;">
 			<ul class="easyui-tree">
 				<li>
-					<span><a href="#">订单列表</a></span>
+					<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/prodorderinit">订单列表</a></span>
 				</li>
 				<li>
-					<span><a href="#">订单信息编辑</a></span>
+					<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/prodorderinit">订单信息编辑</a></span>
 				</li>
 				<li>
-					<span><a href="#">已支付列表</a></span>
+					<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/prodorderinit">已支付列表</a></span>
 				</li>
 			</ul>
 		</div>
 		<div title="客户管理" iconcls="icon-edit" style="overflow: auto; padding: 10px;">
 			<ul class="easyui-tree">
 				<li>
-					<span><a href="#">客户列表</a></span>
+					<span><a  target="mainFrame" href="<%=request.getContextPath()%>/console/querycustinit">客户列表</a></span>
 				</li>
 				<li>
-					<span><a href="#">客户信息编辑</a></span>
+					<span><a  target="mainFrame" href="<%=request.getContextPath()%>/console/querycustinit">客户信息编辑</a></span>
 				</li>
 			</ul>
 		</div>
 		<div title="其他信息" iconcls="icon-edit" style="overflow: auto; padding: 10px;">
 			<ul class="easyui-tree">
 				<li>
-					<span><a href="#">特殊活动</a></span>
+					<span><a target="mainFrame" href="<%=request.getContextPath()%>/console/prodplaninfoinit">特殊活动</a></span>
 				</li>
 				<li>
 					<span><a href="#">管理员设置</a></span>
 				</li>
 			</ul>
 		</div>
-		<div title="退出" iconcls="icon-cancel" style="overflow: auto; padding: 10px;">
+		<div title="退出" onclick="layout();" iconcls="icon-cancel" style="overflow: auto; padding: 10px;">
 			退出系统
 		</div>
 	</div>
@@ -101,12 +101,17 @@
 		<div title="欢迎使用" style="padding: 20px; overflow: hidden;" id="home">
 			<h1>使用说明</h1>
 			<p>1.支持同时上传多张图片（商品图片库和其它库分离，当前可以通过文件目录分离）</p>
+			字典：商品类别
 		</div>
 	</div>
 </div>
 </body>
 </html>
 <script language="JavaScript">
+	function  layout() {
+		alert("退出成功！");
+        window.location.href="<%=request.getContextPath()%>/console/layout";
+    }
     $(document).ready(function () {
         $('.easyui-accordion li a').click(function () {
             var tabTitle = $(this).text();

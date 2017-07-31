@@ -1,8 +1,11 @@
 package com.zhzx.uip.api.utils;
 
 import com.zhzx.dao.bean.common.Bdictionary;
+import com.zhzx.dao.bean.prod.ProdInfo;
 import com.zhzx.dao.model.common.BdictionaryModel;
+import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.service.common.BdictionaryService;
+import com.zhzx.dao.service.prod.ProdInfoService;
 import com.zhzx.uip.commons.utils.SpringContextUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -43,7 +46,9 @@ public class DictionaryConfig  implements Serializable {
         List<Bdictionary> listret = null;
         try {
             BdictionaryModel model = new BdictionaryModel();
-            listret = bdictionaryService.selectByModel(model);
+            model.getNavigate().setPageSize(99999);
+            model.getNavigate().setOrderField("id");
+            listret = bdictionaryService.selectByModelAsPage(model);
             if(!listret.isEmpty()){
                 Map config = null;
                 Map configDse = null;
@@ -53,7 +58,7 @@ public class DictionaryConfig  implements Serializable {
                 String value = null;
                 for (Bdictionary bean:listret) {
                     caption = bean.getCaption();
-                    captionDes = caption+"说明";
+                    captionDes = bean.getDescribed();
                     value = bean.getValue();
                     if (value == null) {
                         value = "空";
@@ -64,7 +69,7 @@ public class DictionaryConfig  implements Serializable {
                         config = new LinkedHashMap();
                         configDse = new LinkedHashMap();
                         configDicts.put(caption, config);
-                        configDicts.put(captionDes, configDse);
+                        configDicts.put(caption+"说明", configDse);
                     } else {
                         isBlock = false;
                     }
@@ -77,6 +82,22 @@ public class DictionaryConfig  implements Serializable {
         }catch (Exception e){
             logger.error("字典信息获取失败："+e.getMessage());
         }
+
+        ProdInfoService prodInfoService = (ProdInfoService) SpringContextUtil.getBean(ProdInfoService.class);
+        try {
+            //产品名称保存到字典
+            ProdInfoModel prodInfoModel= new ProdInfoModel();
+            List<ProdInfo> prodInfoList = prodInfoService.selectByModel(prodInfoModel);
+
+            Map<String,String> prodNameMap = new HashMap<String,String>();
+            for (ProdInfo prodinfo: prodInfoList) {
+                prodNameMap.put(prodinfo.getId(), prodinfo.getName());
+            }
+            configDicts.put("产品名称", prodNameMap);
+        }catch (Exception e){
+            logger.error("产品信息获取失败："+e.getMessage());
+        }
+
     }
 
     public Object getCaptionObject(String item, String value) {

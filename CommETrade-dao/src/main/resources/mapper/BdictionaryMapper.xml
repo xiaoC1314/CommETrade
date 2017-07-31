@@ -9,12 +9,12 @@
 				<result column="keyno" property="keyno"/>
 				<result column="value" property="value"/>
 				<result column="caption" property="caption"/>
-				<result column="describe" property="describe"/>
+				<result column="described" property="described"/>
 			</resultMap>
 
 	<!-- bdictionary table all fields -->
 	<sql id="Base_Column_List" >
-		id,keyno,value,caption,describe
+		id,keyno,value,caption,described
 	</sql>
 
 
@@ -34,8 +34,8 @@
 												<if test="caption != null and caption != ''" >
 				and caption =  #{caption}
 			</if>
-												<if test="describe != null and describe != ''" >
-				and describe =  #{describe}
+												<if test="described != null and described != ''" >
+				and described =  #{described}
 			</if>
 					</trim>
 	</sql>
@@ -43,13 +43,13 @@
 
 	<!-- 插入记录 -->
 	<insert id="insert" parameterType="com.zhzx.dao.bean.common.Bdictionary" >
-		insert into bdictionary(id,keyno,value,caption,describe)
- values(#{id,jdbcType=VARCHAR},#{keyno,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{caption,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR})
+		insert into bdictionary(id,keyno,value,caption,described)
+ values(#{id,jdbcType=VARCHAR},#{keyno,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{caption,jdbcType=VARCHAR},#{described,jdbcType=VARCHAR})
 	</insert>
 
 	<!-- 根据id，修改记录-->
 	<update id="update" parameterType="com.zhzx.dao.bean.common.Bdictionary" >
-		update bdictionary set keyno=#{keyno,jdbcType=VARCHAR},value=#{value,jdbcType=VARCHAR},caption=#{caption,jdbcType=VARCHAR},describe=#{describe,jdbcType=VARCHAR} where id=#{id}
+		update bdictionary set keyno=#{keyno,jdbcType=VARCHAR},value=#{value,jdbcType=VARCHAR},caption=#{caption,jdbcType=VARCHAR},described=#{described,jdbcType=VARCHAR} where id=#{id}
 	</update>
 
 	<!--  -->
@@ -65,8 +65,8 @@
 	<if test="caption != null  and caption != '' ">
 		caption=#{caption},
 	</if>
-	<if test="describe != null  and describe != '' ">
-		describe=#{describe},
+	<if test="described != null  and described != '' ">
+		described=#{described},
 	</if>
 	</trim> where id=#{id}
 	</update>
@@ -127,17 +127,14 @@
 	<select id="selectByModelAsPage" resultMap="BaseResultMap"  parameterType="com.zhzx.dao.model.common.BdictionaryModel">
 		select
 		<include refid="Base_Column_List"/>
-		from (select rownum r,<include refid="Base_Column_List"/> from
-				(select * from bdictionary
-					<include refid="Example_Where_Clause"/>
-					<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
-					  ${navigate.otherCondition}
-					</if>
-					<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
-					  ${navigate.orderCondition}
-					</if>
-				)
-		)  where 1=1
+		from bdictionary
+		<include refid="Example_Where_Clause"/>
+		<if test="navigate.otherCondition != null and navigate.otherCondition != ''" >
+			${navigate.otherCondition}
+		</if>
+		<if test="navigate.orderCondition != null and navigate.orderCondition != ''" >
+			${navigate.orderCondition}
+		</if>
 		${navigate.mysqlQueryCondition}
 	</select>
 

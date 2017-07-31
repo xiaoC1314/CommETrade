@@ -15,35 +15,37 @@
 </head>
 <body style="padding-left:10px;">
 <div style="margin:20px 0;"></div>
-<table id="dg" class="easyui-datagrid" title="商品信息修改" style="width:1100px;height:400px"
-	   data-options="rownumbers:true,singleSelect:true,url:'prodlist',method:'get',toolbar:'#tb'" pagination="true">
+<table id="dg" class="easyui-datagrid" title="客户信息查询修改" style="width:1100px;height:400px"
+	   data-options="rownumbers:true,singleSelect:true,url:'custinfolist',method:'get',toolbar:'#tb'" pagination="true">
 	<thead>
 	<tr>
 		<th data-options="field:'ck',checkbox:true"></th>
-		<th data-options="field:'id',width:80">商品编号</th>
-		<th data-options="field:'name',width:150">商品名称</th>
-		<th data-options="field:'displayName',width:200,align:'right'">展示名称</th>
-		<th data-options="field:'stock',width:80,align:'right'">商品数量</th>
-		<th data-options="field:'status',width:80">商品状态</th>
-		<th data-options="field:'price',width:82,align:'center'">商品价格（元）</th>
-		<th data-options="field:'discribe',width:120,align:'center'">商品描述</th>
-		<th data-options="field:'url',width:120,align:'center'">URL地址</th>
+		<th data-options="field:'id',width:80">客户编号</th>
+		<th data-options="field:'name',width:80">客户姓名</th>
+		<th data-options="field:'idCardType',width:80">证件类型</th>
+		<th data-options="field:'idCard',width:82">证件号码</th>
+		<th data-options="field:'nickName',width:80">昵称</th>
+		<th data-options="field:'phone',width:80">客户手机</th>
+		<th data-options="field:'qqNo',width:82">QQ号码</th>
+		<th data-options="field:'wechatNo',width:120">微信号</th>
+		<th data-options="field:'isDelete',width:120">状态</th>
+		<th data-options="field:'email',width:120">电子邮箱</th>
+		<th data-options="field:'address',width:120">住址</th>
+		<th data-options="field:'lastedLoginTime',width:120">最近登陆时间</th>
 	</tr>
 	</thead>
 </table>
 <div id="tb" style="padding:5px;height:auto">
 	<div style="margin-bottom:5px">
-		<a href="#" id="prod_add" class="easyui-linkbutton" iconCls="icon-add" plain="false">添加</a>
-		<a href="#" id="prod_edit" class="easyui-linkbutton" iconCls="icon-edit" plain="false">修改</a>
-
-		<a href="#" id="prod_del" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
-		<a href="#" id="prod_save" class="easyui-linkbutton" iconCls="icon-save" plain="false">上传图片</a>
+		<a href="#" id="cust_add" class="easyui-linkbutton" iconCls="icon-add" plain="false">添加</a>
+		<a href="#" id="cust_edit" class="easyui-linkbutton" iconCls="icon-edit" plain="false">修改</a>
+		<a href="#" id="cust_del" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
 	</div>
 	<div>
 		<!--Date From: <input class="easyui-datebox" style="width:80px">
 		To: <input class="easyui-datebox" style="width:80px">-->
-		产品代码：<input type="text" name="prod_no" id="prod_no"/>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-search"   id="prod_search">查找</a>
+		客户编号：<input type="text" name="cust_no" id="cust_no"/>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-search"   id="cust_search">查找</a>
 	</div>
 </div>
 <div style="margin:10px 0;">
@@ -63,69 +65,93 @@
 			<tbody>
 			<tr class="datagrid-header-row">
 				<td field="orderDate" class="">
-					<div class="datagrid-cell" style=": width152px; text-align: center;"><span>商品编号</span></div>
+					<div class="datagrid-cell" style=": width152px; text-align: center;"><span>客户姓名</span></div>
 				</td>
 				<td field="orderDate" class="">
-					<input type="text" name="id" id="id"/>
-				</td>
-			</tr>
-			<tr class="datagrid-header-row">
-				<td field="applyId" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>商品名称</span></div>
-				</td>
-				<td field="applyId" class="">
 					<input type="text" name="name" id="name"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
+				<td field="applyId" class="">
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>证件类型</span></div>
+				</td>
+				<td field="applyId" class="">
+					<input type="text" name="idCardType" id="idCardType"/>
+				</td>
+			</tr>
+			<tr class="datagrid-header-row">
 				<td field="usrName" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>展示名称</span></div>
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>证件号码</span></div>
 				</td>
 				<td field="usrName" class="">
-					<input type="text" name="displayName" id="displayName"/>
+					<input type="text" name="idCard" id="idCard"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
 				<td field="bankNo" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>商品数量 </span></div>
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>昵称</span></div>
 				</td>
 				<td field="bankNo" class="">
-					<input type="text" name="stock" id="stock"/>
+					<input type="text" name="nickName" id="nickName"/>
+				</td>
+			</tr>
+			<tr class="datagrid-header-row">
+				<td field="bankNo" class="">
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>客户手机</span></div>
+				</td>
+				<td field="bankNo" class="">
+					<input type="text" name="phone" id="phone"/>
+				</td>
+			</tr>
+			<tr class="datagrid-header-row">
+				<td field="bankNo" class="">
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>QQ号码</span></div>
+				</td>
+				<td field="bankNo" class="">
+					<input type="text" name="qqNo" id="qqNo"/>
+				</td>
+			</tr>
+			<tr class="datagrid-header-row">
+				<td field="bankNo" class="">
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>微信号</span></div>
+				</td>
+				<td field="bankNo" class="">
+					<input type="text" name="wechatNo" id="wechatNo"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
 				<td field="cardNo" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>商品状态</span></div>
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>状态</span></div>
 				</td>
 				<td field="cardNo" class="">
-					<select class="easyui-combobox" panelHeight="auto" id="status" name="status" style="width:100px">
-						<option value="1">正常销售</option>
-						<option value="0">下架</option>
+					<select class="easyui-combobox" panelHeight="auto" id="isDelete" name="isDelete" style="width:100px">
+						<option value="0">正常</option>
+						<option value="1">删除</option>
 					</select>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
 				<td field="transAmt" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>商品价格（元） </span></div>
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>电子邮箱 </span></div>
 				</td>
 				<td field="transAmt" class="">
-					<input type="text" name="price" id="price"/>
+					<input type="text" name="email" id="email"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
 				<td field="transAmt" class="">
-					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>商品描述 </span></div>
+					<div class="datagrid-cell" style="width: 152px; text-align: center;"><span>住址 </span></div>
 				</td>
 				<td field="state" class="">
-					<input type="text" name="discribe" id="discribe"/>
+					<input type="text" name="address" id="address"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
 				<td field="state" class="">
-					<div class="datagrid-cell" style="width: 157px; text-align: center;"><span>商品URL地址 </span></div>
+					<div class="datagrid-cell" style="width: 157px; text-align: center;"><span>最近登陆时间</span></div>
 				</td>
 				<td field="state" class="">
-					<input type="text" name="url" id="url"/>
+					<input type="text" name="lastedLoginTime" id="lastedLoginTime"/>
 				</td>
 			</tr>
 			<tr class="datagrid-header-row">
@@ -133,7 +159,7 @@
 				</td>
 				<td field="state" class="">
 					<input type="hidden" value="" id="ismodifyprod"/>
-					<button type="button" class="easyui-linkbutton" id="add_prod_bt">&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;</button>
+					<button type="button" class="easyui-linkbutton" id="add_cust_bt">&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;</button>
 				</td>
 			</tr>
 			</tbody>
@@ -143,56 +169,39 @@
 </body>
 </html>
 <script type="text/javascript">
-
-    var url = "<%=request.getContextPath()%>/console/prodlist";
-    function prodsearch() {
-        var prod_no = $('#prod_no').val();
-        if(prod_no == null || prod_no == ""){
-            alert("请输入商品编号！");
+    var url = "<%=request.getContextPath()%>/console/custinfolist";
+    $('#cust_search').bind('click', function(){
+        var cust_no = $('#cust_no').val();
+        if(cust_no == null || cust_no == ""){
+            alert("请输入客户编号！");
             return false;
         }
-        var handler = "<%=request.getContextPath()%>/console/prodlist?id=" + prod_no;
+        var handler = "<%=request.getContextPath()%>/console/custinfolist?id=" + cust_no;
         $('#dg').datagrid('options').url = handler;
         $('#dg').datagrid('reload');
-    }
-    $('#prod_search').bind('click', function(){
-        prodsearch();
     });
 
-    $('#prod_add').bind('click', function(){
-        add_prod();
+    $('#cust_add').bind('click', function(){
+        add_cust();
     });
-    $('#prod_edit').bind('click', function(){
-        set_prodinfo();
+    $('#cust_edit').bind('click', function(){
+        set_custinfo();
+    });
 
-    });
-    $('#prod_save').bind('click', function(){
+
+    function set_custinfo(){
         if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
-            alert("请选择商品！");
+            alert("请选择要修改的数据！");
             return false;
         }
         var queryid = $('#dg').datagrid('getSelected').id;
         if(queryid == ""){
-            alert("请选择商品！");
-            return false;
-        }
-        window.location.href="<%=request.getContextPath()%>/console/uploadinit?prodNo="+queryid;
-    });
-
-
-    function set_prodinfo(){
-        if($('#dg').datagrid('getSelected') == null || $('#dg').datagrid('getSelected') == ""){
-            alert("请选择要修改的商品！");
-            return false;
-        }
-        var queryid = $('#dg').datagrid('getSelected').id;
-        if(queryid == ""){
-            alert("请选择要修改的商品！");
+            alert("请选择要修改的数据！");
             return false;
         }
         $.ajax({
             type: "GET",
-            url: "<%=request.getContextPath()%>/console/prodlist",
+            url: "<%=request.getContextPath()%>/console/custinfolist",
             data: {id:queryid},
             dataType: "json",
             success: function(data){
@@ -207,10 +216,10 @@
                     $('#discribe').val(rows.discribe);
                     $('#url').val(rows.url);
                     $('#ismodifyprod').val("1");
-                    $('#add_prod_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;")
+                    $('#add_cust_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;")
                     $('#dd').show();
                     $('#dd').dialog({
-                        title: '修改商品信息',
+                        title: '客户信息修改',
                         width: 400,
                         height: 280,
                         closed: false,
@@ -227,7 +236,7 @@
     }
 
 
-    $('#prod_del').bind('click', function(){
+    $('#cust_del').bind('click', function(){
         //var delid = $('#dg').datagrid('getSelected').id;
         var rows = $('#dg').datagrid('getSelections');
         if(rows.length == 0){
@@ -240,7 +249,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "<%=request.getContextPath()%>/console/delprodinfoajax",
+            url: "<%=request.getContextPath()%>/console/modifycustinfo?opt=1",
             data: {ids:setids},
             dataType: "json",
             success: function(data){
@@ -255,18 +264,16 @@
 
     });
 
-    $('#add_prod_bt').bind('click', function(){
-        if($('#id').val()=="" || $('#name').val()=="" || $('#displayName').val()=="" || $('#stock').val()=="" ||
-            $('#price').val()=="" || $('#discribe').val()=="" || $('#url').val()=="" ){
-            alert("请填写完整商品信息！");
+    $('#add_cust_bt').bind('click', function(){
+        if( $('#name').val()=="" || $('#idCard').val()=="" ||
+            $('#phone').val()=="" || $('#address').val()=="" || $('#email').val()=="" ){
+            alert("请填写完整客户信息！");
             return false;
         }
-        var modurl = "<%=request.getContextPath()%>/console/addprodinfoajax";
+        var modurl = "<%=request.getContextPath()%>/console/modifycustinfo?opt=0";
         if("1" == $('#ismodifyprod').val()){//修改
-            modurl = "<%=request.getContextPath()%>/console/modifyprodinfoajax"
+            modurl = "<%=request.getContextPath()%>/console/modifycustinfo?opt=1"
         }
-
-
         $.ajax({
             type: "POST",
             dataType: "html",
@@ -281,20 +288,20 @@
             }
         });
     });
-    function add_prod(){
-        $('#status').combobox('setValue',1);
-        $('#id').val("");
+    function add_cust(){
+        $('#isDelete').combobox('setValue',0);
         $('#name').val("");
-        $('#displayName').val("");
-        $('#stock').val("");
-        $('#price').val("");
-        $('#discribe').val("");
-        $('#url').val("");
-        $('#ismodifyprod').val("0");
-        $('#add_prod_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;")
+        $('#email').val("");
+        $('#address').val("");
+        $('#lastedLoginTime').val("");
+        $('#wechatNo').val("");
+        $('#qqNo').val("");
+        $('#phone').val("0");
+        $('#idCard').val("0");
+        $('#add_cust_bt').html("&nbsp;&nbsp;&nbsp;&nbsp;录入&nbsp;&nbsp;&nbsp;&nbsp;")
         $('#dd').show();
         $('#dd').dialog({
-            title: '新增商品信息',
+            title: '新增客户信息',
             width: 400,
             height: 280,
             closed: false,

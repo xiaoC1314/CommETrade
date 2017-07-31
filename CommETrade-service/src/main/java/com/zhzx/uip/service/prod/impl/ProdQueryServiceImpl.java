@@ -96,7 +96,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 * @return
 	 */
 	public ResponseVo getProdInfoDetail(ProdInfoModel inPara){
-		ProdInfoDetail prodDetailInfo = null;
+		ProdInfoDetail prodDetailInfo = new ProdInfoDetail();
 		ResponseVo responseVo = null;
 		try {
 			List<ProdInfo> prodinfos = prodInfoService.selectByModel(inPara);
@@ -127,9 +127,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 * @return
 	 */
 	private List<ProdProperty> queryProdListByProperty(ProdPropertyModel inPara)throws Exception {
-		List<ProdProperty> prodList = null;
-		prodList = prodPropertyService.selectByModel(inPara);
-		return prodList;
+		return  prodPropertyService.selectByModel(inPara);
 	}
 
 	/**
@@ -140,7 +138,8 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 */
 	private List<ProdInfo> queryProductList(ProdInfoModel inPara)throws Exception {
 		List<ProdInfo> prodList = null;
-		prodList = prodInfoService.selectByModel(inPara);
+//		prodList = prodInfoService.selectByModel(inPara);
+		prodList = prodInfoService.selectByModelAsPage(inPara);
 		return prodList;
 	}
 
@@ -154,6 +153,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	public ResponseVo getProdTypes(String prodType) {
 		List<Bdictionary> listret = null;
 		ResponseVo responseVo = null;
+
 		try {
 			BdictionaryModel model = new BdictionaryModel();
 			model.setCaption(prodType);
@@ -177,22 +177,23 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 * @return
 	 */
 	@Override
-	public ResponseVo getProductListByType(String prodTypeKey,String prodTypeName) {
+	public ResponseVo getProductListByType(String prodTypeKey,String prodTypeName,String prodTypeValue,Navigate navigate) {
 		ResponseVo responseVo = null;
 		try {
 			ProdPropertyModel inPara = new ProdPropertyModel();
 			inPara.setPropKey(prodTypeKey);
 			inPara.setPropName(prodTypeName);
+			inPara.setPropValue(prodTypeValue);
 			List<ProdProperty> prodDetail = queryProdListByProperty(inPara);
 			if (CollectionUtils.isNotEmpty(prodDetail)) {
 				StringBuffer prodids = new StringBuffer(" and id in ('");
 				for (ProdProperty property:prodDetail) {
-					prodids.append(property.getId()).append("',");
+					prodids.append(property.getId()).append("','");
 				}
+				prodids.deleteCharAt(prodids.length() - 1);
 				prodids.deleteCharAt(prodids.length() - 1);
 				prodids.append(")");
 				ProdInfoModel prodMode = new ProdInfoModel();
-				Navigate navigate = new Navigate();
 				navigate.setOtherCondition(prodids.toString());
 				prodMode.setNavigate(navigate);
 				List<ProdInfo> listProds = queryProductList(prodMode);
@@ -205,9 +206,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 			logger.error("查询某一分类下的所有商品信息失败："+e.getMessage());
 			responseVo = new ResponseVo(false, ErrorEnum.COMM_ERROR.getErrorMsg(), ErrorEnum.COMM_ERROR.getErrorCode());
 		}
-
-
-		return null;
+		return responseVo;
 	}
 
 	/**
@@ -217,9 +216,8 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 	 * @return
 	 */
 	@Override
-	public ResponseVo getProductByPlan(ProdPlanModel prodPlanModel ) {
-
-		prodPlanModel.setStatus("1");
+	public ResponseVo getProductByPlan(ProdPlanModel prodPlanModel,Navigate navigate ) {
+//		prodPlanModel.setStatus("1");//状态是否有效
 		ResponseVo responseVo = null;
 		try {
 			List<ProdPlan> prodPlan = prodPlanService.selectByModel(prodPlanModel);
@@ -231,12 +229,12 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 				if(prodPlanDetails != null && prodPlanDetails.size()>0){
 					StringBuffer prodids = new StringBuffer(" and id in ('");
 					for (ProdPlanDetail prodPlanDetail : prodPlanDetails) {
-						prodids.append(prodPlanDetail.getProdNo()).append("',");
+						prodids.append(prodPlanDetail.getProdNo()).append("','");
 					}
+					prodids.deleteCharAt(prodids.length() - 1);
 					prodids.deleteCharAt(prodids.length() - 1);
 					prodids.append(")");
 					ProdInfoModel prodMode = new ProdInfoModel();
-					Navigate navigate = new Navigate();
 					navigate.setOtherCondition(prodids.toString());
 					prodMode.setNavigate(navigate);
 					List<ProdInfo> listProds = queryProductList(prodMode);
@@ -290,7 +288,7 @@ public class ProdQueryServiceImpl implements ProdQueryService {
 		ResponseVo responseVo = null;
 		List<ProdComment> listProdComs = null;
 			try {
-				listProdComs = prodCommentService.selectByModel(inPara);
+				listProdComs = prodCommentService.selectByModelAsPage(inPara);
 			if (CollectionUtils.isNotEmpty(listProdComs)) {
 				responseVo = new ResponseVo(true, ErrorEnum.COMM_SUCCESS.getErrorMsg(), ErrorEnum.COMM_SUCCESS.getErrorCode(), listProdComs);
 			} else {

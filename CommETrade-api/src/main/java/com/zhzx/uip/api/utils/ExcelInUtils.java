@@ -1,6 +1,8 @@
 package com.zhzx.uip.api.utils;
 
+import com.zhzx.dao.bean.prod.ProdInfo;
 import com.zhzx.uip.commons.utils.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -61,11 +63,12 @@ public class ExcelInUtils<T> {
      * @param sheetIndex            读取Excle中的第几页中的数据
      * @param titleAndAttribute        标题名与实体类属性名对应的Map集合
      * @param clazz                    实体类.class
+     * @param clazz                    成功错误记录提示
      * @return                        返回读取出的List集合
      * @throws Exception
      */
     public List<T> uploadAndRead(CommonsMultipartFile multipart,String propertiesFileName, String kyeName,int sheetIndex,
-                                 Map<String, String> titleAndAttribute,Class<T> clazz) throws Exception{
+                                 Map<String, String> titleAndAttribute,Class<T> clazz,Map<String, List<T>> resultMap) throws Exception{
 
         String originalFilename=null;
         int i = 0;
@@ -80,7 +83,7 @@ public class ExcelInUtils<T> {
 
         String filePath = readPropertiesFilePathMethod( propertiesFileName, kyeName);
         File filePathname = this.upload(multipart, filePath, isExcel2003);
-        List<T> judgementVersion = judgementVersion(filePathname, sheetIndex, titleAndAttribute, clazz, isExcel2003);
+        List<T> judgementVersion = judgementVersion(filePathname, sheetIndex, titleAndAttribute, clazz, isExcel2003, resultMap);
 
         return judgementVersion;
     }
@@ -170,6 +173,7 @@ public class ExcelInUtils<T> {
         return filePathname;
     }
 
+
     /**
      * 读取本地Excel文件返回List集合
      * @param filePathname
@@ -180,7 +184,7 @@ public class ExcelInUtils<T> {
      * @return
      * @throws Exception
      */
-    public List<T> judgementVersion(File filePathname,int sheetIndex,Map<String, String> titleAndAttribute,Class<T> clazz,boolean isExcel2003) throws Exception{
+    public List<T> judgementVersion(File filePathname,int sheetIndex,Map<String, String> titleAndAttribute,Class<T> clazz,boolean isExcel2003,Map<String, List<T>> resultMap) throws Exception{
 
         FileInputStream is=null;
         POIFSFileSystem fs=null;
@@ -210,23 +214,22 @@ public class ExcelInUtils<T> {
             }
         }
 
-        return readExcelTitle(workbook,sheetIndex,titleAndAttribute,clazz);
+        return readExcelTitle(workbook,sheetIndex,titleAndAttribute,clazz,resultMap);
     }
 
     /**
      * 判断接收的Map集合中的标题是否于Excle中标题对应
      * @param workbook
      * @param sheetIndex
-     * @param titleAndAttribute
+     * @param titleAndAttribute key对应表格标题，value 对应数据库名称
      * @param clazz
+     * @param resultMap
      * @return
      * @throws Exception
      */
-    private List<T> readExcelTitle(Workbook workbook,int sheetIndex,Map<String, String> titleAndAttribute,Class<T> clazz) throws Exception{
-
+    private List<T> readExcelTitle(Workbook workbook, int sheetIndex, Map<String, String> titleAndAttribute, Class<T> clazz, Map<String, List<T>> resultMap) throws Exception{
         //得到第一个shell
         Sheet sheet = workbook.getSheetAt(sheetIndex);
-
         // 获取标题
         Row titelRow = sheet.getRow(0);
         Map<Integer, String> attribute = new HashMap<Integer, String>();
@@ -236,10 +239,9 @@ public class ExcelInUtils<T> {
                 if (cell != null) {
                     String key = cell.getStringCellValue();
                     String value = titleAndAttribute.get(key);
-                    if (value == null) {
-                        value = key;
+                    if (null != value) {
+                        attribute.put(Integer.valueOf(columnIndex), value);
                     }
-                    attribute.put(Integer.valueOf(columnIndex), value);
                 }
             }
         } else {
@@ -252,83 +254,64 @@ public class ExcelInUtils<T> {
             }
         }
 
-        return readExcelValue(workbook,sheet,attribute,clazz);
-
-    }
-
-    /**
-     * 获取Excle中的值
-     * @param workbook
-     * @param sheet
-     * @param attribute
-     * @param clazz
-     * @return
-     * @throws Exception
-     */
-    private List<T> readExcelValue(Workbook workbook,Sheet sheet,Map<Integer, String> attribute,Class<T> clazz) throws Exception{
-        List<T> info=new ArrayList<T>();
+        List<T> successList = new ArrayList<T>();
+        List<T> errorList = new ArrayList<T>();
         //获取标题行列数
-        int titleCellNum = sheet.getRow(0).getLastCellNum();
+//        int titleCellNum = sheet.getRow(0).getLastCellNum();
         // 获取值
         for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
             Row row = sheet.getRow(rowIndex);
-//            logger.debug("第--" + rowIndex);
-
-            //    1.若当前行的列数不等于标题行列数就放弃整行数据(若想放弃此功能注释4个步骤即可)
-            int lastCellNum = row.getLastCellNum();
-            if(titleCellNum !=  lastCellNum){
-                continue;
-            }
-
             // 2.标记
             boolean judge = true;
             T obj = clazz.newInstance();
-            for (int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++) {//这里小于等于变成小于
-                Cell cell = row.getCell(columnIndex);
 
+            String notNullColumn = PropertyUtil.getProperty("notNullColumn");
+            for (int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++) {//这里小于等于变成小于
+//                System.out.println("c:"+columnIndex+"\t"+attribute.get(Integer.valueOf(columnIndex)));
+                //判断当前单元格是否包含，否则跳过
+                String colname = attribute.get(Integer.valueOf(columnIndex));
+                if (null == colname) {
+                    continue;
+                }
+                Cell cell = row.getCell(columnIndex);
                 //处理单元格中值得类型
                 String value = getCellValue(cell);
-
-                // 3.单元格中的值等于null或等于"" 就放弃整行数据
-                if(value == null || "".equals(value)){
+                //3. 判断非空字段，单元格中的值等于null或等于""，是则放弃整行数据
+                if((value == null || "".equals(value)) && StringUtils.isNotEmpty(notNullColumn) && notNullColumn.indexOf(colname.toUpperCase())> -1 ){
                     judge = false;
-                    break;
+                } else {
+                    Field field = clazz.getDeclaredField(attribute.get(Integer.valueOf(columnIndex)));
+                    Class<?> fieldType = field.getType();
+                    Object agge = null;
+                    if (fieldType.isAssignableFrom(Integer.class)) {
+                        agge = Integer.valueOf(value);
+                    } else if (fieldType.isAssignableFrom(Double.class)) {
+                        agge = Double.valueOf(value);
+                    } else if (fieldType.isAssignableFrom(Float.class)) {
+                        agge = Float.valueOf(value);
+                    } else if (fieldType.isAssignableFrom(Long.class)) {
+                        agge = Long.valueOf(value);
+                    } else if (fieldType.isAssignableFrom(Date.class)) {
+                        agge = new SimpleDateFormat(format).parse(value);
+                    } else if (fieldType.isAssignableFrom(Boolean.class)) {
+                        agge = "Y".equals(value) || "1".equals(value);
+                    } else if (fieldType.isAssignableFrom(String.class)) {
+                        agge = value;
+                    }
+                    //char跟byte就不用判断了 用这两个类型的很少如果是从数据库用IDE生成的话就不会出现了
+                    Method method = clazz.getMethod("set" + toUpperFirstCase(colname), fieldType);
+                    method.invoke(obj, agge);
                 }
-
-                /*
-                 * 测试：查看自定义的title Map集合中定义的Excle标题和实体类中属性对应情况！
-                   System.out.println("c:"+columnIndex+"\t"+attribute.get(Integer.valueOf(columnIndex)));
-                 */
-                Field field = clazz.getDeclaredField(attribute.get(Integer
-                        .valueOf(columnIndex)));
-                Class<?> fieldType = field.getType();
-                Object agge = null;
-                if (fieldType.isAssignableFrom(Integer.class)) {
-                    agge = Integer.valueOf(value);
-                } else if (fieldType.isAssignableFrom(Double.class)) {
-                    agge = Double.valueOf(value);
-                } else if (fieldType.isAssignableFrom(Float.class)) {
-                    agge = Float.valueOf(value);
-                } else if (fieldType.isAssignableFrom(Long.class)) {
-                    agge = Long.valueOf(value);
-                } else if (fieldType.isAssignableFrom(Date.class)) {
-                    agge = new SimpleDateFormat(format).parse(value);
-                } else if (fieldType.isAssignableFrom(Boolean.class)) {
-                    agge = "Y".equals(value) || "1".equals(value);
-                } else if (fieldType.isAssignableFrom(String.class)) {
-                    agge = value;
-                }
-                // 个人感觉char跟byte就不用判断了 用这两个类型的很少如果是从数据库用IDE生成的话就不会出现了
-                Method method = clazz.getMethod("set"
-                        + toUpperFirstCase(attribute.get(Integer
-                        .valueOf(columnIndex))), fieldType);
-                method.invoke(obj, agge);
-
             }
-            // 4. if
-            if(judge)info.add(obj);
+            if(judge){
+                successList.add(obj);
+            } else {
+                errorList.add(obj);
+            }
         }
-        return info;
+        resultMap.put("ERRORLIST",errorList);
+        resultMap.put("SUCCESSLIST",successList);
+        return successList;
     }
 
     /**
@@ -390,4 +373,29 @@ public class ExcelInUtils<T> {
         }
         return result.toString();
     }
+
+
+    public static void main(String[] args){
+        File filePathname = new File("e:/excel/upload.xlsx");
+        Class<ProdInfo> clazz = ProdInfo.class;
+        String formart = "yyyy-MM-dd";
+        int sheetIndex = 0;
+        Map<String, String> titleAndAttribute=new HashMap<String, String>();
+        titleAndAttribute.put("id", "id");
+        titleAndAttribute.put("name", "name");
+        titleAndAttribute.put("displayName", "displayName");
+        titleAndAttribute.put("stock", "stock");
+        titleAndAttribute.put("status", "status");
+        titleAndAttribute.put("price", "price");
+        titleAndAttribute.put("url", "url");
+        titleAndAttribute.put("discribe", "discribe");
+        Map<String, List<ProdInfo>> resultMap = new HashMap<String, List<ProdInfo>>();
+        try {
+            //调用解析工具包
+            ExcelInUtils<ProdInfo> testExcel = new ExcelInUtils<ProdInfo>(formart);
+            List<ProdInfo> prodInfoList = testExcel.judgementVersion(filePathname, sheetIndex, titleAndAttribute, clazz, false,resultMap);
+        } catch (Exception e) {
+        }
+    }
+
 }

@@ -16,6 +16,8 @@ public class ResponseToMa implements Serializable {
 	}
 
 	public ResponseToMa(Integer total,Object rows) {
+		if(rows == null)
+			rows = "[]";
 		this.rows = rows;
 		this.total = total;
 	}

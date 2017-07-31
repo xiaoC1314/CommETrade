@@ -4,6 +4,7 @@ import com.zhzx.dao.model.prod.ProdCommentModel;
 import com.zhzx.dao.model.prod.ProdInfoModel;
 import com.zhzx.dao.model.prod.ProdPlanModel;
 import com.zhzx.dao.model.prod.ProdPropertyModel;
+import com.zhzx.dao.support.Navigate;
 import com.zhzx.uip.api.cust.model.RegisterParam;
 import com.zhzx.uip.commons.module.ResponseVo;
 import org.springframework.stereotype.Service;
@@ -44,14 +45,14 @@ public interface ProdQueryService {
 	 * @param prodTypeKey
 	 * @return
 	 */
-	public ResponseVo getProductListByType(String prodTypeKey,String prodTypeName);
+	public ResponseVo getProductListByType(String prodTypeKey,String prodTypeName,String prodTypeValue,Navigate navigate);
 
 	/**
 	 * 获取热销、最新、打折促销、推荐商品
 	 * @param prodPlanModel
 	 * @return
 	 */
-	public ResponseVo getProductByPlan(ProdPlanModel prodPlanModel );
+	public ResponseVo getProductByPlan(ProdPlanModel prodPlanModel, Navigate navigate);
 
 	/**
 	 * 搜索商品
