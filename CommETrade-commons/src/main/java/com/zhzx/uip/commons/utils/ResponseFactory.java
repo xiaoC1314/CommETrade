@@ -18,9 +18,13 @@ public class ResponseFactory {
     }
 
     public static ResponseVo buildFailResponse(ErrorEnum errorEnum){
+        return buildFailResponse(errorEnum,null);
+    }
+
+    public static ResponseVo buildFailResponse(ErrorEnum errorEnum,String msg){
         ResponseVo responseVo = new ResponseVo();
         responseVo.setCode(errorEnum.getErrorCode());
-        responseVo.setMessage(errorEnum.getErrorMsg());
+        responseVo.setMessage(msg==null?errorEnum.getErrorMsg():msg);
         responseVo.setSuccess(false);
         return responseVo;
     }

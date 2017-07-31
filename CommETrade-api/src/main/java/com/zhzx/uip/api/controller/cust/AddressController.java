@@ -38,4 +38,18 @@ public class AddressController extends BaseController{
         }
         return  addressService.addAddress(addParam);
     }
+
+    @ResponseBody
+    @RequestMapping("address_list")
+    public ResponseVo queryAddressList(String custNo,Integer pageSize,Integer page){
+        try {
+            Assert.isTrue(!StringUtil.isEmptyString(custNo),"客户编号不能为空");
+            page = page ==null?1:page;
+            pageSize = pageSize == null?10:pageSize;
+        }catch (IllegalArgumentException e){
+            errorLogger.error("[custNo ={}]参数校验失败:{}",new Object[]{custNo,e.getMessage()});
+            return ResponseFactory.buildFailResponse(ErrorEnum.UIP_COMM_PARAM_ERROR);
+        }
+        return  addressService.queryAddressList(custNo,page,pageSize);
+    }
 }
